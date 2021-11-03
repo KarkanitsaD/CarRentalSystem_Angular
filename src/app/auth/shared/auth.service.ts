@@ -40,6 +40,7 @@ export class AuthService {
                 console.log(err); 
                 return throwError(err);
             }))
+            
     };
 
     register(loginModel: AuthRequestModel) {
