@@ -26,6 +26,6 @@ export class RegisterComponent{
             password: this.registerForm.value.password
         } 
         debugger
-        this.authService.register(requetModel).subscribe();
+        this.authService.register(requetModel);
     }
 }
