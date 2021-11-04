@@ -1,71 +1,50 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map} from 'rxjs/operators';
 import { TokenService } from "./token.service";
 import { AuthRequestModel } from "../models/auth.model";
-import axios from "axios";
 import { environment } from "src/environments/environment";
-
+import { ApiService } from "./api.service";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
     constructor
     (
-        private httpClient: HttpClient,
-        private tokenService: TokenService
+        private tokenService: TokenService,
+        private apiService: ApiService,
+        private router: Router
     )
     {}
 
     base_url: string = environment.api_url;
 
     login(loginModel: AuthRequestModel) {
-
         let url: string = this.base_url + 'auth/login';
-        axios({
-            method: 'post',
-            url: url,
-            data: {
-                email: loginModel.email,
-                password: loginModel.password
-            },
-            headers: {'Content-Type':  'application/json'}
-
-        }).then(res =>{
-            this.tokenService.saveJwt(res.data.token);
-            this.tokenService.saveRefreshToken(res.data.refreshToken);
+        this.apiService.post(url, loginModel)
+        .subscribe((data: any) => {
+            this.tokenService.saveJwt(data.token);
+            this.tokenService.saveRefreshToken(data.refreshToken);
+            console.log(data.refreshToken);
         });
     }
-
-    register(loginModel: AuthRequestModel) {
+    
+    register(registerModel: AuthRequestModel) {
         let url: string = this.base_url + 'auth/register';
-        axios({
-            method: 'post',
-            url: url,
-            data: {
-                email: loginModel.email,
-                password: loginModel.password
-            },
-            headers: {'Content-Type':  'application/json'}
-        });
+        this.apiService.post(url, registerModel).subscribe();
     }
 
     refreshToken() {
         let refreshToken = this.tokenService.getRefreshToken();
-        if (!refreshToken)
-            return;
+         if (!refreshToken)
+         {
+            this.router.navigateByUrl('/login');
+         }
 
-        let url: string = this.base_url + 'auth/refresh-token'
+         let url: string = this.base_url + 'auth/refresh-token';
 
-        axios({
-            method: 'post',
-            url: url,
-            data: {
-                refreshToken
-            },
-            headers: {'Content-Type':  'application/json'}
-        }).then(res =>{
-            this.tokenService.saveJwt(res.data.token);
-            this.tokenService.saveRefreshToken(res.data.refreshToken);
+         this.apiService.post(url, refreshToken)
+         .subscribe((data: any) => {
+            this.tokenService.saveJwt(data.token);
+            this.tokenService.saveRefreshToken(data.refreshToken);
         });
     }
 }
