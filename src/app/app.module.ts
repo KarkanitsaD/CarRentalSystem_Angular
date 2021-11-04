@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TokenService } from './core/services/token.service';
-import { AuthService } from './auth/shared/auth.service';
+import { TokenService } from 'src/app/shared/services/token.service';
+import { AuthService } from './shared/services/auth.service';
 
 @NgModule({
   declarations: [

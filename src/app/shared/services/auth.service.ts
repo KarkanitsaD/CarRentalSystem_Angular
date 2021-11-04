@@ -1,9 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map} from 'rxjs/operators';
-import { TokenService } from "src/app/core/services/token.service";
-import { RefreshTokenResponseModel } from "../login/types/refresh-token-response.model";
-import { AuthRequestModel } from "./auth.model";
+import { TokenService } from "./token.service";
+import { AuthRequestModel } from "../models/auth.model";
 import axios from "axios";
 import { environment } from "src/environments/environment";
 

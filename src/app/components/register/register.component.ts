@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { AuthRequestModel } from "../shared/auth.model";
-import { AuthService } from "../shared/auth.service";
+import { AuthRequestModel } from "src/app/shared/models/auth.model";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
     selector:'app-register-form',

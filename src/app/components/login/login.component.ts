@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AuthRequestModel } from "../shared/auth.model";
-import { AuthService } from "../shared/auth.service";
+import { AuthRequestModel } from "src/app/shared/models/auth.model";
+import { AuthService } from "src/app/shared/services/auth.service";
 
 @Component({
     selector:'app-login-form',
@@ -24,6 +24,6 @@ export class LoginComponent{
             email: this.loginForm.value.email,
             password: this.loginForm.value.password
         } 
-      this.authService.login(requetModel);  
+      this.authService.login(requetModel);
     }
 }
