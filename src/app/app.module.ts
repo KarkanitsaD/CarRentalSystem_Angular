@@ -1,18 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TokenService } from 'src/app/shared/services/token.service';
+import { AuthService } from './shared/services/auth.service';
+import { ApiService } from './shared/services/api.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.interceptor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgbModule
   ],
-  providers: [],
+  providers: [ApiService, TokenService, AuthService, {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
