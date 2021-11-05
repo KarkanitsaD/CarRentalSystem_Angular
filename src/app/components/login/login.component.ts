@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthRequestModel } from "src/app/shared/models/auth.model";
 import { AuthService } from "src/app/shared/services/auth.service";
+import { TokenService } from "src/app/shared/services/token.service";
 
 @Component({
     selector:'app-login-form',
@@ -11,7 +12,8 @@ import { AuthService } from "src/app/shared/services/auth.service";
 export class LoginComponent{
     
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private tokenService: TokenService
     ) {}
 
     loginForm = new FormGroup({
@@ -24,6 +26,10 @@ export class LoginComponent{
             email: this.loginForm.value.email,
             password: this.loginForm.value.password
         } 
-      this.authService.login(requetModel);
+        this.authService.login(requetModel).subscribe((data: any) => {
+            this.tokenService.saveJwt(data.token);
+            this.tokenService.saveRefreshToken(data.refreshToken);
+            console.log(data.token);
+        });
     }
 }

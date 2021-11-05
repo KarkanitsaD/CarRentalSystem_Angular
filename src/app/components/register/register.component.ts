@@ -25,7 +25,6 @@ export class RegisterComponent{
             email: this.registerForm.value.email,
             password: this.registerForm.value.password
         } 
-        debugger
-        this.authService.register(requetModel);
+        this.authService.register(requetModel).subscribe();
     }
 }
