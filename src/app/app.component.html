@@ -1,9 +1,4 @@
 <div class="main_div">
-    <header class="header_div">
-        <a [routerLink]="['/register']" routerLinkActive="router-link-active"  class="header_a align-middle signup_a">Sign Up</a>
-        |
-        <a [routerLink]="['/login']" routerLinkActive="router-link-active"  class="header_a align-middle login_a">Login</a>
-    </header>
+    <app-header></app-header>
+    <router-outlet></router-outlet>
 </div>
-
-<router-outlet></router-outlet>
