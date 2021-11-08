@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 @Injectable()
 export class TokenService{
 
-    getJwt(): string {
+    getJwt(): string | null{
         return window.localStorage['jwt'];
     }
 
@@ -15,7 +15,7 @@ export class TokenService{
         window.localStorage.removeItem('jwt');
     }
 
-    getRefreshToken(): string {
+    getRefreshToken(): string | null {
         return window.localStorage['refreshToken'];
     }
 

@@ -11,6 +11,7 @@ import { AuthService } from './shared/services/auth.service';
 import { ApiService } from './shared/services/api.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.interceptor';
+import { AuthenticationInterceptor } from './shared/interceptors/authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,13 @@ import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.inter
     ReactiveFormsModule,
     NgbModule
   ],
-  providers: [ApiService, TokenService, AuthService, {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true}],
+  providers: [
+    ApiService, 
+    TokenService,
+    AuthService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
