@@ -18,6 +18,7 @@ export class LoginService {
         localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userName', user.name);
         localStorage.setItem('userRoles', JSON.stringify(user.roles));
+        localStorage.setItem('isLogin', 'true');
     }
 
     logoutUser() {
@@ -25,5 +26,6 @@ export class LoginService {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userName');
         localStorage.removeItem('userRoles');
+        localStorage.setItem('isLogin', 'false');
     }
 }

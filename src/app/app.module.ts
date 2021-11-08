@@ -15,12 +15,14 @@ import { AuthenticationInterceptor } from './shared/interceptors/authentication.
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
 import { LoginService } from './shared/services/login.service';
+import { ManagementButtonComponent } from './components/management-button.component.ts/mangement-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent
+    HeaderComponent,
+    ManagementButtonComponent
   ],
   imports: [
     BrowserModule,
