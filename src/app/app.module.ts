@@ -14,6 +14,7 @@ import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.inter
 import { AuthenticationInterceptor } from './shared/interceptors/authentication.interceptor';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
+import { LoginService } from './shared/services/login.service';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor
     ApiService, 
     TokenService,
     AuthService,
+    LoginService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
