@@ -36,9 +36,4 @@ export class LoginComponent{
             console.log(data.token);
         });
     }
-
-    onTest() {
-        let base_url = environment.api_url;
-        this.http.get(base_url + 'auth/test').pipe(map(x => console.log(x))).subscribe();
-    }
 }
