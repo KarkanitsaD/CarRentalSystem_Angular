@@ -12,7 +12,6 @@ import { ApiService } from './shared/services/api.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/authentication.interceptor';
-import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
