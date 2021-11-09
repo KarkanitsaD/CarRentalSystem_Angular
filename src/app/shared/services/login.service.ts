@@ -38,7 +38,7 @@ export class LoginService {
     getRoles(): string[] {
         let roles = localStorage.getItem('userRoles');
         if(roles == null) {
-             throw new Error('Roles not found');
+             return [];
         }
         let rolesArray: string[] = JSON.parse(roles);
             return rolesArray;
