@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
 import { LoginService } from "../../services/login.service";
 
 @Component({
@@ -14,10 +15,12 @@ export class HeaderComponent {
 
 
     showManagementButton(): boolean {
-        if(localStorage.getItem('isLogin') === 'true') {
-            return true;
+        let roles = localStorage.getItem('userRoles'); 
+        if(roles == null) {
+            return false;
         }
-        return false;
+        let rolesArray: string[] = JSON.parse(roles);
+        return this.isLogin() && rolesArray.includes(ADMIN_ROLE);
     }
 
     showAuthButtons(): boolean {
