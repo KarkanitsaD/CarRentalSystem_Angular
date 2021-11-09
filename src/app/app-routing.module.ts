@@ -4,14 +4,17 @@ import { CarListComponent } from './components/car-list/car-list.component';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
 import { PageNotFoundComponent } from 'src/app/shared/components/page-not-found/page-not-found.component';
-import { CARLIST_PAGE_PATH, LOGIN_PAGE_PATH, REGISTER_PAGE_PATH } from './core/constants/page-constans';
+import { CARLIST_PAGE_PATH, LOGIN_PAGE_PATH, MANAGEMENT_PAGE_PATH, REGISTER_PAGE_PATH } from './core/constants/page-constans';
+import { ManagementComponent } from './components/management/management.component';
+import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: LOGIN_PAGE_PATH, component: LoginComponent},
   { path: REGISTER_PAGE_PATH, component: RegisterComponent},
   { path: CARLIST_PAGE_PATH, component: CarListComponent },
-  { path: '**', component: PageNotFoundComponent}
+  { path: MANAGEMENT_PAGE_PATH, component: ManagementComponent, canActivate: [OnlyAdminGuard] },
+  { path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({
@@ -19,4 +22,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LoginComponent, RegisterComponent, PageNotFoundComponent]
+export const routingComponents = [LoginComponent, RegisterComponent, PageNotFoundComponent, ManagementComponent]
