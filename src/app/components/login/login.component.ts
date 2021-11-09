@@ -14,7 +14,6 @@ import { LoginService } from "src/app/shared/services/login.service";
     styleUrls:['./login.component.css']
 })
 export class LoginComponent {
-    
     constructor(
         private authService: AuthService,
         private loginService: LoginService,

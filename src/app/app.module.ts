@@ -17,6 +17,7 @@ import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor
 import { LoginService } from './shared/services/login.service';
 import { ManagementButtonComponent } from './components/management-button/mangement-button.component';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
+import { CarService } from './shared/services/car.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OnlyAdminGuard } from './core/guards/only-admin-guard';
     AuthService,
     LoginService,
     OnlyAdminGuard,
+    CarService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
