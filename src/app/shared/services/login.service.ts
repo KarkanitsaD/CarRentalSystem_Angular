@@ -22,10 +22,25 @@ export class LoginService {
     }
 
     logoutUser() {
+        this.tokenService.destroyJwt();
+        this.tokenService.destroyreRreshToken();
         localStorage.removeItem('userId');
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userName');
         localStorage.removeItem('userRoles');
         localStorage.setItem('isLogin', 'false');
+    }
+
+    isLogin(): boolean {
+        return localStorage.getItem('isLogin') == 'true';
+    }
+
+    getRoles(): string[] {
+        let roles = localStorage.getItem('userRoles');
+        if(roles == null) {
+             throw new Error('Roles not found');
+        }
+        let rolesArray: string[] = JSON.parse(roles);
+            return rolesArray;
     }
 }

@@ -15,23 +15,11 @@ export class HeaderComponent {
 
 
     showManagementButton(): boolean {
-        let roles = localStorage.getItem('userRoles'); 
-        if(roles == null) {
-            return false;
-        }
-        let rolesArray: string[] = JSON.parse(roles);
-        return this.isLogin() && rolesArray.includes(ADMIN_ROLE);
-    }
-
-    showAuthButtons(): boolean {
-        if(localStorage.getItem('isLogin') == 'false') {
-            return true;
-        }
-        return false;
+        return this.isLogin() && this.loginService.getRoles().includes(ADMIN_ROLE);
     }
 
     isLogin(): boolean {
-        return localStorage.getItem('isLogin') == 'true';
+        return this.loginService.isLogin();
     }
 
     logOut(): void {
