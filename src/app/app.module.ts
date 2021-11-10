@@ -18,13 +18,15 @@ import { LoginService } from './shared/services/login.service';
 import { ManagementButtonComponent } from './components/management-button/mangement-button.component';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
+import { CarListItemComponent } from './components/car-list-item/car-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     HeaderComponent,
-    ManagementButtonComponent
+    ManagementButtonComponent,
+    CarListItemComponent
   ],
   imports: [
     BrowserModule,

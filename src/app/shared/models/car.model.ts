@@ -3,7 +3,7 @@ export interface Car {
     carBrand: string;
     fuelConsumptionPerHundredKilometers: number;
     transmissionType: string;
-    numberOfSeats: string;
+    numberOfSeats: number;
     color: string;
     vehicleNumber: string;
     rentalPointId: number;
