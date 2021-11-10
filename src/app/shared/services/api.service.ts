@@ -9,15 +9,15 @@ export class ApiService{
         private httpClient: HttpClient
     ) {}
 
-    get(path: string, params: HttpParams): Observable<any> {
-        return this.httpClient.get(path, { params });
+    get<T>(path: string, params: HttpParams = new HttpParams()): Observable<T> {
+        return this.httpClient.get<T>(path, { params });
     }
 
-    post(path: string, body: Object): Observable<any> {
+    post(path: string, body: Object= {}): Observable<any> {
         return this.httpClient.post(path, JSON.stringify(body));
     }
 
-    put(path: string, body: Object): Observable<any> {
+    put(path: string, body: Object = {}): Observable<any> {
         return this.httpClient.put(path, JSON.stringify(body));
     }
 

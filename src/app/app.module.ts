@@ -12,11 +12,21 @@ import { ApiService } from './shared/services/api.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/authentication.interceptor';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
+import { LoginService } from './shared/services/login.service';
+import { ManagementButtonComponent } from './components/manager/management-button/mangement-button.component';
+import { OnlyAdminGuard } from './core/guards/only-admin-guard';
+import { CarService } from './shared/services/car.service';
+import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    routingComponents
+    routingComponents,
+    HeaderComponent,
+    ManagementButtonComponent,
+    CarListItemComponent
   ],
   imports: [
     BrowserModule,
@@ -29,8 +39,12 @@ import { AuthenticationInterceptor } from './shared/interceptors/authentication.
     ApiService, 
     TokenService,
     AuthService,
+    LoginService,
+    OnlyAdminGuard,
+    CarService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

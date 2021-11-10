@@ -1,23 +1,23 @@
-import { HttpClient } from "@angular/common/http";
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { map } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { delay } from "rxjs/operators";
+import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { AuthRequestModel } from "src/app/shared/models/auth.model";
+import { User } from "src/app/shared/models/user.model";
 import { AuthService } from "src/app/shared/services/auth.service";
-import { TokenService } from "src/app/shared/services/token.service";
-import { environment } from "src/environments/environment";
+import { LoginService } from "src/app/shared/services/login.service";
 
 @Component({
     selector:'app-login-form',
     templateUrl:'./login.component.html',
     styleUrls:['./login.component.css']
 })
-export class LoginComponent{
-    
+export class LoginComponent {
     constructor(
         private authService: AuthService,
-        private tokenService: TokenService,
-        private http: HttpClient,
+        private loginService: LoginService,
+        private router: Router,
     ) {}
 
     loginForm = new FormGroup({
@@ -30,15 +30,9 @@ export class LoginComponent{
             email: this.loginForm.value.email,
             password: this.loginForm.value.password
         } 
-        this.authService.login(requetModel).subscribe((data: any) => {
-            this.tokenService.saveJwt(data.token);
-            this.tokenService.saveRefreshToken(data.refreshToken);
-            console.log(data.token);
+        this.authService.login(requetModel).subscribe((data: User) => {
+            this.loginService.loginUser(data);
+            this.router.navigate([CARLIST_PAGE_PATH]);
         });
-    }
-
-    onTest() {
-        let base_url = environment.api_url;
-        this.http.get(base_url + 'auth/test').pipe(map(x => console.log(x))).subscribe();
     }
 }

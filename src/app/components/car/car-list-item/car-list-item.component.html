@@ -1,0 +1,18 @@
+<div class="car_item_div d-flex flex-row">
+    <div class="car_image_div p-2">
+        <img src="https://media.istockphoto.com/photos/generic-modern-suv-car-in-concrete-garage-picture-id1307086567" class=" car_image rounded">
+    </div>
+    <div class="car_info p-2">
+        <h4>{{car.carBrand}}</h4>
+        <p>{{car.numberOfSeats}} seats</p>
+        <button type="button" class="btn btn-primary" (click)="showDetails()" >See deatils</button>
+        <div style="width: 100px;">
+            <hr>
+        </div>
+        <p>Some description lalala, good car - book it. It will be best trevel in life!!! Forgot to say - cs:go is very good game</p>
+    </div>
+    <div class="car_price">
+        <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
+        <p>excl. coverage, delivery, tax</p>
+    </div>
+</div>
