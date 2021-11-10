@@ -15,9 +15,9 @@ import { AuthenticationInterceptor } from './shared/interceptors/authentication.
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
 import { LoginService } from './shared/services/login.service';
-import { ManagementButtonComponent } from './components/manager/management-button/mangement-button.component';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
+import { CarListComponent } from './components/car/car-list/car-list.component';
 import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
 
 @NgModule({
@@ -25,7 +25,6 @@ import { CarListItemComponent } from './components/car/car-list-item/car-list-it
     AppComponent,
     routingComponents,
     HeaderComponent,
-    ManagementButtonComponent,
     CarListItemComponent
   ],
   imports: [
