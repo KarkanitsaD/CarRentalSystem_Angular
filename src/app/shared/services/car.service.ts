@@ -15,6 +15,6 @@ export class CarService {
     base_url: string = environment.api_url;
 
     getCars(): Observable<Car[]> {
-        return this.apiService.get(`${this.base_url}${CARS_URL}`);
+        return this.apiService.get<Car[]>(`${this.base_url}${CARS_URL}`);
     }
 }

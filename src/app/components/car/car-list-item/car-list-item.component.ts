@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Car } from "src/app/shared/models/car.model";
-import { CarDetailsComponent } from "./car-details/car-details.component";
+import { CarDetailsComponent } from "../car-details/car-details.component";
 
 @Component({
     selector: 'app-car-list-item',

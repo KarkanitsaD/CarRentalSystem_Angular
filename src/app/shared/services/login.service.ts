@@ -21,7 +21,7 @@ export class LoginService {
         localStorage.setItem('isLogin', 'true');
     }
 
-    logoutUser() {
+    logoutUser(): void {
         this.tokenService.destroyJwt();
         this.tokenService.destroyreRreshToken();
         localStorage.removeItem('userId');

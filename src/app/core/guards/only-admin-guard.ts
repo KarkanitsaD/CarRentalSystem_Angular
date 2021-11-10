@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { LoginService } from "src/app/shared/services/login.service";
-import { NO_PERMISSION_PATH, PAGE_NOT_FOUND_PATH } from "../constants/page-constans";
+import { CARLIST_PAGE_PATH, LOGIN_PAGE_PATH, NO_PERMISSION_PATH, PAGE_NOT_FOUND_PATH } from "../constants/page-constans";
 import { ADMIN_ROLE } from "../constants/role-constans";
 
 @Injectable()
@@ -18,7 +18,7 @@ export class OnlyAdminGuard implements CanActivate {
         if(can) {
             return true;
         }
-        this.router.navigate([NO_PERMISSION_PATH]);
+        this.router.navigate([CARLIST_PAGE_PATH]);
         return false;
     }
 }
