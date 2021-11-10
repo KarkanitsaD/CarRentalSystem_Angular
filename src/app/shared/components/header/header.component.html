@@ -1,17 +1,33 @@
-<div>
-    <header class="d-flex flex-row-reverse">
-        <div *ngIf="isLogin()">
-            <a (click)="logOut()" class="header_a p-2 signup_a">Log out</a>
-        </div>
-        <div *ngIf="!isLogin()">
-            <a [routerLink]="['/register']" routerLinkActive="router-link-active"  class="header_a p-2 signup_a">Sign Up</a>
-        </div>
-        <div *ngIf="!isLogin()">    
-            <a [routerLink]="['/login']" routerLinkActive="router-link-active"  class="header_a p-2 login_a">Login</a>
-        </div>
-        <app-management-button *ngIf="showManagementButton()"></app-management-button>
-        <div>
-            <a [routerLink]="['/cars']" routerLinkActive="router-link-active" class="header_a">Cars</a>
-        </div>
-    </header>
-</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarTogglerDemo01">
+    <div class="d-flex">
+      <a class="navbar-brand">Rider</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a [routerLink]="['/cars']" routerLinkActive="router-link-active" class="nav-link active">Cars</a>
+        </li>
+        <li *ngIf="showManagementButton()" class="nav-item">
+          <a [routerLink]="['/management']" routerLinkActive="router-link-active" class="nav-link active">Management</a>
+        </li>
+      </ul>
+    </div>
+      <div class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li *ngIf="!isLogin()" class="nav-item">
+                <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="nav-link active">Login</a>                                
+            </li>
+            <li *ngIf="!isLogin()" class="nav-item">
+                <a [routerLink]="['/register']" routerLinkActive="router-link-active" class="nav-link active">Sign up</a>                                
+            </li>
+            <li *ngIf="isLogin()" class="nav-item">
+                <a (click)="logOut()" class="nav-link active" style="cursor: pointer;">Log out</a>                                
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
