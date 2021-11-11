@@ -17,8 +17,8 @@ import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor
 import { LoginService } from './shared/services/login.service';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
-import { CarListComponent } from './components/car/car-list/car-list.component';
 import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
+import { AuthorizedGuard } from './core/guards/authorized.guard';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { CarListItemComponent } from './components/car/car-list-item/car-list-it
     AuthService,
     LoginService,
     OnlyAdminGuard,
+    AuthorizedGuard,
     CarService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
