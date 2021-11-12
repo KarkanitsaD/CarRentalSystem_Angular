@@ -19,6 +19,9 @@ import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
 import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
 import { AuthorizedGuard } from './core/guards/authorized.guard';
+import { CityService } from './shared/services/city.service';
+import { CountryService } from './shared/services/country.service';
+import { RentalPointService } from './shared/services/rental-point.service';
 
 @NgModule({
   declarations: [
@@ -37,11 +40,14 @@ import { AuthorizedGuard } from './core/guards/authorized.guard';
   providers: [
     ApiService, 
     TokenService,
+    CityService,
+    CountryService,
     AuthService,
     LoginService,
     OnlyAdminGuard,
     AuthorizedGuard,
     CarService,
+    RentalPointService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
