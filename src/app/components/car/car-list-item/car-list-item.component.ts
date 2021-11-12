@@ -21,4 +21,8 @@ export class CarListItemComponent {
         const modalRef = this.modalService.open(CarDetailsComponent);
         modalRef.componentInstance.car = this.car;
     }
+
+    getCarImageUrl(): string {
+        return 'https://localhost:44331/api/CarPictures/' + this.car.id;
+    }
 }

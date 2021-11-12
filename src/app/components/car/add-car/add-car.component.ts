@@ -80,7 +80,8 @@ export class AddCarComponent implements OnInit{
                 let url = event.target.result as string;
                 this.imageUrl = url;
 
-                let firstExtensionIndex = url.indexOf('/');
+                debugger
+                let firstExtensionIndex = url.indexOf(':');
                 let secondExtensionIndex = url.indexOf(';');
 
                 let extension = url.substring(firstExtensionIndex + 1, secondExtensionIndex);
