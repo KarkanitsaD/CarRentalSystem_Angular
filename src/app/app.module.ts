@@ -22,6 +22,8 @@ import { AuthorizedGuard } from './core/guards/authorized.guard';
 import { CityService } from './shared/services/city.service';
 import { CountryService } from './shared/services/country.service';
 import { RentalPointService } from './shared/services/rental-point.service';
+import { ImageService } from './shared/services/image.service';
+import { ImagesService } from './shared/services/images.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { RentalPointService } from './shared/services/rental-point.service';
     AuthorizedGuard,
     CarService,
     RentalPointService,
+    ImageService,
+    ImagesService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}

@@ -1,6 +1,6 @@
 <div>
     <h1>Total count: {{cars.length}}</h1>
-    <button *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
+    <button [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
     <div *ngFor="let car of cars">
         <hr>
         <app-car-list-item

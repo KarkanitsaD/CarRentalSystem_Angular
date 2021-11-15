@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { City } from "src/app/shared/models/city.model";
 import { Country } from "src/app/shared/models/country.model";
 import { CarService } from "src/app/shared/services/car.service";
@@ -28,7 +30,8 @@ export class AddCarComponent implements OnInit{
         private carService: CarService,
         private countryService: CountryService,
         private cityService: CityService,
-        private rentalPointService: RentalPointService
+        private rentalPointService: RentalPointService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -69,7 +72,7 @@ export class AddCarComponent implements OnInit{
             pictureShortName: this.addCarForm.value.pictureShortName,
             pictureBase64Content: this.pictureBase64Content
         };
-        this.carService.createCar(addCarModel).subscribe();
+        this.carService.createCar(addCarModel).subscribe(() => this.router.navigate([CARLIST_PAGE_PATH]));        
     }
 
     onImageSelected(event: any) {

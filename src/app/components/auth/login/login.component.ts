@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { catchError } from "rxjs/operators";
 import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { AuthRequestModel } from "src/app/shared/models/auth.model";
 import { User } from "src/app/shared/models/user.model";
@@ -31,9 +32,13 @@ export class LoginComponent {
             password: this.loginForm.value.password
         }
         this.authService.login(requetModel)
+        .pipe(catchError(error => {
+            throw 'user not found.'
+        }))
         .subscribe((data: User) => {
             this.loginService.loginUser(data);
             this.router.navigate([CARLIST_PAGE_PATH]);
-        });
+        },
+        error => console.log(error));
     }
 }

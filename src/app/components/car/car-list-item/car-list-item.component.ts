@@ -1,6 +1,8 @@
 import { Component, Input } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Car } from "src/app/shared/models/car.model";
+import { CarService } from "src/app/shared/services/car.service";
+import { ImagesService } from "src/app/shared/services/images.service";
 import { CarDetailsComponent } from "../car-details/car-details.component";
 
 @Component({
@@ -14,7 +16,9 @@ export class CarListItemComponent {
 
     constructor
     (
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private imagesService: ImagesService,
+        private carService: CarService,
     ) {}
 
     showDetails(): void{
@@ -23,6 +27,12 @@ export class CarListItemComponent {
     }
 
     getCarImageUrl(): string {
-        return 'https://localhost:44331/api/CarPictures/' + this.car.id;
+        let url: string = '';
+        this.imagesService.getImage('https://localhost:44331/api/CarPictures/' + this.car.id).subscribe(data => url= data);
+        return url;
+    }
+
+    deleteCar() {
+        this.carService.deleteCar(this.car.id).subscribe(() => window.location.reload());
     }
 }
