@@ -22,8 +22,16 @@ export class AddCarComponent implements OnInit{
     private pictureExtension: string = '';
 
     public countries: Country[] = new Array<Country>();
+    public filteredCountries: Country[] = new Array<Country>();
+
     public cities: City[] = new Array<City>();
+    public filteredCities: City[] = new Array<City>();
+
     public rentalPoints: RentalPointAddCarModel[] = new Array<RentalPointAddCarModel>();
+    public filteredRentalPoints: RentalPointAddCarModel[] = new Array<RentalPointAddCarModel>();
+
+    public cityValue: string = '';
+    public countryValue: string = '';
 
     constructor
     (
@@ -35,9 +43,9 @@ export class AddCarComponent implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        this.countryService.getCountries().subscribe(data =>this.countries = data);
-        this.cityService.getCities().subscribe(data => this.cities = data);
-        this.rentalPointService.getRentalPointAddCarModels().subscribe(data => {this.rentalPoints = data; console.log(data)});
+        this.countryService.getCountries().subscribe(data => {this.countries = data; this.filteredCountries = this.countries.slice()});
+        this.cityService.getCities().subscribe(data => {this.cities = data; this.filteredCities = this.cities.slice()});
+        this.rentalPointService.getRentalPointAddCarModels().subscribe(data => {this.rentalPoints = data; this.filteredRentalPoints = this.rentalPoints.slice()});
     }
     
     imageUrl: string = "https://www.buhuslugi.by/wp-content/themes/consultix/images/no-image-found-360x250.png";
@@ -50,9 +58,9 @@ export class AddCarComponent implements OnInit{
         numberOfSeats: new FormControl('', [Validators.required, Validators.pattern('\[0-9]{1,2}')]),
         transmissionType: new FormControl(''),
         color: new FormControl(''),
-        rentalPoint: new FormControl('', [Validators.required]),
-        city: new FormControl('', [Validators.required]),
-        country: new FormControl('', [Validators.required]),
+        rentalPointId: new FormControl('', [Validators.required]),
+        city: new FormControl(this.cityValue, [Validators.required]),
+        country: new FormControl(this.countryValue, [Validators.required]),
         image: new FormControl('', [Validators.required]),
         pictureShortName: new FormControl('', [Validators.required])
     });
@@ -68,7 +76,7 @@ export class AddCarComponent implements OnInit{
             transmissionType: this.addCarForm.value.transmissionType,
             color: this.addCarForm.value.color,
             pictureExtension: this.pictureExtension,
-            rentalPointId: this.addCarForm.value.rentalPoint,
+            rentalPointId: this.addCarForm.value.rentalPointId,
             pictureShortName: this.addCarForm.value.pictureShortName,
             pictureBase64Content: this.pictureBase64Content
         };
@@ -97,18 +105,45 @@ export class AddCarComponent implements OnInit{
         }
     }
 
-    onRentalPointSelected(): void {
+    onCountryChanged(): void {
+        let countryTitle = this.addCarForm.value.country;
+        let country = this.countries.find(cnt => cnt.title === countryTitle);
+        if(country) {
+            let cities = this.cities.filter(ct => ct.countryId === country?.id);
+            let rentalPoints = this.rentalPoints.filter(rp => rp.countryId === country?.id);
 
-        console.log(this.addCarForm.value.rentalPoint);
-        let rentalPointValue = this.addCarForm.value.rentalPoint;
+            this.filteredCities = cities;
+            this.filteredRentalPoints = rentalPoints;
 
-        this.cities = this.cities.filter(data => data.id === rentalPointValue)
+            this.addCarForm.controls['city'].setValue('');
+            this.addCarForm.controls['rentalPointId'].setValue('');
+        }
     }
 
-    onCitySelected(): void {
+    onCityChanged(): void {
+        let cityTitle = this.addCarForm.value.city;
+        let city = this.cities.find(ct => ct.title === cityTitle);
+        if(city) {
+            let country = this.countries.find(cnt => cnt.id === city?.countryId);
+            let rentalPoints = this.rentalPoints.filter(rp => rp.cityId === city?.id);
 
+            this.addCarForm.controls['country'].setValue(country?.title);
+            this.filteredRentalPoints = rentalPoints;
+
+            this.addCarForm.controls['rentalPointId'].setValue('');
+        }
     }
 
-    onCountrySelected(): void {
+    onRentalPointChanged(): void {
+        let rentalPointId = this.addCarForm.value.rentalPointId;
+        let rentalPoint = this.rentalPoints.find(rp => rp.id === rentalPointId);
+        if(rentalPoint) {
+            let city = this.cities.find(ct => ct.id === rentalPoint?.cityId);
+            let country = this.countries.find(cnt => cnt.id === rentalPoint?.countryId);
+
+            this.addCarForm.controls['city'].setValue(city?.title);
+            this.addCarForm.controls['country'].setValue(country?.title);
+            return;
+        }
     }
 }

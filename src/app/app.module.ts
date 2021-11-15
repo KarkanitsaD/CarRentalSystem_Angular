@@ -24,6 +24,7 @@ import { CountryService } from './shared/services/country.service';
 import { RentalPointService } from './shared/services/rental-point.service';
 import { ImageService } from './shared/services/image.service';
 import { ImagesService } from './shared/services/images.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ImagesService } from './shared/services/images.service';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   providers: [
     ApiService, 
@@ -51,7 +53,6 @@ import { ImagesService } from './shared/services/images.service';
     CarService,
     RentalPointService,
     ImageService,
-    ImagesService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}

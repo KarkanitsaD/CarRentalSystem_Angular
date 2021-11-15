@@ -1,6 +1,6 @@
 <div class="car_item_div d-flex flex-row">
     <div class="car_image_div p-2">
-        <img class="car_image rounded">
+        <img class="car_image rounded" #img>
     </div>
     <div class="car_info p-2">
         <h4>{{car.carBrand}}</h4>
@@ -14,6 +14,6 @@
     <div class="car_price">
         <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
         <p>excl. coverage, delivery, tax</p>
-        <button type="button" class="btn btn-danger" (click)="deleteCar()">Delete car</button>
+        <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar()">Delete car</button>
     </div>
 </div>

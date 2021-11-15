@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
+import { map, tap } from "rxjs/operators";
 import { IMAGE_CACHE_TIME } from "src/app/core/constants/cache";
 import { CachedImage } from "../models/cahaed-image.model";
+import { Image } from "../models/image.model";
 import { ApiService } from "./api.service";
 
 @Injectable()
@@ -14,32 +16,47 @@ export class ImageService {
         private apiService: ApiService
     ) {}
 
-    public getImageUrl(imageUrl: string): Observable<string> {        
-        let imageToRenturn = this.images.find(image => image.url === imageUrl);
+    public getImageUrl(imageUrl: string): Observable<CachedImage> {    
+        let index = this.images.findIndex(image => image.url === imageUrl);
 
-        if(imageToRenturn != null) {
-            if(imageToRenturn.expirationTime > new Date()) {
-                return of(URL.createObjectURL(imageToRenturn.blob));
+        if(index > -1) {
+            let image = this.images[index];
+
+            if(image.expirationTime > new Date()) {
+                return of(image);
             }
-            
-            let imageToReturnIndex = this.images.indexOf(imageToRenturn);
-            this.images.slice(imageToReturnIndex, 1);
+
+            this.images.slice(index, 1);
         }
 
-        this.apiService.get<Blob>(imageUrl).subscribe(blob => {
+        let cachedImage: CachedImage;
+        return this.apiService.get<Image>(imageUrl).pipe(
+            tap(image => {
+                let fiveMinutesLater = new Date();
+                fiveMinutesLater.setSeconds(fiveMinutesLater.getSeconds() + IMAGE_CACHE_TIME);
 
-            var fiveMinutesLater = new Date();
-            fiveMinutesLater.setSeconds(fiveMinutesLater.getSeconds() + IMAGE_CACHE_TIME);
+            
 
-            imageToRenturn = {
-                url: imageUrl,
-                blob: blob,
-                expirationTime: fiveMinutesLater,
-            }
+                var binary_string = window.atob(image.content);
+                var len = binary_string.length;
+                var bytes = new Uint8Array(len);
+                for (var i = 0; i < len; i++) {
+                    bytes[i] = binary_string.charCodeAt(i);
+                }
 
-            this.images.push(imageToRenturn);
-        });
+                let blob = new Blob([bytes], { type: image.extension });
 
-        return of(URL.createObjectURL(imageToRenturn?.blob));
+
+
+                cachedImage = {
+                    url: imageUrl,
+                    expirationTime: fiveMinutesLater,
+                    fileResult: blob,
+                    shortName: image.shortName
+                }
+                this.images.push(cachedImage);
+            }),
+            map(() => cachedImage)
+        );
     }
 }
