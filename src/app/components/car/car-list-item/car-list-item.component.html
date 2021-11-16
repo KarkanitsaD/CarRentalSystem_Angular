@@ -14,6 +14,7 @@
     <div class="car_price">
         <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
         <p>excl. coverage, delivery, tax</p>
-        <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar()">Delete car</button>
+        <button *ngIf="isAdmin()" type="button" class="btn btn-warning" (click)="updateCar()" style="width: 150px;">Update car</button>
+        <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar()" style="width: 150px; margin-top: 30px;">Delete car</button>
     </div>
 </div>

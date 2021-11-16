@@ -15,6 +15,10 @@ export class CarService {
 
     base_url: string = environment.api_url;
 
+    getCar(carId: string): Observable<Car> {
+        return this.apiService.get<Car>(`${this.base_url}${CARS_URL}/${carId}`);
+    }
+
     getCars(): Observable<Car[]> {
         return this.apiService.get<Car[]>(`${this.base_url}${CARS_URL}`);
     }
@@ -25,5 +29,9 @@ export class CarService {
 
     deleteCar(id: string) {
         return this.apiService.delete(`${this.base_url}${CARS_URL}/${id}`);
+    }
+
+    updateCar(addCarModel: AddCarModel): Observable<any> {
+        return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${addCarModel.id}`, addCarModel);
     }
 }

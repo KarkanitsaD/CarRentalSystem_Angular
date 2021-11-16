@@ -30,9 +30,6 @@ export class AddCarComponent implements OnInit{
     public rentalPoints: RentalPointAddCarModel[] = new Array<RentalPointAddCarModel>();
     public filteredRentalPoints: RentalPointAddCarModel[] = new Array<RentalPointAddCarModel>();
 
-    public cityValue: string = '';
-    public countryValue: string = '';
-
     constructor
     (
         private carService: CarService,
@@ -54,13 +51,13 @@ export class AddCarComponent implements OnInit{
         brand: new FormControl('', [Validators.required]),
         model: new FormControl('', [Validators.required]),
         pricePerDay: new FormControl('', [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]),   
-        fuelConsumptionPerHundredKilometers: new FormControl('', [Validators.required]),
+        fuelConsumptionPerHundredKilometers: new FormControl('', [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]),
         numberOfSeats: new FormControl('', [Validators.required, Validators.pattern('\[0-9]{1,2}')]),
         transmissionType: new FormControl(''),
         color: new FormControl(''),
         rentalPointId: new FormControl('', [Validators.required]),
-        city: new FormControl(this.cityValue, [Validators.required]),
-        country: new FormControl(this.countryValue, [Validators.required]),
+        city: new FormControl('', [Validators.required]),
+        country: new FormControl('', [Validators.required]),
         image: new FormControl('', [Validators.required]),
         pictureShortName: new FormControl('', [Validators.required])
     });
@@ -91,7 +88,6 @@ export class AddCarComponent implements OnInit{
                 let url = event.target.result as string;
                 this.imageUrl = url;
 
-                debugger
                 let firstExtensionIndex = url.indexOf(':');
                 let secondExtensionIndex = url.indexOf(';');
 
@@ -115,8 +111,8 @@ export class AddCarComponent implements OnInit{
             this.filteredCities = cities;
             this.filteredRentalPoints = rentalPoints;
 
-            this.addCarForm.controls['city'].setValue('');
-            this.addCarForm.controls['rentalPointId'].setValue('');
+            this.addCarForm.controls['city'].setValue(cities[0].title);
+            this.addCarForm.controls['rentalPointId'].setValue(rentalPoints[0]);
         }
     }
 
@@ -127,10 +123,10 @@ export class AddCarComponent implements OnInit{
             let country = this.countries.find(cnt => cnt.id === city?.countryId);
             let rentalPoints = this.rentalPoints.filter(rp => rp.cityId === city?.id);
 
-            this.addCarForm.controls['country'].setValue(country?.title);
             this.filteredRentalPoints = rentalPoints;
 
-            this.addCarForm.controls['rentalPointId'].setValue('');
+            this.addCarForm.controls['country'].setValue(country?.title);
+            this.addCarForm.controls['rentalPointId'].setValue(rentalPoints[0]);
         }
     }
 
@@ -143,7 +139,13 @@ export class AddCarComponent implements OnInit{
 
             this.addCarForm.controls['city'].setValue(city?.title);
             this.addCarForm.controls['country'].setValue(country?.title);
-            return;
         }
+    }
+
+    getRentalPointDisplayTitle(rentalPoint: RentalPointAddCarModel): string {
+        let title = '';
+        title +=  rentalPoint.title != null ? rentalPoint.title : '';
+        title +=  rentalPoint.address != null ? '. Adress: ' + rentalPoint.address : '';
+        return title;  
     }
 }

@@ -52,7 +52,8 @@ export class ImageService {
                     url: imageUrl,
                     expirationTime: fiveMinutesLater,
                     fileResult: blob,
-                    shortName: image.shortName
+                    shortName: image.shortName,
+                    extension: image.extension,
                 }
                 this.images.push(cachedImage);
             }),

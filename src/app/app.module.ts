@@ -23,7 +23,6 @@ import { CityService } from './shared/services/city.service';
 import { CountryService } from './shared/services/country.service';
 import { RentalPointService } from './shared/services/rental-point.service';
 import { ImageService } from './shared/services/image.service';
-import { ImagesService } from './shared/services/images.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({

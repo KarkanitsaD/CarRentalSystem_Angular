@@ -1,4 +1,5 @@
 export interface AddCarModel {
+    id?: string;
     brand: string;
     model: string;
     pricePerDay: number;
@@ -9,5 +10,5 @@ export interface AddCarModel {
     pictureExtension: string;
     rentalPointId: string;
     pictureShortName: string;
-    pictureBase64Content: string
+    pictureBase64Content: string;
 }

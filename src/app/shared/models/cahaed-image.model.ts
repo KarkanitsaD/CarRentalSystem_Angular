@@ -3,4 +3,5 @@ export interface CachedImage {
     expirationTime: Date;
     fileResult: Blob;
     shortName: string;
+    extension: string,
 }
