@@ -1,9 +1,9 @@
 <div class="car_item_div d-flex flex-row">
     <div class="car_image_div p-2">
-        <img class="car_image rounded" #img>
+        <img class="car_image rounded" [src]="src">
     </div>
     <div class="car_info p-2">
-        <h4>{{car.carBrand}}</h4>
+        <h4>{{car.brand + ' ' + car.model}}</h4>
         <p>{{car.numberOfSeats}} seats</p>
         <button type="button" class="btn btn-primary" (click)="showDetails()" >See deatils</button>
         <div style="width: 100px;">

@@ -1,0 +1,1 @@
+export const IMAGE_NOT_FOUND_URL = 'https://www.buhuslugi.by/wp-content/themes/consultix/images/no-image-found-360x250.png';

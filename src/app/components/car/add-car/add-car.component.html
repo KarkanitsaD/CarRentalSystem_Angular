@@ -1,19 +1,16 @@
 <br>
 <form [formGroup]="addCarForm">
   <div class="row">
-
     <div class="col-md-3">
       <label class="form-label">Brand*</label>
       <input formControlName="brand" type="text" class="form-control" id="validationCustom01">
       <small style="color: red;" *ngIf="addCarForm.get('brand')?.invalid && addCarForm.get('brand')?.touched">This field is required</small>
     </div>
-
     <div class="col-md-3">
       <label for="validationCustom02" class="form-label">Model*</label>
       <input formControlName="model" type="text" class="form-control">
       <small style="color: red;" *ngIf="addCarForm.get('model')?.invalid && addCarForm.get('model')?.touched">This field is required</small>
     </div>
-
     <div class="col-md-3">
       <label class="form-label">Price for one day*</label>
       <div class="input-group">
@@ -23,13 +20,9 @@
       </div>
       <small style="color: red;" *ngIf="addCarForm.get('pricePerDay')?.invalid && addCarForm.get('pricePerDay')?.touched">This field is required</small>
     </div>
-
   </div>
-
   <br>
-
   <div class="row">
-
     <div class="col-md-3">
       <label class="form-label">Fuel consumption*</label>
       <div class="input-group">
@@ -39,72 +32,53 @@
       </div>
       <small style="color: red;" *ngIf="addCarForm.get('fuelConsumptionPerHundredKilometers')?.invalid && addCarForm.get('fuelConsumptionPerHundredKilometers')?.touched">This field is required</small>
     </div>
-
     <div class="col-md-2">
       <label class="form-label">Number of seats*</label>
       <input formControlName="numberOfSeats" type="text" class="form-control">
       <small style="color: red;" *ngIf="addCarForm.get('numberOfSeats')?.invalid && addCarForm.get('numberOfSeats')?.touched">This field is required</small>
     </div>
-
     <div class="col-md-2">
       <label class="form-label">Transmission</label>
-      <input formControlName="transmissionType" type="text" class="form-control">
+      <select formControlName="transmissionType" class="form-control">
+        <option value="Mechanic">Mechanic</option>
+        <option value="Automate">Automate</option>
+        <option value="Automate">Robotic</option>
+        <option value="Automate">Variative</option>
+        <option>{{''}}</option>
+      </select>
     </div>
-
     <div class="col-md-2">
       <label class="form-label">Color</label>
       <input formControlName="color" type="text" class="form-control">
     </div>
-
   </div>
-
-  <br>
-
   <div class="row">
-
-    <div class="col-md-3">
-      <label class="form-label">Country</label>
-      <input id="countryInput" (change)="onCountryChanged()" type="text" class="form-control" formControlName="country" list="countryname">
-      <datalist id="countryname">
-        <option *ngFor="let country of countries" value="{{country.title}}">
-      </datalist>
-    </div>
-
-    <div class="col-md-3">
-      <label class="form-label">City</label>
-      <input id="cityInput" (change)="onCityChanged()" type="text" formControlName="city" class="form-control" list="cityname">
-      <datalist id="cityname">
-        <option *ngFor="let city of filteredCities" value="{{city.title}}">
-      </datalist>
-    </div>
-
     <div class="col-md-3">
       <label class="form-lable">Rental point*</label>
-      <select id="rentalPointSelect" (change)="onRentalPointChanged()" formControlName="rentalPointId" class="form-control">
-        <option *ngFor="let rentalPoint of filteredRentalPoints;" [value]="rentalPoint.id">
+      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control">
+        <option *ngFor="let rentalPoint of rentalPoints;" [value]="rentalPoint.id">
           {{getRentalPointDisplayTitle(rentalPoint)}}
         </option>
       </select>
       <small style="color: red;" *ngIf="addCarForm.get('rentalPoint')?.invalid && addCarForm.get('rentalPoint')?.touched">This field is required</small>
     </div>
-
   </div>
-
   <br>
   <div class="car_image_div">
     <label class="form-label">Image*</label>
     <img id="carImg" class="car_image" [src]="imageUrl">
   </div>
-
   <div class="row">
     <div class="col-md-4">
-      <input (change)="onImageSelected($event)" formControlName="image" type="file" accept="image/png, image/jpeg">
+      <input
+        (change)="onImageSelected($event)"
+        formControlName="image"
+        type="file"
+        accept="image/png, image/jpeg">
     </div>
     <small style="color: red;" *ngIf="addCarForm.get('image')?.invalid && addCarForm.get('image')?.touched">This field is required</small>
   </div>
-
   <br>
-
   <div class="row">
     <div class="col-md-3">
       <label class="form-label">Picture short name*</label>
@@ -112,9 +86,7 @@
       <small style="color: red;" *ngIf="addCarForm.get('pictureShortName')?.invalid && addCarForm.get('pictureShortName')?.touched">This field is required</small>
     </div>
   </div>
-
   <br>
-
   <div class="row">
     <div class="col-12">
       <button [disabled]="!addCarForm.valid" (click)="addCar()" type="submit" class="btn btn-success">Add car</button>

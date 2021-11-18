@@ -1,9 +1,11 @@
+import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { AddCarModel } from "src/app/components/car/add-car/types/add-car.model";
 import { CARS_URL } from "src/app/core/constants/api-url-constans";
 import { environment } from "src/environments/environment";
 import { Car } from "../models/car.model";
+import { PageCarList } from "../models/page-car-list.model";
 import { ApiService } from "./api.service";
 
 @Injectable()
@@ -19,8 +21,12 @@ export class CarService {
         return this.apiService.get<Car>(`${this.base_url}${CARS_URL}/${carId}`);
     }
 
-    getCars(): Observable<Car[]> {
-        return this.apiService.get<Car[]>(`${this.base_url}${CARS_URL}`);
+    getCars(httpParams?: HttpParams): Observable<Car[]> {
+        return this.apiService.get<Car[]>(`${this.base_url}${CARS_URL}`, httpParams);
+    }
+
+    getPageCarList(httpParams?: HttpParams): Observable<PageCarList> {
+        return this.apiService.get<PageCarList>(`${this.base_url}${CARS_URL}`, httpParams);
     }
 
     createCar(addCarModel: AddCarModel): Observable<any> {

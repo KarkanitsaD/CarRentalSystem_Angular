@@ -4,10 +4,10 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CAR_PICTURES_URL } from "src/app/core/constants/api-url-constans";
 import { UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
-import { CachedImage } from "src/app/shared/models/cahaed-image.model";
 import { Car } from "src/app/shared/models/car.model";
+import { Image } from "src/app/shared/models/image.model";
+import { CarImageService } from "src/app/shared/services/car-image.service";
 import { CarService } from "src/app/shared/services/car.service";
-import { ImageService } from "src/app/shared/services/image.service";
 import { LoginService } from "src/app/shared/services/login.service";
 import { environment } from "src/environments/environment";
 import { CarDetailsComponent } from "../car-details/car-details.component";
@@ -19,15 +19,16 @@ import { CarDetailsComponent } from "../car-details/car-details.component";
 })
 export class CarListItemComponent implements OnInit{
 
-    @ViewChild('img', { static: true }) image!: ElementRef;
     @Input() car!: Car;
+    src: string= '';
+    img!: Image;
     constructor
     (
         private modalService: NgbModal,
-        private imageService: ImageService,
         private carService: CarService,
         private loginService: LoginService,
-        private router: Router
+        private router: Router,
+        private carImageService: CarImageService
     ) {}
 
     showDetails(): void{
@@ -45,13 +46,7 @@ export class CarListItemComponent implements OnInit{
     }
 
     ngOnInit(): void {
-
-        this.imageService.getImageUrl(`${environment.api_url}${CAR_PICTURES_URL}/` + this.car.id).subscribe(image => {
-
-            let url = URL.createObjectURL(image.fileResult);
-
-            this.image.nativeElement.src = url;
-        });
+        this.carImageService.getImage(this.car.id).subscribe(image => { this.src = `data:${image.extension};base64,${image.content}`;});
     }
 
     isAdmin(): boolean {

@@ -22,8 +22,9 @@ import { AuthorizedGuard } from './core/guards/authorized.guard';
 import { CityService } from './shared/services/city.service';
 import { CountryService } from './shared/services/country.service';
 import { RentalPointService } from './shared/services/rental-point.service';
-import { ImageService } from './shared/services/image.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarImageService } from './shared/services/car-image.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   providers: [
     ApiService, 
@@ -51,7 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuthorizedGuard,
     CarService,
     RentalPointService,
-    ImageService,
+    CarImageService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}

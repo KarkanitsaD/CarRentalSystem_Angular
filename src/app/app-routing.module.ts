@@ -14,6 +14,7 @@ import { AuthorizedGuard } from './core/guards/authorized.guard';
 import { AddCarComponent } from './components/car/add-car/add-car.component';
 import { UpdateCarComponent } from './components/car/update-car/update-car.component';
 
+
 const routes: Routes = [
   { path: '', redirectTo: '/rider', pathMatch: 'full'},
   { path: MAIN_PAGE_PATH, component: MainPageComponent},
@@ -42,5 +43,5 @@ export const routingComponents = [
   MainPageComponent,
   HomeComponent,
   AddCarComponent,
-  UpdateCarComponent
+  UpdateCarComponent,
 ]

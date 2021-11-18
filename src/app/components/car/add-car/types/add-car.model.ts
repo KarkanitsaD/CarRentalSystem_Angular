@@ -1,14 +1,15 @@
-export interface AddCarModel {
+export class AddCarModel {
     id?: string;
-    brand: string;
-    model: string;
-    pricePerDay: number;
-    fuelConsumptionPerHundredKilometers: number;
-    numberOfSeats: number;
-    transmissionType?: string;
-    color?: string;
-    pictureExtension: string;
-    rentalPointId: string;
-    pictureShortName: string;
-    pictureBase64Content: string;
+    imageId?: string;
+    brand: string = '';
+    model: string = '';
+    pricePerDay: number = 0;
+    fuelConsumptionPerHundredKilometers: number = 0;
+    numberOfSeats: number = 0;
+    transmissionType?: string = '';
+    color?: string = '';
+    pictureExtension: string = '';
+    rentalPointId: string = '';
+    pictureShortName: string = '';
+    pictureBase64Content: string = '';
 }

@@ -1,10 +1,41 @@
 <div>
     <h1>Total count: {{cars.length}}</h1>
     <button [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
-    <div *ngFor="let car of cars">
+    <form [formGroup]="filterForm">
+        <br>
+        <div class="form-row">
+            <div class="col-md-4 mb3">
+                <input type="text" formControlName="brand" class="form-control" placeholder="Brand">
+            </div>
+            <br>
+            <div class="col-md-4 mb3">
+                <input type="text" formControlName="color" class="form-control" placeholder="Color">
+            </div>
+            <br>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-md-4 mb3">
+                <input type="text" formControlName="minPricePerDay" class="form-control" placeholder="Min price of day">
+            </div>
+            <div class="col-md-4 mb3">
+                <input type="text" formControlName="maxPricePerDay" class="form-control" placeholder="Max price of day">
+            </div>
+            <div class="col-md-4 mb3">
+                <button (click)="filter()" [disabled]="!filterForm.valid" class="btn btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <br>
+
+    <div *ngFor="let car of cars | paginate: { itemsPerPage: 4, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
         <hr>
         <app-car-list-item
             [car]="car">
         </app-car-list-item>
     </div>
+    <pagination-controls [autoHide]="true" 
+        (pageChange)="getPage(currentPageNumber = $event)"></pagination-controls>
+        <div class="pagination-last"></div>
 </div>
