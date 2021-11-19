@@ -1,0 +1,87 @@
+<br>
+<form *ngIf="updateCarForm" [formGroup]="updateCarForm">
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Brand*</label>
+      <input formControlName="brand" type="text" class="form-control" id="validationCustom01">
+      <small style="color: red;" *ngIf="updateCarForm.get('brand')?.invalid && updateCarForm.get('brand')?.touched">This field is required</small>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Model*</label>
+      <input formControlName="model" type="text" class="form-control">
+      <small style="color: red;" *ngIf="updateCarForm.get('model')?.invalid && updateCarForm.get('model')?.touched">This field is required</small>
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Price for one day*</label>
+      <div class="input-group">
+        <span class="input-group-text">Format: dd.dd</span>
+        <span class="input-group-text">br</span>
+        <input formControlName="pricePerDay" type="text" class="form-control" placeholder="50.00">
+      </div>
+      <small style="color: red;" *ngIf="updateCarForm.get('pricePerDay')?.invalid && updateCarForm.get('pricePerDay')?.touched">This field is required</small>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Fuel consumption*</label>
+      <div class="input-group">
+        <span class="input-group-text">Format: dd.dd</span>
+        <span class="input-group-text">100 km</span>
+        <input formControlName="fuelConsumptionPerHundredKilometers" type="text" class="form-control" placeholder="6.5">
+      </div>
+      <small style="color: red;" *ngIf="updateCarForm.get('fuelConsumptionPerHundredKilometers')?.invalid && updateCarForm.get('fuelConsumptionPerHundredKilometers')?.touched">This field is required</small>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Number of seats*</label>
+      <input formControlName="numberOfSeats" type="text" class="form-control">
+      <small style="color: red;" *ngIf="updateCarForm.get('numberOfSeats')?.invalid && updateCarForm.get('numberOfSeats')?.touched">This field is required</small>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Transmission</label>
+      <input formControlName="transmissionType" type="text" class="form-control">
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Color</label>
+      <input formControlName="color" type="text" class="form-control">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-lable">Rental point*</label>
+      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control">
+        <option *ngFor="let rentalPoint of rentalPoints;" [value]="rentalPoint.id">
+          {{rentalPoint.title}}
+        </option>
+      </select>
+      <small style="color: red;" *ngIf="updateCarForm.get('rentalPoint')?.invalid && updateCarForm.get('rentalPoint')?.touched">This field is required</small>
+    </div>
+  </div>
+  <br>
+  <div class="car_image_div">
+    <label class="form-label">Image*</label>
+    <img id="carImg" class="car_image" [src]="imageUrl">
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <button onclick="document.getElementById('file-input').click();" id="button">Open</button>
+      <input id="file-input" (change)="onImageSelected($event)" style="display: none;" type="file" accept="image/png, image/jpeg">
+    </div>
+    <br>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Picture short name*</label>
+      <input formControlName="pictureShortName" type="text" class="form-control">
+      <small style="color: red;" *ngIf="updateCarForm.get('pictureShortName')?.invalid && updateCarForm.get('pictureShortName')?.touched">This field is required</small>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button (click)="updateCar()" [disabled]="!updateCarForm.valid" type="submit" class="btn btn-warning">Update car</button>
+    </div>
+  </div>
+</form>

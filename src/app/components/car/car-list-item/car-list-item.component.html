@@ -1,9 +1,9 @@
 <div class="car_item_div d-flex flex-row">
     <div class="car_image_div p-2">
-        <img src="https://media.istockphoto.com/photos/generic-modern-suv-car-in-concrete-garage-picture-id1307086567" class=" car_image rounded">
+        <img class="car_image rounded" [src]="src">
     </div>
     <div class="car_info p-2">
-        <h4>{{car.carBrand}}</h4>
+        <h4>{{car.brand + ' ' + car.model}}</h4>
         <p>{{car.numberOfSeats}} seats</p>
         <button type="button" class="btn btn-primary" (click)="showDetails()" >See deatils</button>
         <div style="width: 100px;">
@@ -14,5 +14,7 @@
     <div class="car_price">
         <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
         <p>excl. coverage, delivery, tax</p>
+        <button *ngIf="isAdmin()" type="button" class="btn btn-warning" (click)="updateCar()" style="width: 150px;">Update car</button>
+        <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar()" style="width: 150px; margin-top: 30px;">Delete car</button>
     </div>
 </div>

@@ -15,17 +15,22 @@ import { AuthenticationInterceptor } from './shared/interceptors/authentication.
 import { HeaderComponent } from './shared/components/header/header.component';
 import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
 import { LoginService } from './shared/services/login.service';
-import { ManagementButtonComponent } from './components/manager/management-button/mangement-button.component';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
 import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
+import { AuthorizedGuard } from './core/guards/authorized.guard';
+import { CityService } from './shared/services/city.service';
+import { CountryService } from './shared/services/country.service';
+import { RentalPointService } from './shared/services/rental-point.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CarImageService } from './shared/services/car-image.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     HeaderComponent,
-    ManagementButtonComponent,
     CarListItemComponent
   ],
   imports: [
@@ -33,15 +38,22 @@ import { CarListItemComponent } from './components/car/car-list-item/car-list-it
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   providers: [
     ApiService, 
     TokenService,
+    CityService,
+    CountryService,
     AuthService,
     LoginService,
     OnlyAdminGuard,
+    AuthorizedGuard,
     CarService,
+    RentalPointService,
+    CarImageService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
