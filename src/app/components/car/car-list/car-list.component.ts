@@ -32,15 +32,25 @@ export class CarListComponent implements OnInit {
     ) {}
     
     ngOnInit() {
-        this.getPage(this.currentPageNumber);
+        this.getPage(1);
     }
 
     isAdmin(): boolean {
         return this.loginService.getRoles().includes(ADMIN_ROLE);
     }
 
-    filter(): void {
+    getPage(pageNumber: number): void {
+        this.currentPageNumber = pageNumber;
         let params: HttpParams = new HttpParams();
+        params = this.setPaginationParams(params, this.currentPageNumber);
+        params = this.setFilterParams(params);
+        this.carService.getPageCarList(params).subscribe(data => {
+            this.itemsTotalCount =  data.itemsTotalCount;
+            this.cars = data.cars;
+        });
+    }
+
+    private setFilterParams(params: HttpParams): HttpParams {
         if(this.filterForm.value.brand != null && (this.filterForm.value.brand as string).trim() != '') {
             params = params.append('brand', this.filterForm.value.brand);
         }
@@ -53,18 +63,13 @@ export class CarListComponent implements OnInit {
         if(this.filterForm.value.maxPricePerDay != null && (this.filterForm.value.maxPricePerDay as string).trim() != '') {
             params = params.append('maxPricePerDay', Number(this.filterForm.value.maxPricePerDay));
         }
-        this.carService.getPageCarList(params).subscribe(data => {
-            this.cars = data.cars;
-        });
+        return params;
     }
 
-    getPage(page: number): void{
-        let params: HttpParams = new HttpParams();
-        params = params.append('pageIndex', page - 1);
-        params = params.append('pageSize', 3);
-        this.carService.getPageCarList(params).subscribe(data => {
-            this.itemsTotalCount = data.itemsTotalCount + 3;
-            this.cars = data.cars;
-        });
+    private setPaginationParams(params: HttpParams, pageNumber: number): HttpParams {
+        params = params.append('pageIndex', pageNumber - 1);
+        params = params.append('pageSize', CARS_PAGINATION_SIZE);
+
+        return params;
     }
 }

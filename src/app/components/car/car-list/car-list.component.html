@@ -1,5 +1,5 @@
 <div>
-    <h1>Total count: {{cars.length}}</h1>
+    <h1>{{itemsTotalCount}} cars available</h1>
     <button [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
     <form [formGroup]="filterForm">
         <br>
@@ -22,20 +22,22 @@
                 <input type="text" formControlName="maxPricePerDay" class="form-control" placeholder="Max price of day">
             </div>
             <div class="col-md-4 mb3">
-                <button (click)="filter()" [disabled]="!filterForm.valid" class="btn btn-primary">Filter</button>
+                <button (click)="getPage(1)" [disabled]="!filterForm.valid" class="btn btn-primary">Filter</button>
             </div>
         </div>
     </form>
 
     <br>
 
-    <div *ngFor="let car of cars | paginate: { itemsPerPage: 4, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
+    <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
         <hr>
         <app-car-list-item
             [car]="car">
         </app-car-list-item>
     </div>
+
+    <div class="d-flex justify-content-center">
     <pagination-controls [autoHide]="true" 
         (pageChange)="getPage(currentPageNumber = $event)"></pagination-controls>
-        <div class="pagination-last"></div>
+    </div>
 </div>

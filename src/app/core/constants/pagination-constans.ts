@@ -1,1 +1,1 @@
-export const CARS_PAGINATION_SIZE = 4;
+export const CARS_PAGINATION_SIZE = 3;
