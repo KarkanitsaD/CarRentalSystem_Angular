@@ -1,0 +1,12 @@
+.rp_item_div {
+    height: 250px;
+}
+
+.rp_info {
+    width: 600px;
+}
+
+.rp_price {
+    width: 200px;
+    text-align: right;
+}

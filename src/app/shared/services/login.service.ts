@@ -12,22 +12,17 @@ export class LoginService {
     {}
 
     loginUser(user: User) {
+        debugger
         this.tokenService.saveJwt(user.jwt);
         this.tokenService.saveRefreshToken(user.refreshToken);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userRoles', JSON.stringify(user.roles));
         localStorage.setItem('isLogin', 'true');
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     logoutUser(): void {
         this.tokenService.destroyJwt();
         this.tokenService.destroyreRreshToken();
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userRoles');
+        localStorage.removeItem('user');
         localStorage.setItem('isLogin', 'false');
     }
 
@@ -42,5 +37,13 @@ export class LoginService {
         }
         let rolesArray: string[] = JSON.parse(roles);
             return rolesArray;
+    }
+
+    getUser(): User{
+        let user = localStorage.getItem('user');
+        if(user === null) {
+            throw new Error("");
+        }
+        return JSON.parse(user) as User;
     }
 }

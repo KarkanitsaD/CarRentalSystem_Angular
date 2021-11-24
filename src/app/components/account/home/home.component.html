@@ -1,1 +1,37 @@
-<h1>Home(email, name, surname)</h1>
+<form [formGroup]="informationForm">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-lable">
+                Email*:
+            </label>
+            <input formControlName="email" type="text" class="form-control" readonly>
+        </div>
+        <div class="col-md-3">
+            <label class="form-lable">
+                Name*:
+            </label>
+            <input formControlName="name" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-lable">
+                Surname*:
+            </label>
+            <input formControlName="surname" type="text" class="form-control">
+        </div>
+    </div>
+    <br>
+    <button (click)="updateInfo()" class="btn btn-warning">Save</button>
+</form>
+<br>
+<form [formGroup]="newPasswordForm">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-lable">
+                New Password*:
+            </label>
+            <input formControlName="password" type="password" class="form-control">
+        </div>
+    </div>
+    <br>
+    <button class="btn btn-warning">Save</button>
+</form>

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 
 @Injectable()
-export class TokenService{
+export class TokenService {
 
     getJwt(): string | null{
         return window.localStorage['jwt'];

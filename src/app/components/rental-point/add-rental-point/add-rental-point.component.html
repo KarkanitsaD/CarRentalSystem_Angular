@@ -1,41 +1,36 @@
 <br>
-<form>
+<form [formGroup]="form">
     <div class="row">
         <div class="col-md-3">
             <label class="form-label">Title*</label>
-            <input type="text" class="form-control">
+            <input formControlName="title" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label formControlName="country" class="form-label">Country*</label>
+            <input formControlName="country" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">City*</label>
+            <input formControlName="city" type="text" class="form-control">
         </div>
         <div class="col-md-3">
             <label class="form-label">Address*</label>
-            <input type="text" class="form-control">
+            <input formControlName="address" type="text" class="form-control">
         </div>
-        <div class="col-md-3">
-            <label class="form-label">Country</label>
-            <select class="form-control">
-              <option>{{''}}</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <label class="form-label">City</label>
-            <select class="form-control">
-              <option>{{''}}</option>
-            </select>
-          </div>
     </div>
     <br>
     <div class="row">
         <div class="col-md-3">
             <label class="form-label">Location X</label>
-            <input type="text" class="form-control" readonly>
+            <input formControlName="locationX" type="text" class="form-control">
         </div>
         <div class="col-md-3">
             <label class="form-label">Location Y</label>
-            <input type="text" class="form-control" readonly>
+            <input formControlName="locationY" type="text" class="form-control" readonly>
         </div>
     </div>
     <br>
     <label class="form-label">Choose location</label>
-    <div class="map">
-
-    </div>
+    <div #mapContainer id="map"></div>
+    <button [disabled]="!form.valid" (click)="addRentalPoint()" type="submit" class="btn btn-success">Add rental point</button>
 </form>

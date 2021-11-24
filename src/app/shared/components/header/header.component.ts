@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
 import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
+import { UserData } from "../../models/user-data.model";
+import { User } from "../../models/user.model";
 import { LoginService } from "../../services/login.service";
 
 @Component({
