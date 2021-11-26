@@ -12,6 +12,10 @@ export class RentalPointService {
         private apiService: ApiService
     ) {}
 
+    getRentalPoint(id: string): Observable<RentalPoint> {
+        return this.apiService.get(`${environment.api_url}${RENTALPOINTS_URL}/${id}`);
+    }
+
     getRentalPoints(): Observable<RentalPoint[]> {
         return this.apiService.get<RentalPoint[]>(`${environment.api_url}${RENTALPOINTS_URL}`);
     }
@@ -21,7 +25,7 @@ export class RentalPointService {
     }
 
     updateRentalPoint(model: RentalPoint): Observable<any> {
-        return this.apiService.put<any>(`${environment.api_url}${RENTALPOINTS_URL}/${model.id}`);
+        return this.apiService.put<any>(`${environment.api_url}${RENTALPOINTS_URL}/${model.id}`, model);
     }
 
     deleteRentalPoint(id: string) : Observable<any> {

@@ -1,3 +1,5 @@
+import { Role } from "../role.model";
+
 export interface User {
     id: string,
     email: string,
@@ -5,5 +7,5 @@ export interface User {
     surname: string,
     jwt: string,
     refreshToken: string,
-    roles: string[]
+    role: Role
 }

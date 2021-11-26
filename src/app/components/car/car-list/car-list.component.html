@@ -1,5 +1,4 @@
 <div>
-    <h1>{{itemsTotalCount}} cars available</h1>
     <button [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
     <form [formGroup]="filterForm">
         <br>

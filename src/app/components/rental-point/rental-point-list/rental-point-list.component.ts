@@ -3,6 +3,7 @@ import { RentalPoint } from "src/app/shared/models/rental-point.model";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 import { OnInit, Component, AfterViewInit, ViewChild, ElementRef } from 
 '@angular/core';
+import { UPDATE_RENTAL_POINT_PAGE_PATH } from "src/app/core/constants/page-constans";
 
 @Component({
     selector: 'app-rental-point-list',
@@ -49,7 +50,7 @@ export class RentalPointListComponent implements OnInit {
         this.mapInitializer();
       }
   
-      mapInitializer() {
+    mapInitializer() {
         this.map = new google.maps.Map(this.gmap.nativeElement, 
         this.mapOptions);
         this.rentalPoints.forEach(rp => {
@@ -58,9 +59,15 @@ export class RentalPointListComponent implements OnInit {
         });
       }
 
-      deleteRentalPoint(id: string | undefined) {
+    deleteRentalPoint(id: string | undefined) {
           if(id !== undefined) {
             this.rpService.deleteRentalPoint(id).subscribe();
           }
       }
+
+    updateRentalPoint(id: string | undefined) {
+      if(id !== undefined) {
+        this.router.navigate([UPDATE_RENTAL_POINT_PAGE_PATH, id]);
+      }
+    }
 }

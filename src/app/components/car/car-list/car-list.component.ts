@@ -2,8 +2,7 @@ import { HttpParams } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
-import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
-import { Car } from "src/app/shared/models/car.model";
+import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { LoginService } from "src/app/shared/services/login.service";
 
@@ -21,7 +20,7 @@ export class CarListComponent implements OnInit {
         minPricePerDay: ['', Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')],
         maxPricePerDay: ['', Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]
     });
-    public itemsTotalCount: number = 1;
+    public itemsTotalCount: number = 0;
     public currentPageNumber: number = 1;
 
     constructor
@@ -36,7 +35,7 @@ export class CarListComponent implements OnInit {
     }
 
     isAdmin(): boolean {
-        return this.loginService.getRoles().includes(ADMIN_ROLE);
+        return this.loginService.getRole() === 'Admin';
     }
 
     getPage(pageNumber: number): void {

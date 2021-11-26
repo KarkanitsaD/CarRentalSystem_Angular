@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { User } from "../models/user.model";
+import { User } from "../models/user/user.model";
 import { TokenService } from "src/app/shared/services/token.service";
+import { Role } from "../models/role.model";
 
 @Injectable()
 export class LoginService {
@@ -12,7 +13,6 @@ export class LoginService {
     {}
 
     loginUser(user: User) {
-        debugger
         this.tokenService.saveJwt(user.jwt);
         this.tokenService.saveRefreshToken(user.refreshToken);
         localStorage.setItem('isLogin', 'true');
@@ -30,13 +30,13 @@ export class LoginService {
         return localStorage.getItem('isLogin') == 'true';
     }
 
-    getRoles(): string[] {
-        let roles = localStorage.getItem('userRoles');
-        if(roles == null) {
-             return [];
+    getRole(): string {
+        let jsonUser = localStorage.getItem('user');
+        if(jsonUser !== null) {
+            let user = JSON.parse(jsonUser) as User;
+            return user.role.title;
         }
-        let rolesArray: string[] = JSON.parse(roles);
-            return rolesArray;
+        return '';
     }
 
     getUser(): User{

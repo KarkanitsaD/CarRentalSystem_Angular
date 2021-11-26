@@ -1,0 +1,35 @@
+<form [formGroup]="updateForm">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label">Title*</label>
+            <input formControlName="title" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label formControlName="country" class="form-label">Country*</label>
+            <input formControlName="country" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">City*</label>
+            <input formControlName="city" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Address*</label>
+            <input formControlName="address" type="text" class="form-control">
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label">Location X</label>
+            <input formControlName="locationX" type="text" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Location Y</label>
+            <input formControlName="locationY" type="text" class="form-control" readonly>
+        </div>
+    </div>
+    <br>
+    <label class="form-label">Choose location</label>
+    <div #mapContainer id="map"></div>
+    <button (click)="updateRentalPoint()" type="submit" class="btn btn-success">Save</button>
+</form>
