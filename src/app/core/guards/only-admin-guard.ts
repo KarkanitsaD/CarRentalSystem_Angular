@@ -14,7 +14,7 @@ export class OnlyAdminGuard implements CanActivate {
     ) {}
     
     canActivate(): boolean {
-        var can =  this.loginService.getRoles().includes(ADMIN_ROLE);
+        var can =  this.loginService.getRole() === "Admin";
         if(can) {
             return true;
         }

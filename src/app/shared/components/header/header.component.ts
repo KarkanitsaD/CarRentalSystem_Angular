@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
 import { LoginService } from "../../services/login.service";
 
 @Component({
@@ -15,7 +14,7 @@ export class HeaderComponent {
 
 
     showManagementButton(): boolean {
-        return this.isLogin() && this.loginService.getRoles().includes(ADMIN_ROLE);
+        return this.isLogin() && this.loginService.getRole() === "Admin";
     }
 
     isLogin(): boolean {

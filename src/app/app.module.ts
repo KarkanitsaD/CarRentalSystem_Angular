@@ -25,13 +25,19 @@ import { RentalPointService } from './shared/services/rental-point.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarImageService } from './shared/services/car-image.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RentalPointListComponent } from './components/rental-point/rental-point-list/rental-point-list.component';
+import { UserService } from './shared/services/user.service';
+import { RoleService } from './shared/services/role.service';
+import { AddUpdateUserComponent } from './components/manager/add-update-user/add-update-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
     HeaderComponent,
-    CarListItemComponent
+    CarListItemComponent,
+    RentalPointListComponent,
+    AddUpdateUserComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +60,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CarService,
     RentalPointService,
     CarImageService,
+    UserService,
+    RoleService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}

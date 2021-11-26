@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { IMAGE_NOT_FOUND_URL } from "src/app/core/constants/shared";
+import { RentalPoint } from "src/app/shared/models/rental-point.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 import { AddCarModel } from "./types/add-car.model";
@@ -18,7 +19,7 @@ export class AddCarComponent implements OnInit{
     private pictureBase64Content: string = '';
     private pictureExtension: string = '';
 
-    public rentalPoints: RentalPointAddCarModel[] = new Array<RentalPointAddCarModel>();
+    public rentalPoints: RentalPoint[] = new Array<RentalPoint>();
     public imageUrl: string = IMAGE_NOT_FOUND_URL;
 
     constructor
@@ -30,7 +31,7 @@ export class AddCarComponent implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        this.rentalPointService.getRentalPointAddCarModels().subscribe(data => {this.rentalPoints = data;});
+        this.rentalPointService.getRentalPoints().subscribe(data => {this.rentalPoints = data;});
     }
 
     addCarForm = this.fb.group({
@@ -92,7 +93,7 @@ export class AddCarComponent implements OnInit{
         }
     }
 
-    getRentalPointDisplayTitle(rentalPoint: RentalPointAddCarModel): string {
+    getRentalPointDisplayTitle(rentalPoint: RentalPoint): string {
         let title = '';
         title +=  rentalPoint.title != null ? rentalPoint.title : '';
         title +=  rentalPoint.address != null ? '. Adress: ' + rentalPoint.address : '';

@@ -4,8 +4,8 @@ import { Observable } from "rxjs";
 import { AddCarModel } from "src/app/components/car/add-car/types/add-car.model";
 import { CARS_URL } from "src/app/core/constants/api-url-constans";
 import { environment } from "src/environments/environment";
-import { Car } from "../models/car.model";
-import { PageCarList } from "../models/page-car-list.model";
+import { Car } from "../models/car/car.model";
+import { PageCarList } from "../models/car/page-car-list.model";
 import { ApiService } from "./api.service";
 
 @Injectable()

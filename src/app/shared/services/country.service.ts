@@ -16,4 +16,8 @@ export class CountryService {
     getCountries(): Observable<Country[]> {
         return this.apiService.get<Country[]>(`${environment.api_url}${COUNTRIES_URL}`);
     }
+
+    addCountry(title: string): Observable<Country> {
+        return this.apiService.post<Country>(`${environment.api_url}${COUNTRIES_URL}`, title);
+    }
 }

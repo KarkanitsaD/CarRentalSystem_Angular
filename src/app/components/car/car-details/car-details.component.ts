@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { Car } from "src/app/shared/models/car.model";
+import { Car } from "src/app/shared/models/car/car.model";
 
 @Component({
     selector: 'app-car-details',

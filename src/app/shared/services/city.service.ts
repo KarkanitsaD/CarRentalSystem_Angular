@@ -15,4 +15,8 @@ export class CityService {
     getCities(): Observable<City[]> {
         return this.apiService.get<City[]>(`${environment.api_url}${CITIES_URL}`);
     }
+
+    addCity(city: City): Observable<City> {
+        return this.apiService.post<City>(`${environment.api_url}${CITIES_URL}`, city);
+    }
 }

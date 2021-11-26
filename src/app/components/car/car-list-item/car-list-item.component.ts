@@ -4,7 +4,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CAR_PICTURES_URL } from "src/app/core/constants/api-url-constans";
 import { UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
-import { Car } from "src/app/shared/models/car.model";
+import { Car } from "src/app/shared/models/car/car.model";
 import { Image } from "src/app/shared/models/image.model";
 import { CarImageService } from "src/app/shared/services/car-image.service";
 import { CarService } from "src/app/shared/services/car.service";
@@ -50,6 +50,6 @@ export class CarListItemComponent implements OnInit{
     }
 
     isAdmin(): boolean {
-        return this.loginService.getRoles().includes(ADMIN_ROLE);
+        return this.loginService.getRole() === 'Admin';
     }
 }

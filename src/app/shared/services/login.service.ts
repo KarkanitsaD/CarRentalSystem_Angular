@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { User } from "../models/user.model";
+import { User } from "../models/user/user.model";
 import { TokenService } from "src/app/shared/services/token.service";
+import { Role } from "../models/role.model";
 
 @Injectable()
 export class LoginService {
@@ -14,20 +15,14 @@ export class LoginService {
     loginUser(user: User) {
         this.tokenService.saveJwt(user.jwt);
         this.tokenService.saveRefreshToken(user.refreshToken);
-        localStorage.setItem('userId', user.id);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('userName', user.name);
-        localStorage.setItem('userRoles', JSON.stringify(user.roles));
         localStorage.setItem('isLogin', 'true');
+        localStorage.setItem('user', JSON.stringify(user));
     }
 
     logoutUser(): void {
         this.tokenService.destroyJwt();
         this.tokenService.destroyreRreshToken();
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userEmail');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userRoles');
+        localStorage.removeItem('user');
         localStorage.setItem('isLogin', 'false');
     }
 
@@ -35,12 +30,20 @@ export class LoginService {
         return localStorage.getItem('isLogin') == 'true';
     }
 
-    getRoles(): string[] {
-        let roles = localStorage.getItem('userRoles');
-        if(roles == null) {
-             return [];
+    getRole(): string {
+        let jsonUser = localStorage.getItem('user');
+        if(jsonUser !== null) {
+            let user = JSON.parse(jsonUser) as User;
+            return user.role.title;
         }
-        let rolesArray: string[] = JSON.parse(roles);
-            return rolesArray;
+        return '';
+    }
+
+    getUser(): User{
+        let user = localStorage.getItem('user');
+        if(user === null) {
+            throw new Error("");
+        }
+        return JSON.parse(user) as User;
     }
 }
