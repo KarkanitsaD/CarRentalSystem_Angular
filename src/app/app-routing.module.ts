@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: UPDATE_CAR_PAGE_PATH + '/:carId', component: UpdateCarComponent, canActivate: [OnlyAdminGuard] },
   { path: NO_PERMISSION_PATH, component: NoPermissionComponent },
   { path: RENTAL_POINTS_PAGE, component: RentalPointsComponent},
+  { path: RENTAL_POINTS_PAGE + '/:rentalPointId/' + CARLIST_PAGE_PATH, component: CarListComponent },
   { path: PAGE_NOT_FOUND_PATH, component: PageNotFoundComponent},
 ];
 

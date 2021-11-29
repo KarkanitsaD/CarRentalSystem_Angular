@@ -1,22 +1,12 @@
 <form *ngIf="filtrationForm" [formGroup]="filtrationForm">
     <div class="form-row">
         <div class="col-md-4 mb3">
-            <label class="form-lable">
-                Key receiving time*
-            </label>
-            <input formControlName="keyReceivingTime" min="2021-11-29" class="form-control" type="datetime-local" placeholder="Select datetime" [value]="filtrationForm.controls['keyReceivingTime'].value">
+            <input (dateTimeChange)="c($event)" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
+            [selectMode]="'range'" placeholder="Choode date time range">
+            <owl-date-time #dt10></owl-date-time>
         </div>
         <div class="col-md-4 mb3">
-            <label class="form-lable">
-                Key receiving time*
-            </label>
-            <input formControlName="keyHandOverTime" class="form-control" type="datetime-local" placeholder="Select datetime">
-        </div>
-        <div class="col-md-2 mb3">
-            <label class="form-lable">
-                Number of avaliable cars
-            </label>
-            <input formControlName="numberOfAvaliableCars" class="form-control" type="text">
+            <input formControlName="numberOfAvaliableCars" class="form-control" type="text" placeholder="Number of avaliable cars">
         </div>
     </div>
     <br>
@@ -26,6 +16,9 @@
                 Country
             </label>
             <select (change)="onCountrySelected($event)" formControlName="countryId" class="form-control">
+                <option value="">
+
+                </option>
                 <option *ngFor="let country of countries" [value]="country.id">
                     {{country.title}}
                 </option>
@@ -36,6 +29,9 @@
                 City
             </label>
             <select formControlName="cityId" class="form-control">
+                <option value="">
+                    
+                </option>
                 <option *ngFor="let city of cities" [value]="city.id">
                     {{city.title}}
                 </option>

@@ -60,7 +60,6 @@ export class AddUpdateUserComponent implements OnInit {
             password: this.addingUser ? this.userForm.controls['password'].value : '' 
         }
         if(this.addingUser) {
-            debugger
             this.userService.addUser(user).subscribe(() => {
                 this.activeModal.close();
             });    

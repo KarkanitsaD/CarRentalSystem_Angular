@@ -4,6 +4,14 @@
         <br>
         <div class="form-row">
             <div class="col-md-4 mb3">
+                <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
+                [selectMode]="'range'" placeholder="Choode date time range">
+                <owl-date-time #dt10></owl-date-time>
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div class="col-md-4 mb3">
                 <input type="text" formControlName="brand" class="form-control" placeholder="Brand">
             </div>
             <br>
@@ -31,7 +39,7 @@
     <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
         <hr>
         <app-car-list-item
-            [car]="car">
+            [car]="car" [keyReceivingTime]="keyReceivingTime" [keyHandOverTime]="keyHandOverTime">
         </app-car-list-item>
     </div>
 

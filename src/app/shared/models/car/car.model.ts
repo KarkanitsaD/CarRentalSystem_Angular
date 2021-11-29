@@ -6,7 +6,7 @@ export interface Car {
     transmissionType: string;
     numberOfSeats: number;
     color: string;
-    rentalPointId: number;
+    rentalPointId: string;
     lastViewTime: Date;
     pricePerDay: number;  
 }

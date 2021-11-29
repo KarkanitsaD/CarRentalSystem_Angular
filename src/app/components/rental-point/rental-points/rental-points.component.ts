@@ -2,9 +2,10 @@ import { HttpParams } from "@angular/common/http";
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ADD_RENTAL_POINT_PATH, UPDATE_RENTAL_POINT_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { ADD_RENTAL_POINT_PATH, CARLIST_PAGE_PATH, RENTAL_POINTS_PAGE, UPDATE_RENTAL_POINT_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
+import { LoginService } from "src/app/shared/services/login.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({
@@ -43,7 +44,8 @@ export class RentalPointsComponent implements AfterViewInit {
     (
         private router: Router,
         private route: ActivatedRoute,
-        private rpService: RentalPointService
+        private rpService: RentalPointService,
+        private loginService: LoginService
     ) {
         this.querySubscription = route.queryParams.subscribe(
             (queryParams: any) => {
@@ -91,15 +93,17 @@ export class RentalPointsComponent implements AfterViewInit {
         if(rpfilter.numberOfAvaliableCars != null) {
             params = params.append('numberOfAvailableCars', rpfilter.numberOfAvaliableCars);
         }
-        if(rpfilter.countryId !== undefined) {
+        if(rpfilter.countryId !== undefined && rpfilter.countryId !== '' && rpfilter.countryId !== null) {
             params = params.append('countryId', rpfilter.countryId);
         }
-        if(rpfilter.cityId !== undefined) {
+        if(rpfilter.cityId !== undefined && rpfilter.cityId !== '' && rpfilter.cityId !== null) {
             params = params.append('cityId', rpfilter.cityId);
         }
-        // params = params.append('keyReceivingTime', rpfilter.keyReceivingTime.toString());
-        // params = params.append('keyHandOverTime', rpfilter.keyHandOverTime.toString());
-        debugger
+
+        if(rpfilter.keyHandOverTime !== undefined && rpfilter.keyReceivingTime !== undefined) {
+            params = params.append('keyReceivingTime', rpfilter.keyReceivingTime.toString());
+            params = params.append('keyHandOverTime', rpfilter.keyHandOverTime.toString());
+        }
         return params;
     }
 
@@ -117,6 +121,23 @@ export class RentalPointsComponent implements AfterViewInit {
     updateRentalPoint(id: string | undefined) {
     if(id !== undefined) {
       this.router.navigate([UPDATE_RENTAL_POINT_PAGE_PATH, id]);
+        }
     }
-  }
+
+    isAdmin(): boolean {
+        return this.loginService.getRole() === "Admin";
+    }
+
+    public showCars(rpId: string | undefined): void {
+        if(rpId !== undefined && this.rpFiltrationModel.keyHandOverTime!==undefined && this.rpFiltrationModel.keyReceivingTime!==undefined ) {
+            let httpParams = new HttpParams();
+            httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
+            httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
+            this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: { 
+                'keyReceivingTime' : this.rpFiltrationModel.keyReceivingTime.toString(),
+                'keyHandOverTime' : this.rpFiltrationModel.keyHandOverTime.toString()
+            } });
+        }
+    }
+ 
 }

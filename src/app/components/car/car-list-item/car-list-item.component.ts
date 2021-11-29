@@ -10,6 +10,7 @@ import { CarImageService } from "src/app/shared/services/car-image.service";
 import { CarService } from "src/app/shared/services/car.service";
 import { LoginService } from "src/app/shared/services/login.service";
 import { environment } from "src/environments/environment";
+import { BookCarComponent } from "../book-car/book-car.component";
 import { CarDetailsComponent } from "../car-details/car-details.component";
 
 @Component({
@@ -20,6 +21,8 @@ import { CarDetailsComponent } from "../car-details/car-details.component";
 export class CarListItemComponent implements OnInit{
 
     @Input() car!: Car;
+    @Input() keyReceivingTime!: Date;
+    @Input() keyHandOverTime!: Date;
     src: string= '';
     img!: Image;
     constructor
@@ -28,7 +31,7 @@ export class CarListItemComponent implements OnInit{
         private carService: CarService,
         private loginService: LoginService,
         private router: Router,
-        private carImageService: CarImageService
+        private carImageService: CarImageService,
     ) {}
 
     showDetails(): void{
@@ -51,5 +54,16 @@ export class CarListItemComponent implements OnInit{
 
     isAdmin(): boolean {
         return this.loginService.getRole() === 'Admin';
+    }
+
+    isLogin(): boolean {
+        return this.loginService.isLogin();
+    }
+
+    showRentCarWindow(): void {
+        const modalRef = this.modalService.open(BookCarComponent);
+        modalRef.componentInstance.car = this.car;
+        modalRef.componentInstance.keyHandOverTime = this.keyHandOverTime;
+        modalRef.componentInstance.keyReceivingTime = this.keyReceivingTime;
     }
 }

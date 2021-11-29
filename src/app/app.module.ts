@@ -30,7 +30,10 @@ import { UserService } from './shared/services/user.service';
 import { RoleService } from './shared/services/role.service';
 import { AddUpdateUserComponent } from './components/manager/add-update-user/add-update-user.component';
 import { RentalPointFiltrationComponent } from './shared/components/filtration/rental-point-filtration/rental-point-filtration.component';
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { BookCarComponent } from './components/car/book-car/book-car.component';
+import { BookingService } from './shared/services/booking.service';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +43,8 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     CarListItemComponent,
     RentalPointListComponent,
     AddUpdateUserComponent,
-    RentalPointFiltrationComponent
+    RentalPointFiltrationComponent,
+    BookCarComponent
   ],
   imports: [
     BrowserModule,
@@ -50,9 +54,8 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     NgbModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
-    NgxMatTimepickerModule,
-    NgxMatDatetimePickerModule,
-    NgxMatNativeDateModule
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   providers: [
     ApiService, 
@@ -68,6 +71,7 @@ import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerMod
     CarImageService,
     UserService,
     RoleService,
+    BookingService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
