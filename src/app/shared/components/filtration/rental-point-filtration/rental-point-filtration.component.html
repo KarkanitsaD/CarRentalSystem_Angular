@@ -1,0 +1,49 @@
+<form *ngIf="filtrationForm" [formGroup]="filtrationForm">
+    <div class="form-row">
+        <div class="col-md-4 mb3">
+            <label class="form-lable">
+                Key receiving time*
+            </label>
+            <input formControlName="keyReceivingTime" min="2021-11-29" class="form-control" type="datetime-local" placeholder="Select datetime" [value]="filtrationForm.controls['keyReceivingTime'].value">
+        </div>
+        <div class="col-md-4 mb3">
+            <label class="form-lable">
+                Key receiving time*
+            </label>
+            <input formControlName="keyHandOverTime" class="form-control" type="datetime-local" placeholder="Select datetime">
+        </div>
+        <div class="col-md-2 mb3">
+            <label class="form-lable">
+                Number of avaliable cars
+            </label>
+            <input formControlName="numberOfAvaliableCars" class="form-control" type="text">
+        </div>
+    </div>
+    <br>
+    <div class="form-row">
+        <div class="col-md-4 mb3">
+            <label class="form-lable">
+                Country
+            </label>
+            <select (change)="onCountrySelected($event)" formControlName="countryId" class="form-control">
+                <option *ngFor="let country of countries" [value]="country.id">
+                    {{country.title}}
+                </option>
+            </select>
+        </div>
+        <div class="col-md-4 mb3">
+            <label class="form-lable">
+                City
+            </label>
+            <select formControlName="cityId" class="form-control">
+                <option *ngFor="let city of cities" [value]="city.id">
+                    {{city.title}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <button (click)="filter()" class="btn btn-primary">
+        Filter
+    </button>
+</form>

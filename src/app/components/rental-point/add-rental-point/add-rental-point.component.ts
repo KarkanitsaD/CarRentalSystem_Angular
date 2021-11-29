@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angula
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MANAGEMENT_PAGE_PATH } from "src/app/core/constants/page-constans";
-import { RentalPoint } from "src/app/shared/models/rental-point.model";
+import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({

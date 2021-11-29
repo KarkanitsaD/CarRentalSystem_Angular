@@ -29,6 +29,8 @@ import { RentalPointListComponent } from './components/rental-point/rental-point
 import { UserService } from './shared/services/user.service';
 import { RoleService } from './shared/services/role.service';
 import { AddUpdateUserComponent } from './components/manager/add-update-user/add-update-user.component';
+import { RentalPointFiltrationComponent } from './shared/components/filtration/rental-point-filtration/rental-point-filtration.component';
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { AddUpdateUserComponent } from './components/manager/add-update-user/add
     HeaderComponent,
     CarListItemComponent,
     RentalPointListComponent,
-    AddUpdateUserComponent
+    AddUpdateUserComponent,
+    RentalPointFiltrationComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,10 @@ import { AddUpdateUserComponent } from './components/manager/add-update-user/add
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [
     ApiService, 

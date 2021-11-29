@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angula
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { MANAGEMENT_PAGE_PATH, PAGE_NOT_FOUND_PATH } from "src/app/core/constants/page-constans";
-import { RentalPoint } from "src/app/shared/models/rental-point.model";
+import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({
@@ -10,7 +10,7 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
     templateUrl: './update-rental-point.component.html',
     styleUrls: ['./update-rental-point.component.css']
 })
-export class UpdateRentalPointComponent implements AfterViewInit{
+export class UpdateRentalPointComponent implements AfterViewInit{   
 
     private rentalPointId!: string;
 

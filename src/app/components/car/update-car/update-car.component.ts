@@ -9,7 +9,7 @@ import { RentalPointAddCarModel } from "../add-car/types/rentalPoint-add-car.mod
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CARLIST_PAGE_PATH, PAGE_NOT_FOUND_PATH } from "src/app/core/constants/page-constans";
 import { AddCarModel } from "../add-car/types/add-car.model";
-import { RentalPoint } from "src/app/shared/models/rental-point.model";
+import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 
 @Component({
     selector: 'app-update-car',
@@ -39,7 +39,7 @@ export class UpdateCarComponent implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        this.rentalPointService.getRentalPoints().subscribe(data => {this.rentalPoints = data;});
+        this.rentalPointService.getPageRentalPointsList().subscribe(data => {this.rentalPoints = data.rentalPoints;});
 
         let id: string | null = '';
         this.route.paramMap.subscribe((params: ParamMap) => {

@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { IMAGE_NOT_FOUND_URL } from "src/app/core/constants/shared";
-import { RentalPoint } from "src/app/shared/models/rental-point.model";
+import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 import { AddCarModel } from "./types/add-car.model";
@@ -31,7 +31,7 @@ export class AddCarComponent implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        this.rentalPointService.getRentalPoints().subscribe(data => {this.rentalPoints = data;});
+        this.rentalPointService.getPageRentalPointsList().subscribe(data => {this.rentalPoints = data.rentalPoints;});
     }
 
     addCarForm = this.fb.group({
