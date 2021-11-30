@@ -1,12 +1,14 @@
 <form *ngIf="filtrationForm" [formGroup]="filtrationForm">
     <div class="form-row">
         <div class="col-md-4 mb3">
-            <input (dateTimeChange)="c($event)" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
-            [selectMode]="'range'" placeholder="Choode date time range">
+            <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
+            [selectMode]="'range'" placeholder="Choode date time range" [min]="minTime">
             <owl-date-time #dt10></owl-date-time>
+            <small style="color: red;" *ngIf="!isValidRangeInput() && filtrationForm.get('range')?.touched">Enter correct time range</small>
         </div>
         <div class="col-md-4 mb3">
             <input formControlName="numberOfAvaliableCars" class="form-control" type="text" placeholder="Number of avaliable cars">
+            <small style="color: red;" *ngIf="filtrationForm.get('numberOfAvaliableCars')?.invalid && filtrationForm.get('numberOfAvaliableCars')?.touched">This field can contains only digits</small>
         </div>
     </div>
     <br>
@@ -17,7 +19,7 @@
             </label>
             <select (change)="onCountrySelected($event)" formControlName="countryId" class="form-control">
                 <option value="">
-
+                    All
                 </option>
                 <option *ngFor="let country of countries" [value]="country.id">
                     {{country.title}}
@@ -30,7 +32,7 @@
             </label>
             <select formControlName="cityId" class="form-control">
                 <option value="">
-                    
+                    All
                 </option>
                 <option *ngFor="let city of cities" [value]="city.id">
                     {{city.title}}
@@ -39,7 +41,7 @@
         </div>
     </div>
     <br>
-    <button (click)="filter()" class="btn btn-primary">
+    <button (click)="filter()" class="btn btn-primary" [disabled]="!filtrationForm.valid || !isValidRangeInput()">
         Filter
     </button>
 </form>

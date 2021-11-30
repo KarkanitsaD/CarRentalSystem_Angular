@@ -2,7 +2,7 @@ import { HttpParams } from "@angular/common/http";
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
-import { ADD_RENTAL_POINT_PATH, CARLIST_PAGE_PATH, RENTAL_POINTS_PAGE, UPDATE_RENTAL_POINT_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { ADD_RENTAL_POINT_PATH, CARLIST_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE, UPDATE_RENTAL_POINT_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { LoginService } from "src/app/shared/services/login.service";
@@ -15,30 +15,24 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class RentalPointsComponent implements AfterViewInit {
 
-
     //filtration
-    private querySubscription!: Subscription
+    private querySubscription!: Subscription;
     public rpFiltrationModel!: RentalPointFiltrationModel;
     //filtration
 
     //maps options
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
     map!: google.maps.Map;
-
-    lat = 0;
-    lng = 0;
-
-    coordinates = new google.maps.LatLng(this.lat, this.lng);
-
+    coordinates = new google.maps.LatLng(0, 0);
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
      zoom: 4,
     };
-
     markers: google.maps.Marker[] = new Array<google.maps.Marker>();
-
     public rentalPoints: RentalPoint[] = new Array<RentalPoint>();
     //maps options
+
+    public canChooseCars: boolean = true;
 
     constructor
     (
@@ -49,7 +43,13 @@ export class RentalPointsComponent implements AfterViewInit {
     ) {
         this.querySubscription = route.queryParams.subscribe(
             (queryParams: any) => {
-                this.rpFiltrationModel = JSON.parse(queryParams['rpFiltartionModel']);
+                let rpFiltrationModel = queryParams['rpFiltartionModel'];
+                if(rpFiltrationModel !== undefined) {
+                    this.rpFiltrationModel = JSON.parse(rpFiltrationModel);
+                }
+                else if(!this.isAdmin()) {
+                    this.router.navigate([PAGE_NOT_FOUND_PATH]);
+                }
             }
         );
     }
@@ -70,6 +70,7 @@ export class RentalPointsComponent implements AfterViewInit {
             this.rentalPoints = data.rentalPoints;
             this.updateMarkers();
         });
+        this.canChooseCars = true;
     }
 
     private setMapOnAll(map: google.maps.Map | null) {
@@ -90,26 +91,32 @@ export class RentalPointsComponent implements AfterViewInit {
 
     private getHttpParams(rpfilter: RentalPointFiltrationModel): HttpParams {
         let params = new HttpParams();
-        if(rpfilter.numberOfAvaliableCars != null) {
-            params = params.append('numberOfAvailableCars', rpfilter.numberOfAvaliableCars);
-        }
-        if(rpfilter.countryId !== undefined && rpfilter.countryId !== '' && rpfilter.countryId !== null) {
-            params = params.append('countryId', rpfilter.countryId);
-        }
-        if(rpfilter.cityId !== undefined && rpfilter.cityId !== '' && rpfilter.cityId !== null) {
-            params = params.append('cityId', rpfilter.cityId);
-        }
-
-        if(rpfilter.keyHandOverTime !== undefined && rpfilter.keyReceivingTime !== undefined) {
-            params = params.append('keyReceivingTime', rpfilter.keyReceivingTime.toString());
-            params = params.append('keyHandOverTime', rpfilter.keyHandOverTime.toString());
+        if(rpfilter !== undefined) {
+            if(rpfilter.numberOfAvaliableCars != null) {
+                params = params.append('numberOfAvailableCars', rpfilter.numberOfAvaliableCars);
+            }
+            if(rpfilter.countryId !== undefined && rpfilter.countryId !== '' && rpfilter.countryId !== null) {
+                params = params.append('countryId', rpfilter.countryId);
+            }
+            if(rpfilter.cityId !== undefined && rpfilter.cityId !== '' && rpfilter.cityId !== null) {
+                params = params.append('cityId', rpfilter.cityId);
+            }
+            if(rpfilter.keyHandOverTime !== undefined && rpfilter.keyReceivingTime !== undefined) {
+                params = params.append('keyReceivingTime', new Date(rpfilter.keyReceivingTime.toString()).toJSON());
+                params = params.append('keyHandOverTime', new Date(rpfilter.keyHandOverTime.toString()).toJSON());
+            }
         }
         return params;
     }
 
     public onFiltered(rpModel: RentalPointFiltrationModel): void {
-        let params = this.getHttpParams(rpModel);
-        this.filterRentalPoints(params);
+        this.rpFiltrationModel = rpModel;
+        let httpParams = this.getHttpParams(this.rpFiltrationModel);
+        this.filterRentalPoints(httpParams);
+    }
+
+    public onFiltrationChanged(): void {
+        this.canChooseCars = false;
     }
 
     deleteRentalPoint(id: string | undefined) {
@@ -129,15 +136,19 @@ export class RentalPointsComponent implements AfterViewInit {
     }
 
     public showCars(rpId: string | undefined): void {
-        if(rpId !== undefined && this.rpFiltrationModel.keyHandOverTime!==undefined && this.rpFiltrationModel.keyReceivingTime!==undefined ) {
-            let httpParams = new HttpParams();
-            httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
-            httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
-            this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: { 
+        if(rpId !== undefined && this.rpFiltrationModel !== undefined) {
+            if(this.rpFiltrationModel.keyHandOverTime !== undefined && this.rpFiltrationModel.keyReceivingTime !== undefined) {
+                let httpParams = new HttpParams();
+                httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
+                httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
+                this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: { 
                 'keyReceivingTime' : this.rpFiltrationModel.keyReceivingTime.toString(),
                 'keyHandOverTime' : this.rpFiltrationModel.keyHandOverTime.toString()
             } });
+            }
+        }
+        if(this.isAdmin()){
+            this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH]);
         }
     }
- 
 }

@@ -1,4 +1,5 @@
-<app-rental-point-filtration *ngIf="rpFiltrationModel" (onFiltered)="onFiltered($event)" [rpFiltrationModel]="rpFiltrationModel"></app-rental-point-filtration>
+<app-rental-point-filtration *ngIf="rpFiltrationModel" (onFiltered)="onFiltered($event)" (onFiltrationChanged)="onFiltrationChanged()" [rpFiltrationModel]="rpFiltrationModel"></app-rental-point-filtration>
+<app-rental-point-filtration *ngIf="!rpFiltrationModel" (onFiltered)="onFiltered($event)" (onFiltrationChanged)="onFiltrationChanged()"></app-rental-point-filtration>
 <br>
 <br>
 <br>
@@ -14,7 +15,7 @@
                 <p>Title: {{rp.title}}</p>
             </div>
             <div style="margin-left: 20px; width: 150px;">
-                <button (click)="showCars(rp.id)" type="button" class="btn btn-primary" style="width: 80px; margin-bottom: 30px; margin-top: 4px;">Cars</button>
+                <button [disabled]="!canChooseCars" (click)="showCars(rp.id)" type="button" class="btn btn-primary" style="width: 80px; margin-bottom: 30px; margin-top: 4px;">Cars</button>
                 <button *ngIf="isAdmin()" (click)="updateRentalPoint(rp.id)" type="button" class="btn btn-warning" style="width: 80px;">Update</button>
                 <button *ngIf="isAdmin()" (click)="deleteRentalPoint(rp.id)" type="button" class="btn btn-danger" style="width: 80px; margin-top: 30px;">Delete</button>
             </div>

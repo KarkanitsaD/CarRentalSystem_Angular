@@ -1,15 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit} from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { CAR_PICTURES_URL } from "src/app/core/constants/api-url-constans";
 import { UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
-import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
 import { Car } from "src/app/shared/models/car/car.model";
 import { Image } from "src/app/shared/models/image.model";
 import { CarImageService } from "src/app/shared/services/car-image.service";
 import { CarService } from "src/app/shared/services/car.service";
 import { LoginService } from "src/app/shared/services/login.service";
-import { environment } from "src/environments/environment";
 import { BookCarComponent } from "../book-car/book-car.component";
 import { CarDetailsComponent } from "../car-details/car-details.component";
 
@@ -44,7 +41,6 @@ export class CarListItemComponent implements OnInit{
     }
 
     updateCar() {
-
         this.router.navigate([UPDATE_CAR_PAGE_PATH, this.car.id]);
     }
 

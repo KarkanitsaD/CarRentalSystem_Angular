@@ -33,6 +33,7 @@ import { RentalPointFiltrationComponent } from './shared/components/filtration/r
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { BookCarComponent } from './components/car/book-car/book-car.component';
 import { BookingService } from './shared/services/booking.service';
+import { CarImageComponent } from './components/car/car-image/car-image.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { BookingService } from './shared/services/booking.service';
     RentalPointListComponent,
     AddUpdateUserComponent,
     RentalPointFiltrationComponent,
-    BookCarComponent
+    BookCarComponent,
+    CarImageComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,7 @@ import { BookingService } from './shared/services/booking.service';
     BrowserAnimationsModule,
     NgxPaginationModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
   ],
   providers: [
     ApiService, 
