@@ -32,8 +32,6 @@ export class RentalPointsComponent implements AfterViewInit {
     public rentalPoints: RentalPoint[] = new Array<RentalPoint>();
     //maps options
 
-    public canChooseCars: boolean = true;
-
     constructor
     (
         private router: Router,
@@ -54,10 +52,6 @@ export class RentalPointsComponent implements AfterViewInit {
         );
     }
 
-    public addRentalPoint() {
-        this.router.navigate([ADD_RENTAL_POINT_PATH]);
-    }
-
     ngAfterViewInit(): void {
         this.map = new google.maps.Map(this.gmap.nativeElement, 
             this.mapOptions);
@@ -70,7 +64,6 @@ export class RentalPointsComponent implements AfterViewInit {
             this.rentalPoints = data.rentalPoints;
             this.updateMarkers();
         });
-        this.canChooseCars = true;
     }
 
     private setMapOnAll(map: google.maps.Map | null) {
@@ -95,10 +88,10 @@ export class RentalPointsComponent implements AfterViewInit {
             if(rpfilter.numberOfAvaliableCars != null) {
                 params = params.append('numberOfAvailableCars', rpfilter.numberOfAvaliableCars);
             }
-            if(rpfilter.countryId !== undefined && rpfilter.countryId !== '' && rpfilter.countryId !== null) {
+            if(rpfilter.countryId !== undefined && rpfilter.countryId !== '') {
                 params = params.append('countryId', rpfilter.countryId);
             }
-            if(rpfilter.cityId !== undefined && rpfilter.cityId !== '' && rpfilter.cityId !== null) {
+            if(rpfilter.cityId !== undefined && rpfilter.cityId !== '') {
                 params = params.append('cityId', rpfilter.cityId);
             }
             if(rpfilter.keyHandOverTime !== undefined && rpfilter.keyReceivingTime !== undefined) {
@@ -115,40 +108,39 @@ export class RentalPointsComponent implements AfterViewInit {
         this.filterRentalPoints(httpParams);
     }
 
-    public onFiltrationChanged(): void {
-        this.canChooseCars = false;
-    }
-
-    deleteRentalPoint(id: string | undefined) {
-        if(id !== undefined) {
-          this.rpService.deleteRentalPoint(id).subscribe();
-        }
-    }
-
-    updateRentalPoint(id: string | undefined) {
-    if(id !== undefined) {
-      this.router.navigate([UPDATE_RENTAL_POINT_PAGE_PATH, id]);
-        }
-    }
-
-    isAdmin(): boolean {
-        return this.loginService.getRole() === "Admin";
-    }
-
     public showCars(rpId: string | undefined): void {
-        if(rpId !== undefined && this.rpFiltrationModel !== undefined) {
-            if(this.rpFiltrationModel.keyHandOverTime !== undefined && this.rpFiltrationModel.keyReceivingTime !== undefined) {
+        if(rpId !== undefined && this.rpFiltrationModel !== undefined
+            && this.rpFiltrationModel.keyHandOverTime !== undefined
+            && this.rpFiltrationModel.keyReceivingTime !== undefined) {
                 let httpParams = new HttpParams();
                 httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
                 httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
                 this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: { 
-                'keyReceivingTime' : this.rpFiltrationModel.keyReceivingTime.toString(),
-                'keyHandOverTime' : this.rpFiltrationModel.keyHandOverTime.toString()
-            } });
-            }
-        }
-        if(this.isAdmin()){
+                'keyReceivingTime' : new Date(this.rpFiltrationModel.keyReceivingTime).toJSON(),
+                'keyHandOverTime' : new Date(this.rpFiltrationModel.keyHandOverTime).toJSON()
+                }});
+        } else if(this.isAdmin()){
             this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH]);
         }
+    }
+
+    public addRentalPoint(): void {
+        this.router.navigate([ADD_RENTAL_POINT_PATH]);
+    }
+
+    public deleteRentalPoint(id: string | undefined): void {
+        if(id !== undefined) {
+            this.rpService.deleteRentalPoint(id).subscribe();
+        }
+    }
+
+    public updateRentalPoint(id: string | undefined): void {
+        if(id !== undefined) {
+            this.router.navigate([UPDATE_RENTAL_POINT_PAGE_PATH, id]);
+        }
+    }
+
+    public isAdmin(): boolean {
+        return this.loginService.getRole() === "Admin";
     }
 }

@@ -7,7 +7,6 @@ import { Subscription } from "rxjs";
 import { PAGE_NOT_FOUND_PATH, UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
 import { Car } from "src/app/shared/models/car/car.model";
-import { CarImageService } from "src/app/shared/services/car-image.service";
 import { CarService } from "src/app/shared/services/car.service";
 import { LoginService } from "src/app/shared/services/login.service";
 import { BookCarComponent } from "../book-car/book-car.component";
@@ -56,19 +55,14 @@ export class CarListComponent implements OnInit {
             this.route.queryParams.subscribe((queryParam: any) => {
                 let keyReceivingTime = queryParam['keyReceivingTime'] as Date;
                 let keyHandOverTime = queryParam['keyHandOverTime'] as Date;
-
                 if(keyReceivingTime === undefined && keyHandOverTime === undefined && !this.isAdmin()) {
                     this.router.navigate([PAGE_NOT_FOUND_PATH]);
                 }
-
-                if(keyReceivingTime !== undefined && keyHandOverTime !== undefined) {
+                else {
                     let range = new Array<Date>();
                     range.push(keyReceivingTime);
                     range.push(keyHandOverTime);
                     this.filterForm.controls['range'].setValue(range);
-                }
-                else if(!this.isAdmin()) {
-                    this.router.navigate([PAGE_NOT_FOUND_PATH]);
                 }
             });
         });
@@ -113,9 +107,10 @@ export class CarListComponent implements OnInit {
         if(this.rpId != null) {
             params = params.append('rentalPointId', this.rpId);
         }
-        if(this.filterForm.controls['range'].value != null) {
-            params = params.append('keyReceivingTime', this.filterForm.controls['range'].value[0]);
-            params = params.append('keyHandOverTime', this.filterForm.controls['range'].value[1]);
+        if(this.isValidRange()) {
+            let range = this.filterForm.controls['range'].value as Array<Date>;
+            params = params.append('keyReceivingTime', new Date(range[0].toString()).toJSON());
+            params = params.append('keyHandOverTime', new Date(range[1].toString()).toJSON());
         }
         return params;
     }
@@ -145,5 +140,21 @@ export class CarListComponent implements OnInit {
         modalRef.componentInstance.car = car;
         modalRef.componentInstance.keyHandOverTime = this.keyHandOverTime;
         modalRef.componentInstance.keyReceivingTime = this.keyReceivingTime;
+    }
+
+    public isValidRangeInput(): boolean {
+        let isAdmin: boolean = this.loginService.getRole() === 'Admin';  
+        return this.isValidRange() || isAdmin;
+    }
+
+    private isValidRange(): boolean {
+        let range = this.filterForm.controls['range'].value as Array<Date>;
+        return range !== null &&
+        range !== undefined &&
+        range.length === 2 &&
+        range[0] !== null &&
+        range[1] !== null &&
+        range[0] !== undefined &&
+        range[1] !== undefined;  
     }
 }
