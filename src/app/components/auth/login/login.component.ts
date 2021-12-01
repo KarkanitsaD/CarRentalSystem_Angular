@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { catchError } from "rxjs/operators";
-import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { CARLIST_PAGE_PATH, MAIN_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { AuthRequestModel } from "src/app/shared/models/auth.model";
 import { User } from "src/app/shared/models/user/user.model";
 import { AuthService } from "src/app/shared/services/auth.service";
@@ -38,8 +38,8 @@ export class LoginComponent {
         .subscribe((data: User) => {
             debugger
             this.loginService.loginUser(data);
-            this.router.navigate([CARLIST_PAGE_PATH]);
+            this.router.navigate([MAIN_PAGE_PATH]);
         },
-        error => console.log(error));
+        error => alert(error));
     }
 }

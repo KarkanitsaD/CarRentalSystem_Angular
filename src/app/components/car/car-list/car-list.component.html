@@ -7,6 +7,7 @@
                 <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
                 [selectMode]="'range'" placeholder="Choode date time range">
                 <owl-date-time #dt10></owl-date-time>
+                <small style="color: red;" *ngIf="!isValidRangeInput() && filterForm.get('range')?.touched">Enter correct time range</small>
             </div>
         </div>
         <br>

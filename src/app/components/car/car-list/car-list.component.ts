@@ -59,6 +59,8 @@ export class CarListComponent implements OnInit {
                     this.router.navigate([PAGE_NOT_FOUND_PATH]);
                 }
                 else {
+                    this.keyReceivingTime = keyReceivingTime;
+                    this.keyHandOverTime = keyHandOverTime;
                     let range = new Array<Date>();
                     range.push(keyReceivingTime);
                     range.push(keyHandOverTime);
@@ -72,15 +74,15 @@ export class CarListComponent implements OnInit {
         this.getPage(1);
     }
 
-    isAdmin(): boolean {
+    public isAdmin(): boolean {
         return this.loginService.getRole() === 'Admin';
     }
 
-    isLogin(): boolean {
+    public isLogin(): boolean {
         return this.loginService.isLogin();
     }
 
-    getPage(pageNumber: number): void {
+    public getPage(pageNumber: number): void {
         this.currentPageNumber = pageNumber;
         let params: HttpParams = new HttpParams();
         params = this.setPaginationParams(params, this.currentPageNumber);
@@ -111,6 +113,8 @@ export class CarListComponent implements OnInit {
             let range = this.filterForm.controls['range'].value as Array<Date>;
             params = params.append('keyReceivingTime', new Date(range[0].toString()).toJSON());
             params = params.append('keyHandOverTime', new Date(range[1].toString()).toJSON());
+            this.keyReceivingTime = new Date(range[0].toString());
+            this.keyHandOverTime = new Date(range[1].toString());
         }
         return params;
     }
@@ -122,20 +126,20 @@ export class CarListComponent implements OnInit {
         return params;
     }
 
-    showDetails(car: Car): void{
+    public showDetails(car: Car): void{
         const modalRef = this.modalService.open(CarDetailsComponent);
         modalRef.componentInstance.car = car;
     }
 
-    deleteCar(carId: string) {
+    public deleteCar(carId: string) {
         this.carService.deleteCar(carId).subscribe(() => window.location.reload());
     }
 
-    updateCar(carId: string) {
+    public updateCar(carId: string) {
         this.router.navigate([UPDATE_CAR_PAGE_PATH, carId]);
     }
 
-    showRentCarWindow(car: Car): void {
+    public showRentCarWindow(car: Car): void {
         const modalRef = this.modalService.open(BookCarComponent);
         modalRef.componentInstance.car = car;
         modalRef.componentInstance.keyHandOverTime = this.keyHandOverTime;

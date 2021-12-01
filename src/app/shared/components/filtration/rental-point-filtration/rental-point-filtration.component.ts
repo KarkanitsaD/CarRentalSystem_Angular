@@ -46,9 +46,6 @@ export class RentalPointFiltrationComponent implements OnInit{
             this.cityService.getCities().subscribe(cities => {
                 this.allCities = cities;
                 this.fillForm();
-                this.filtrationForm.valueChanges.subscribe(() => {
-                    this.onFiltrationChanged.emit();
-                });
             });
         });
     }
@@ -56,12 +53,13 @@ export class RentalPointFiltrationComponent implements OnInit{
     filter(): void {
         let range = this.filtrationForm.controls['range'].value;
         let rentalPointFiltrationModel: RentalPointFiltrationModel = {
-            keyReceivingTime: range !== null ? new Date(this.filtrationForm.controls['range'].value[0]) : undefined,
-            keyHandOverTime: range !== null ? new Date(this.filtrationForm.controls['range'].value[1]) : undefined,
+            keyReceivingTime: range !== null ?  this.filtrationForm.controls['range'].value[0] : undefined,
+            keyHandOverTime: range !== null ? this.filtrationForm.controls['range'].value[1] : undefined,
             numberOfAvaliableCars: this.filtrationForm.controls['numberOfAvaliableCars'].value,
             cityId: this.filtrationForm.controls['cityId'].value,
             countryId: this.filtrationForm.controls['countryId'].value
         }
+        
         this.onFiltered.emit(rentalPointFiltrationModel);
     }
 
@@ -93,7 +91,6 @@ export class RentalPointFiltrationComponent implements OnInit{
             if(this.rpFiltrationModel.countryId !== undefined) {
                 let countryId = this.rpFiltrationModel.countryId;
                 this.filtrationForm.controls['countryId'].setValue(countryId);
-                this.filtrationForm.controls['cityId'].setValue('');
                 if(this.rpFiltrationModel.cityId !== undefined) {
                     this.filterCities(countryId);
                     this.filtrationForm.controls['cityId'].setValue(this.rpFiltrationModel.cityId);

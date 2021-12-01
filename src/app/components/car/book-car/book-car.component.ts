@@ -22,10 +22,8 @@ export class BookCarComponent {
         private router: Router
     ) {}
 
-    getCost(){
-        let keyReceivingTime = new Date(this.keyReceivingTime);
-        let keyHandOverTime = new Date(this.keyHandOverTime);
-        let days = Math.ceil((keyHandOverTime.getTime() - keyReceivingTime.getTime())/(1000*60*60*24));
+    getCost() {
+        let days = Math.ceil((this.keyHandOverTime.getTime() - this.keyReceivingTime.getTime())/(1000*60*60*24));
         return days * this.car.pricePerDay;
     }
 
@@ -33,9 +31,12 @@ export class BookCarComponent {
         let booking: AddBookigModel = {
             carId: this.car.id,
             rentalPointId: this.car.rentalPointId,
-            keyHandOverTime: this.keyHandOverTime,
-            keyReceivingTime: this.keyReceivingTime
+            keyHandOverTime: this.keyHandOverTime.toJSON(),
+            keyReceivingTime: this.keyReceivingTime.toJSON()
         };
+
+
+        console.log(this.keyHandOverTime.toString());
 
         this.bookingService.createBook(booking).subscribe(() => {
             this.router.navigate(['rider']);
