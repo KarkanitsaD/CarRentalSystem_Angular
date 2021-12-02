@@ -12,8 +12,12 @@ import { BookingService } from "src/app/shared/services/booking.service";
 })
 export class BookingList implements OnInit{
 
+    bookingFiltrationModel: BookingFiltrationModel = {
+        getCurrent: true
+    }
     public bookings!: BookingItem[];
-
+    public itemsTotalCount: number = 0;
+    public currentPageNumber: number = 1;
 
     constructor
     (
@@ -21,40 +25,45 @@ export class BookingList implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        let params = new HttpParams();
-        params = params.append('pageIndex', 0);
-        params = params.append('pageSize', 10);
-        this.bookingService.getPageBookingList(params).subscribe(data => this.bookings = data.bookings);
+        this.getPage(this.currentPageNumber);
     }
 
     onFiltered(event : any) {
-        let bookingFiltrationModel = event as BookingFiltrationModel;
-        this.filter(bookingFiltrationModel);
+        this.bookingFiltrationModel = event as BookingFiltrationModel;
+        this.getPage(this.currentPageNumber);
     }
 
-    filter(bookingFiltrationModel: BookingFiltrationModel) {
-        let httpParams = new HttpParams();
-        httpParams = this.getFiltrationParams(httpParams, bookingFiltrationModel);
-        httpParams = httpParams.append('pageIndex', 0);
-        httpParams = httpParams.append('pageSize', 10);
-        this.bookingService.getPageBookingList(httpParams).subscribe(data => {
-            this.bookings = data.bookings
+    public getPage(pageNumber: number): void {
+        this.currentPageNumber = pageNumber;
+        let params: HttpParams = new HttpParams();
+        params = this.getPaginationParams(params, this.currentPageNumber);
+        params = this.getFiltrationParams(params);
+        this.bookingService.getPageBookingList(params).subscribe(data => {
+            this.itemsTotalCount =  data.itemsTotalCount;
+            this.bookings = data.bookings;
         });
     }
 
-    getFiltrationParams(httpParams: HttpParams, bookingFiltrationModel: BookingFiltrationModel): HttpParams {
-        if(bookingFiltrationModel.countryId) {
-            httpParams = httpParams.append('countryId', bookingFiltrationModel.countryId);
+    getFiltrationParams(httpParams: HttpParams): HttpParams {
+        if(this.bookingFiltrationModel.countryId) {
+            httpParams = httpParams.append('countryId', this.bookingFiltrationModel.countryId);
         }
-        if(bookingFiltrationModel.cityId) {
-            httpParams = httpParams.append('cityId', bookingFiltrationModel.cityId)
+        if(this.bookingFiltrationModel.cityId) {
+            httpParams = httpParams.append('cityId', this.bookingFiltrationModel.cityId)
         }
-        if(bookingFiltrationModel.getCurrent === true) {
+        if(this.bookingFiltrationModel.getCurrent === true) {
             httpParams = httpParams.append('getCurrent', true);
         }
-        if(bookingFiltrationModel.getCurrent === false) {
+        if(this.bookingFiltrationModel.getCurrent === false) {
             httpParams = httpParams.append('getCurrent', false);
         }
+        return httpParams;
+    }
+
+    getPaginationParams(httpParams: HttpParams, pageNumber: number): HttpParams {
+        httpParams = httpParams.append('pageIndex', pageNumber - 1);
+        httpParams = httpParams.append('pageSize', 2);
+
         return httpParams;
     }
 }
