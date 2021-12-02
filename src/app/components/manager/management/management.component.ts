@@ -44,7 +44,7 @@ export class ManagementComponent implements OnInit{
     }
 
     showUpdateUserWindow(user: User): void {
-        const modalRef = this.modalService.open(AddUpdateUserComponent);
+        const modalRef = this.modalService.open(AddUpdateUserComponent, { centered: true });
         modalRef.componentInstance.user = user;
         modalRef.componentInstance.roles = this.roles;
         modalRef.result.then(() => {
@@ -57,7 +57,6 @@ export class ManagementComponent implements OnInit{
         modalRef.componentInstance.roles = this.roles;
         modalRef.result.then(() => {
             this.getPage(this.currentPageNumber);
-            alert("User added!");
         });
     }
 

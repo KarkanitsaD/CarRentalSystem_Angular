@@ -39,7 +39,7 @@ export class RentalPointsComponent implements AfterViewInit {
         private rpService: RentalPointService,
         private loginService: LoginService
     ) {
-        this.querySubscription = route.queryParams.subscribe(
+        this.querySubscription = this.route.queryParams.subscribe(
             (queryParams: any) => {
                 let rpFiltrationModel = queryParams['rpFiltartionModel'];
                 if(rpFiltrationModel !== undefined) {

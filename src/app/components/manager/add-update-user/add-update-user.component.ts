@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { Role } from "src/app/shared/models/role.model";
 import { AddUpdateUserModel } from "src/app/shared/models/user/add-update-user.model";
@@ -42,12 +42,14 @@ export class AddUpdateUserComponent implements OnInit {
             }
         }
         this.userForm = this.fb.group({
-            email: [this.user.email],
-            name: [this.user.name],
-            surname: [this.user.surname],
-            password: this.addingUser ? [''] : null,
+            email: [this.user.email, [Validators.required, Validators.email]],
+            name: [this.user.name, [Validators.required, Validators.pattern('^[A-ZА-Я][a-zа-я]+$')]],
+            surname: [this.user.surname, [Validators.required, Validators.pattern('^[A-ZА-Я][a-zа-я]+$')]],
         });
-        this.selectedRole = this.user.role;
+        if (this.addingUser) {
+            this.userForm.addControl('password', this.fb.control('', [Validators.required, Validators.pattern('((?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z]{6,})')]));
+        }
+        this.selectedRole = this.roles[this.roles.length - 1];
     }
 
     saveUser() {

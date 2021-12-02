@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { MANAGEMENT_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { MANAGEMENT_PAGE_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
@@ -19,10 +19,10 @@ export class AddRentalPointComponent implements OnInit {
     public form = this.fb.group({
         title: ['', Validators.required],
         address: ['', Validators.required],
-        country: ['', Validators.required],
-        city: ['', Validators.required],
-        locationX: [0],
-        locationY: [0]
+        country: ['', [Validators.required, Validators.pattern('^[A-ZА-Я][a-zа-я]+$')]],
+        city: ['', [Validators.required, Validators.pattern('^[A-ZА-Я][a-zа-я]+$')]],
+        locationX: [, [Validators.required]],
+        locationY: [, Validators.required]
     });
 
     constructor
@@ -59,7 +59,6 @@ export class AddRentalPointComponent implements OnInit {
             this.form.controls['locationY'].setValue(coordinates.lng());
             let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
             geocoder.geocode({location: coordinates}, (response) => {
-                console.log(response);
                 this.parseRentalPoint(response[0].formatted_address);
             });
         });
@@ -75,17 +74,15 @@ export class AddRentalPointComponent implements OnInit {
             locationY: this.form.value.locationY        
         };
         this.rpService.createRentalPoint(rentalPoint).subscribe(() => {
-            this.router.navigate([MANAGEMENT_PAGE_PATH]);
+            this.router.navigate([RENTAL_POINTS_PAGE]);
         });
     }
 
     private parseRentalPoint(fullAddress: string): void {
-        console.log(fullAddress);
         let parts = fullAddress.split(',');
         let address = parts[0].trim();
         let country = parts[parts.length - 1].trim();
         let city = parts[parts.length - 2].trim();
-        // let city = parts[1].trim().split(' ')[0];
 
         this.form.controls['address'].setValue(address);
         this.form.controls['city'].setValue(city);

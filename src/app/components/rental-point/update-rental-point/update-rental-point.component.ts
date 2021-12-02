@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { MANAGEMENT_PAGE_PATH, PAGE_NOT_FOUND_PATH } from "src/app/core/constants/page-constans";
+import { MANAGEMENT_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
@@ -10,11 +10,11 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
     templateUrl: './update-rental-point.component.html',
     styleUrls: ['./update-rental-point.component.css']
 })
-export class UpdateRentalPointComponent implements AfterViewInit{   
+export class UpdateRentalPointComponent implements AfterViewInit {   
 
     private rentalPointId!: string;
 
-    public updateForm!: FormGroup;
+    public form!: FormGroup;
     public map!: google.maps.Map;
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
     public marker!: google.maps.Marker;
@@ -55,13 +55,13 @@ export class UpdateRentalPointComponent implements AfterViewInit{
 
     private fillData(rpId: string): void {
         this.rentalPointService.getRentalPoint(rpId).subscribe(data => {
-            this.updateForm = this.fb.group({
-                title: [data.title],
-                country: [data.country],
-                city: [data.city],
-                address: [data.address],
-                locationX: [data.locationX],
-                locationY: [data.locationY],
+            this.form = this.fb.group({
+                title: [data.title, Validators.required],
+                country: [data.country, [Validators.required, Validators.pattern('^[A-ZА-Я][a-zа-я]+$')]],
+                city: [data.city ],
+                address: [data.address, [Validators.required]],
+                locationX: [data.locationX, [Validators.required]],
+                locationY: [data.locationY, Validators.required],
             });
 
             let location = new google.maps.LatLng(data.locationX, data.locationY);
@@ -76,8 +76,8 @@ export class UpdateRentalPointComponent implements AfterViewInit{
             this.map.addListener('click', (mapsMouseEvent) => {
                 let coordinates = new google.maps.LatLng(mapsMouseEvent.latLng.lat(), mapsMouseEvent.latLng.lng());
                 this.marker.setPosition(coordinates);
-                this.updateForm.controls['locationX'].setValue(coordinates.lat());
-                this.updateForm.controls['locationY'].setValue(coordinates.lng());
+                this.form.controls['locationX'].setValue(coordinates.lat());
+                this.form.controls['locationY'].setValue(coordinates.lng());
                 let geocoder: google.maps.Geocoder = new google.maps.Geocoder();
                 geocoder.geocode({location: coordinates}, (response) => {
                     console.log(response);
@@ -96,23 +96,23 @@ export class UpdateRentalPointComponent implements AfterViewInit{
         let city = parts[parts.length - 2].trim();
         // let city = parts[1].trim().split(' ')[0];
 
-        this.updateForm.controls['address'].setValue(address);
-        this.updateForm.controls['city'].setValue(city);
-        this.updateForm.controls['country'].setValue(country);
+        this.form.controls['address'].setValue(address);
+        this.form.controls['city'].setValue(city);
+        this.form.controls['country'].setValue(country);
     }
 
     updateRentalPoint(){
         let rentalPoint: RentalPoint = {
             id: this.rentalPointId,
-            title: this.updateForm.value.title,
-            address: this.updateForm.value.address,
-            country: this.updateForm.value.country,
-            city: this.updateForm.value.city,
-            locationX: this.updateForm.value.locationX,
-            locationY: this.updateForm.value.locationY    
+            title: this.form.value.title,
+            address: this.form.value.address,
+            country: this.form.value.country,
+            city: this.form.value.city,
+            locationX: this.form.value.locationX,
+            locationY: this.form.value.locationY    
         };
         this.rentalPointService.updateRentalPoint(rentalPoint).subscribe(() => {
-            this.router.navigate([MANAGEMENT_PAGE_PATH]);
+            this.router.navigate([RENTAL_POINTS_PAGE]);
         });
     }
 }
