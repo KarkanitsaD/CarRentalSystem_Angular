@@ -7,7 +7,7 @@ import { CarImageService } from "src/app/shared/services/car-image.service";
 import { IMAGE_NOT_FOUND_URL } from "src/app/core/constants/shared";
 import { RentalPointAddCarModel } from "../add-car/types/rentalPoint-add-car.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CARLIST_PAGE_PATH, PAGE_NOT_FOUND_PATH } from "src/app/core/constants/page-constans";
+import { CARLIST_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { AddCarModel } from "../add-car/types/add-car.model";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 
@@ -130,7 +130,6 @@ export class UpdateCarComponent implements OnInit{
             imageId: this.imageId,
             description: this.updateCarForm.value.description
         };
-        debugger
-        this.carService.updateCar(addCarModel).subscribe(() => this.router.navigate([CARLIST_PAGE_PATH]));    
+        this.carService.updateCar(addCarModel).subscribe(() => this.router.navigate([RENTAL_POINTS_PAGE + `/${this.updateCarForm.value.rentalPointId}/` + CARLIST_PAGE_PATH]));    
     }
 }

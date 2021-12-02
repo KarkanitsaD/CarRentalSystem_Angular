@@ -23,6 +23,7 @@
     "@angular/router": "~12.2.0",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "@types/googlemaps": "^3.43.3",
+    "angular-ng-autocomplete": "^2.0.5",
     "axios": "^0.24.0",
     "bootstrap": "^4.5.0",
     "ng-pick-datetime": "^7.0.0",

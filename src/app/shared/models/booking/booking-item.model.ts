@@ -1,4 +1,5 @@
 export interface BookingItem {
+    price: number;
     id: string;
     carId: string;
     model: string;

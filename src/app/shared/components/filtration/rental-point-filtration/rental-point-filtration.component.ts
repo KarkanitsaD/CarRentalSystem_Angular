@@ -59,7 +59,8 @@ export class RentalPointFiltrationComponent implements OnInit{
             cityId: this.filtrationForm.controls['cityId'].value,
             countryId: this.filtrationForm.controls['countryId'].value
         }
-        
+
+        console.log(rentalPointFiltrationModel);
         this.onFiltered.emit(rentalPointFiltrationModel);
     }
 
@@ -81,22 +82,22 @@ export class RentalPointFiltrationComponent implements OnInit{
     }
 
     private fillForm(): void {
-        if(this.rpFiltrationModel !== undefined) {
+        if(this.rpFiltrationModel) {
             if(this.rpFiltrationModel.keyHandOverTime && this.rpFiltrationModel.keyReceivingTime) {
                 let range = new Array<Date>();
                 range.push(this.rpFiltrationModel.keyReceivingTime);
                 range.push(this.rpFiltrationModel.keyHandOverTime);
                 this.filtrationForm.controls['range'].setValue(range);
             }
-            if(this.rpFiltrationModel.countryId !== undefined) {
+            if(this.rpFiltrationModel.countryId) {
                 let countryId = this.rpFiltrationModel.countryId;
                 this.filtrationForm.controls['countryId'].setValue(countryId);
-                if(this.rpFiltrationModel.cityId !== undefined) {
+                if(this.rpFiltrationModel.cityId) {
                     this.filterCities(countryId);
                     this.filtrationForm.controls['cityId'].setValue(this.rpFiltrationModel.cityId);
                 }
             }
-            if(this.rpFiltrationModel.numberOfAvaliableCars !== undefined) {
+            if(this.rpFiltrationModel.numberOfAvaliableCars) {
                 this.filtrationForm.controls['numberOfAvaliableCars'].setValue(this.rpFiltrationModel.numberOfAvaliableCars);
             }
         }

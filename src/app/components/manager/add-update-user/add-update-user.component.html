@@ -2,6 +2,9 @@
     <h4 class="modal-title">
         User profile
     </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 <form *ngIf="userForm" [formGroup]="userForm" style="margin-left: 60px; margin-bottom: 30px;">
     <div class="row">
@@ -25,7 +28,7 @@
         </div>
         <div class="col-md-5" *ngIf="addingUser">
             <label class="form-lable">Password:</label>
-            <input formControlName="password" type="text" class="form-control">
+            <input formControlName="password" type="password" class="form-control">
             <small style="color: red;" *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">Invalid password</small>
         </div>
     </div>

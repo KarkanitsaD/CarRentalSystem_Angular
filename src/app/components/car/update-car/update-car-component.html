@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col-md-3">
       <label class="form-lable">Rental point*</label>
-      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control">
+      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control" aria-readonly="true">
         <option *ngFor="let rentalPoint of rentalPoints;" [value]="rentalPoint.id">
           {{rentalPoint.title}}
         </option>

@@ -85,18 +85,18 @@ export class RentalPointsComponent implements AfterViewInit {
     private getHttpParams(rpfilter: RentalPointFiltrationModel): HttpParams {
         let params = new HttpParams();
         if(rpfilter !== undefined) {
-            if(rpfilter.numberOfAvaliableCars != null) {
+            if(rpfilter.numberOfAvaliableCars) {
                 params = params.append('numberOfAvailableCars', rpfilter.numberOfAvaliableCars);
             }
-            if(rpfilter.countryId !== undefined && rpfilter.countryId !== '') {
+            if(rpfilter.countryId) {
                 params = params.append('countryId', rpfilter.countryId);
             }
-            if(rpfilter.cityId !== undefined && rpfilter.cityId !== '') {
+            if(rpfilter.cityId) {
                 params = params.append('cityId', rpfilter.cityId);
             }
-            if(rpfilter.keyHandOverTime !== undefined && rpfilter.keyReceivingTime !== undefined) {
-                params = params.append('keyReceivingTime', new Date(rpfilter.keyReceivingTime.toString()).toJSON());
-                params = params.append('keyHandOverTime', new Date(rpfilter.keyHandOverTime.toString()).toJSON());
+            if(rpfilter.keyHandOverTime && rpfilter.keyReceivingTime) {
+                params = params.append('keyReceivingTime', new Date(rpfilter.keyReceivingTime).toJSON());
+                params = params.append('keyHandOverTime', new Date(rpfilter.keyHandOverTime).toJSON());
             }
         }
         return params;
@@ -109,9 +109,7 @@ export class RentalPointsComponent implements AfterViewInit {
     }
 
     public showCars(rpId: string | undefined): void {
-        if(rpId !== undefined && this.rpFiltrationModel !== undefined
-            && this.rpFiltrationModel.keyHandOverTime !== undefined
-            && this.rpFiltrationModel.keyReceivingTime !== undefined) {
+        if(rpId && this.rpFiltrationModel && this.rpFiltrationModel.keyHandOverTime && this.rpFiltrationModel.keyReceivingTime) {
                 let httpParams = new HttpParams();
                 httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
                 httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
@@ -136,7 +134,7 @@ export class RentalPointsComponent implements AfterViewInit {
 
     public updateRentalPoint(id: string | undefined): void {
         if(id !== undefined) {
-            this.router.navigate([UPDATE_RENTAL_POINT_PAGE_PATH, id]);
+            this.router.navigate([RENTAL_POINTS_PAGE + `/${id}/` + UPDATE_RENTAL_POINT_PAGE_PATH]);
         }
     }
 

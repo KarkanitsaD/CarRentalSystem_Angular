@@ -32,11 +32,9 @@ export class BookCarComponent {
             carId: this.car.id,
             rentalPointId: this.car.rentalPointId,
             keyHandOverTime: this.keyHandOverTime.toJSON(),
-            keyReceivingTime: this.keyReceivingTime.toJSON()
+            keyReceivingTime: this.keyReceivingTime.toJSON(),
+            price: this.getCost()
         };
-
-
-        console.log(this.keyHandOverTime.toString());
 
         this.bookingService.createBook(booking).subscribe(() => {
             this.router.navigate(['rider']);

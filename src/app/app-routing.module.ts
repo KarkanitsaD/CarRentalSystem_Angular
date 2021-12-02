@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/rider', pathMatch: 'full'},
   { path: BOOKINGS_PAGE, component: BookingList },
   { path: ADD_RENTAL_POINT_PATH, component: AddRentalPointComponent },
-  { path: UPDATE_RENTAL_POINT_PAGE_PATH + '/:rentalPointId', component: UpdateRentalPointComponent},
+  { path: RENTAL_POINTS_PAGE + '/:rentalPointId/' + UPDATE_RENTAL_POINT_PAGE_PATH, component: UpdateRentalPointComponent},
   { path: MAIN_PAGE_PATH, component: MainPageComponent},
   { path: LOGIN_PAGE_PATH, component: LoginComponent},
   { path: REGISTER_PAGE_PATH, component: RegisterComponent},

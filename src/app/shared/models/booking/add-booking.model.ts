@@ -1,6 +1,7 @@
 export interface AddBookigModel {
-    rentalPointId: string,
-    carId: string,
-    keyReceivingTime: string,
-    keyHandOverTime: string,
+    rentalPointId: string;
+    carId: string;
+    keyReceivingTime: string;
+    keyHandOverTime: string;
+    price: number;
 }
