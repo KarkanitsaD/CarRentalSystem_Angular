@@ -9,4 +9,5 @@ export interface Car {
     rentalPointId: string;
     lastViewTime: Date;
     pricePerDay: number;  
+    description?: string;
 }

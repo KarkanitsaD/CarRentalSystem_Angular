@@ -60,7 +60,8 @@ export class UpdateCarComponent implements OnInit{
                 transmissionType: [data.transmissionType],
                 color: [data.color],
                 rentalPointId:[data.rentalPointId, [Validators.required]],
-                pictureShortName: ['', [Validators.required]]
+                pictureShortName: ['', [Validators.required]],
+                description: [data.description, [Validators.minLength(50)]]
             });
 
             this.carImageService.getImage(this.carId).subscribe(image => {
@@ -68,6 +69,8 @@ export class UpdateCarComponent implements OnInit{
                 this.imageUrl = this.baseImageUrl;
                 this.updateCarForm.controls['pictureShortName'].setValue(image.shortName);
                 this.imageId = image.id;
+                this.pictureBase64Content = image.content;
+                this.pictureExtension = image.extension;
             });
         }, () => {
             this.router.navigate([PAGE_NOT_FOUND_PATH]);
@@ -124,8 +127,10 @@ export class UpdateCarComponent implements OnInit{
             rentalPointId: this.updateCarForm.value.rentalPointId,
             pictureShortName: this.updateCarForm.value.pictureShortName,
             pictureBase64Content: this.pictureBase64Content,
-            imageId: this.imageId
+            imageId: this.imageId,
+            description: this.updateCarForm.value.description
         };
+        debugger
         this.carService.updateCar(addCarModel).subscribe(() => this.router.navigate([CARLIST_PAGE_PATH]));    
     }
 }

@@ -7,7 +7,6 @@ import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.mod
 import { CarService } from "src/app/shared/services/car.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 import { AddCarModel } from "./types/add-car.model";
-import { RentalPointAddCarModel } from "./types/rentalPoint-add-car.model";
 
 @Component({
     selector: 'app-add-car',
@@ -44,7 +43,8 @@ export class AddCarComponent implements OnInit{
         color: [''],
         rentalPointId:['', [Validators.required]],
         image: ['', [Validators.required]],
-        pictureShortName: ['', [Validators.required]]
+        pictureShortName: ['', [Validators.required]],
+            description: ['', [Validators.minLength(50)]]
     });
 
     addCar(): void {
@@ -60,7 +60,8 @@ export class AddCarComponent implements OnInit{
             pictureExtension: this.pictureExtension,
             rentalPointId: this.addCarForm.value.rentalPointId,
             pictureShortName: this.addCarForm.value.pictureShortName,
-            pictureBase64Content: this.pictureBase64Content
+            pictureBase64Content: this.pictureBase64Content,
+            description: this.addCarForm.value.description
         };
         this.carService.createCar(addCarModel).subscribe(() => this.router.navigate([CARLIST_PAGE_PATH]));        
     }

@@ -64,6 +64,14 @@
     </div>
   </div>
   <br>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="form-label">Example textarea</label>
+      <textarea formControlName="description" class="form-control" style="height: 100px;" ></textarea>
+      <small style="color: red;" *ngIf="addCarForm.get('description')?.invalid && addCarForm.get('description')?.touched">This field is required</small>
+    </div>
+  </div>
+  <br>
   <div class="car_image_div">
     <label class="form-label">Image*</label>
     <img id="carImg" class="car_image" [src]="imageUrl">

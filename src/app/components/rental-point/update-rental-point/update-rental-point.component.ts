@@ -109,7 +109,7 @@ export class UpdateRentalPointComponent implements AfterViewInit{
             country: this.updateForm.value.country,
             city: this.updateForm.value.city,
             locationX: this.updateForm.value.locationX,
-            locationY: this.updateForm.value.locationY        
+            locationY: this.updateForm.value.locationY    
         };
         this.rentalPointService.updateRentalPoint(rentalPoint).subscribe(() => {
             this.router.navigate([MANAGEMENT_PAGE_PATH]);

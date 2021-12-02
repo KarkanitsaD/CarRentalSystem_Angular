@@ -1,0 +1,14 @@
+<div *ngIf="bookings">
+    <div *ngFor="let booking of bookings">
+        <div class="card">
+            <div class="card-header">
+              Booking time: {{booking.bookingTime}}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{booking.keyReceivingTime}} - {{booking.keyHandOverTime}}</h5>
+              <p class="card-text">{{booking.brand}} {{booking.model}}</p>
+              <a class="btn btn-danger">Cancel</a>
+            </div>
+          </div>
+    </div>
+</div>
