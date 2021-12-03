@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { MANAGEMENT_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
+import { UpdateRentalPointModel } from "src/app/shared/models/rental-point/update-rental-point.model";
+import { GoogleMapService } from "src/app/shared/services/google-map.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({
@@ -24,7 +26,8 @@ export class UpdateRentalPointComponent implements AfterViewInit {
         private fb: FormBuilder,
         private rentalPointService: RentalPointService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private googleMapService: GoogleMapService
     ) {}
 
     ngAfterViewInit(): void {
@@ -84,7 +87,6 @@ export class UpdateRentalPointComponent implements AfterViewInit {
                     this.parseRentalPoint(response[0].formatted_address);
                 });
             });
-
         });
     }
 
@@ -102,17 +104,27 @@ export class UpdateRentalPointComponent implements AfterViewInit {
     }
 
     updateRentalPoint(){
-        let rentalPoint: RentalPoint = {
-            id: this.rentalPointId,
-            title: this.form.value.title,
-            address: this.form.value.address,
-            country: this.form.value.country,
-            city: this.form.value.city,
-            locationX: this.form.value.locationX,
-            locationY: this.form.value.locationY    
-        };
-        this.rentalPointService.updateRentalPoint(rentalPoint).subscribe(() => {
-            this.router.navigate([RENTAL_POINTS_PAGE]);
+
+        let locationX = Number(this.form.value.locationX);
+        let locationY = Number(this.form.value.locationY);
+
+        this.googleMapService.GetTimeOffset(locationX, locationY).then(res => {
+            const offsetData = res.data;
+            let offset =  offsetData.rawOffset;
+            let updateRentalPointModel: UpdateRentalPointModel = {
+                id: this.rentalPointId,
+                title: this.form.value.title,
+                address: this.form.value.address,
+                country: this.form.value.country,
+                city: this.form.value.city,
+                locationX: locationX,
+                locationY: locationY,
+                timeOffset: Number(offset)
+            };
+
+            this.rentalPointService.updateRentalPoint(updateRentalPointModel).subscribe(() => {
+                this.router.navigate([RENTAL_POINTS_PAGE]);
+            });
         });
     }
 }

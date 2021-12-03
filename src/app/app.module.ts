@@ -36,6 +36,8 @@ import { BookingService } from './shared/services/booking.service';
 import { CarImageComponent } from './components/car/car-image/car-image.component';
 import { CarFiltrationComponent } from './shared/components/filtration/booking-filtration/booking-filtration.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { TestService } from './shared/services/test.service';
+import { GoogleMapService } from './shared/services/google-map.service';
 
 
 @NgModule({
@@ -65,6 +67,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
   ],
   providers: [
     ApiService, 
+    GoogleMapService,
+    TestService,
     TokenService,
     CityService,
     CountryService,

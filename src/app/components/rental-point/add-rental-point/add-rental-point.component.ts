@@ -2,7 +2,9 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angula
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MANAGEMENT_PAGE_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
+import { AddRentalPointModel } from "src/app/shared/models/rental-point/add-rental-point.model";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
+import { GoogleMapService } from "src/app/shared/services/google-map.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({
@@ -30,6 +32,7 @@ export class AddRentalPointComponent implements OnInit {
         private fb: FormBuilder,
         private rpService: RentalPointService,
         private router: Router,
+        private googleMapService: GoogleMapService
     ) {}
 
     ngOnInit(): void {
@@ -64,25 +67,45 @@ export class AddRentalPointComponent implements OnInit {
         });
       }
 
-    public addRentalPoint(){
-        let rentalPoint: RentalPoint = {
-            title: this.form.value.title,
-            address: this.form.value.address,
-            country: this.form.value.country,
-            city: this.form.value.city,
-            locationX: this.form.value.locationX,
-            locationY: this.form.value.locationY        
-        };
-        this.rpService.createRentalPoint(rentalPoint).subscribe(() => {
-            this.router.navigate([RENTAL_POINTS_PAGE]);
+    public addRentalPoint() {
+
+        let locationX = Number(this.form.value.locationX);
+        let locationY = Number(this.form.value.locationY);
+        this.googleMapService.GetTimeOffset(locationX, locationY).then(res => {
+            const offsetData = res.data;
+            let offset =  offsetData.rawOffset;
+            let addRentalPointModel: AddRentalPointModel = {
+                title: this.form.value.title,
+                address: this.form.value.address,
+                country: this.form.value.country,
+                city: this.form.value.city,
+                locationX: locationX,
+                locationY: locationY,
+                timeOffset: Number(offset)
+            };
+
+            this.rpService.addRentalPoint(addRentalPointModel).subscribe(() => {
+                this.router.navigate([RENTAL_POINTS_PAGE]);
+            });
         });
     }
 
     private parseRentalPoint(fullAddress: string): void {
+        let address = '';
+        let city = '';
+        let country = '';
+
+
         let parts = fullAddress.split(',');
-        let address = parts[0].trim();
-        let country = parts[parts.length - 1].trim();
-        let city = parts[parts.length - 2].trim();
+        if(parts[0]) {
+            address = parts[0].trim();
+        }
+        if(parts[parts.length - 1]) {
+            country = parts[parts.length - 1].trim();
+        }
+        if(parts[parts.length - 2]) {
+            city = parts[parts.length - 2].trim();
+        }
 
         this.form.controls['address'].setValue(address);
         this.form.controls['city'].setValue(city);
