@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
 import { LoginService } from "../../services/login.service";
 
 @Component({
@@ -23,5 +24,9 @@ export class HeaderComponent {
 
     logOut(): void {
         this.loginService.logoutUser();
+    }
+
+    public isAdmin(): boolean {
+        return this.loginService.getRole() === ADMIN_ROLE;
     }
 }

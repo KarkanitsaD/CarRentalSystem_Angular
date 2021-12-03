@@ -40,4 +40,8 @@ export class CarService {
     updateCar(addCarModel: AddCarModel): Observable<any> {
         return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${addCarModel.id}`, addCarModel);
     }
+
+    lockCar(carId: string): Observable<any> {
+        return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${carId}/lock`);
+    }
 }

@@ -50,12 +50,20 @@
   <div class="row">
     <div class="col-md-3">
       <label class="form-lable">Rental point*</label>
-      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control">
+      <select id="rentalPointSelect" formControlName="rentalPointId" class="form-control" aria-readonly="true">
         <option *ngFor="let rentalPoint of rentalPoints;" [value]="rentalPoint.id">
           {{rentalPoint.title}}
         </option>
       </select>
       <small style="color: red;" *ngIf="updateCarForm.get('rentalPoint')?.invalid && updateCarForm.get('rentalPoint')?.touched">This field is required</small>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="form-label">Example textarea</label>
+      <textarea formControlName="description" class="form-control" style="height: 100px;" ></textarea>
+      <small style="color: red;" *ngIf="updateCarForm.get('description')?.invalid && updateCarForm.get('description')?.touched">This field is required</small>
     </div>
   </div>
   <br>

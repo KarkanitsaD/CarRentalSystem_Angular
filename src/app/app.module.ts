@@ -29,6 +29,16 @@ import { RentalPointListComponent } from './components/rental-point/rental-point
 import { UserService } from './shared/services/user.service';
 import { RoleService } from './shared/services/role.service';
 import { AddUpdateUserComponent } from './components/manager/add-update-user/add-update-user.component';
+import { RentalPointFiltrationComponent } from './shared/components/filtration/rental-point-filtration/rental-point-filtration.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { BookCarComponent } from './components/car/book-car/book-car.component';
+import { BookingService } from './shared/services/booking.service';
+import { CarImageComponent } from './components/car/car-image/car-image.component';
+import { CarFiltrationComponent } from './shared/components/filtration/booking-filtration/booking-filtration.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { TestService } from './shared/services/test.service';
+import { GoogleMapService } from './shared/services/google-map.service';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +47,11 @@ import { AddUpdateUserComponent } from './components/manager/add-update-user/add
     HeaderComponent,
     CarListItemComponent,
     RentalPointListComponent,
-    AddUpdateUserComponent
+    AddUpdateUserComponent,
+    RentalPointFiltrationComponent,
+    BookCarComponent,
+    CarImageComponent,
+    CarFiltrationComponent
   ],
   imports: [
     BrowserModule,
@@ -46,10 +60,15 @@ import { AddUpdateUserComponent } from './components/manager/add-update-user/add
     ReactiveFormsModule,
     NgbModule,
     BrowserAnimationsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    AutocompleteLibModule
   ],
   providers: [
     ApiService, 
+    GoogleMapService,
+    TestService,
     TokenService,
     CityService,
     CountryService,
@@ -62,6 +81,7 @@ import { AddUpdateUserComponent } from './components/manager/add-update-user/add
     CarImageService,
     UserService,
     RoleService,
+    BookingService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}

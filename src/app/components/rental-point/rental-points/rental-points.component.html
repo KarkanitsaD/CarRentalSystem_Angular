@@ -1,6 +1,34 @@
-<button (click)="addRentalPoint()" class="btn btn-primary">
+<app-rental-point-filtration *ngIf="rpFiltrationModel" (onFiltered)="onFiltered($event)" [rpFiltrationModel]="rpFiltrationModel"></app-rental-point-filtration>
+<app-rental-point-filtration *ngIf="!rpFiltrationModel" (onFiltered)="onFiltered($event)"></app-rental-point-filtration>
+<br>
+<br>
+<br>
+
+<div class="d-flex flex-row rp_list">   
+    <div class="overflow-auto">
+        <div *ngFor="let rp of rentalPoints">
+        <div class="d-flex flex-row">
+            <div style="width: 150px;">
+                <p>Country: {{rp.country}}</p>
+                <p>City: {{rp.city}}</p>
+                <p>Address: {{rp.address}}</p>
+                <p>Title: {{rp.title}}</p>
+            </div>
+            <div style="margin-left: 20px; width: 150px;">
+                <button (click)="showCars(rp.id)" type="button" class="btn btn-primary" style="width: 80px; margin-bottom: 30px; margin-top: 4px;">Cars</button>
+                <button *ngIf="isAdmin()" (click)="updateRentalPoint(rp.id)" type="button" class="btn btn-warning" style="width: 80px;">Update</button>
+                <button *ngIf="isAdmin()" (click)="deleteRentalPoint(rp.id)" type="button" class="btn btn-danger" style="width: 80px; margin-top: 30px;">Delete</button>
+            </div>
+        </div>
+        <hr>
+        <br>
+        </div>
+    </div>
+    <div style="width: 870px;margin-left: 30px;">
+        <div #mapContainer id="map"></div>
+    </div>
+</div>
+<br>
+<button *ngIf="isAdmin()" (click)="addRentalPoint()" class="btn btn-primary">
     Add rental point
 </button>
-<br>
-<br>
-<app-rental-point-list></app-rental-point-list>

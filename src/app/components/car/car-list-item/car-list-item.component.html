@@ -5,7 +5,7 @@
     <div class="car_info p-2">
         <h4>{{car.brand + ' ' + car.model}}</h4>
         <p>{{car.numberOfSeats}} seats</p>
-        <button type="button" class="btn btn-primary" (click)="showDetails()" >See deatils</button>
+        <button type="button" class="btn btn-primary" (click)="showDetails()">See deatils</button>
         <div style="width: 100px;">
             <hr>
         </div>
@@ -14,6 +14,7 @@
     <div class="car_price">
         <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
         <p>excl. coverage, delivery, tax</p>
+        <button *ngIf="isLogin() && !isAdmin()" type="button" class="btn btn-primary" (click)="showRentCarWindow()" style="width: 150px;">Rent car</button>
         <button *ngIf="isAdmin()" type="button" class="btn btn-warning" (click)="updateCar()" style="width: 150px;">Update car</button>
         <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar()" style="width: 150px; margin-top: 30px;">Delete car</button>
     </div>

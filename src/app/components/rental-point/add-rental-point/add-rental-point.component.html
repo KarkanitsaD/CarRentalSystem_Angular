@@ -4,33 +4,41 @@
         <div class="col-md-3">
             <label class="form-label">Title*</label>
             <input formControlName="title" type="text" class="form-control">
+            <small style="color: red;" *ngIf="form.get('title')?.invalid">Title is required!</small>
         </div>
         <div class="col-md-3">
-            <label formControlName="country" class="form-label">Country*</label>
+            <label class="form-label">Country*</label>
             <input formControlName="country" type="text" class="form-control">
+            <small style="color: red;" *ngIf="form.get('country')?.invalid">Invalid country title!</small>
         </div>
         <div class="col-md-3">
             <label class="form-label">City*</label>
             <input formControlName="city" type="text" class="form-control">
+            <small style="color: red;" *ngIf="form.get('city')?.invalid">Invalid city title!</small>
+
         </div>
         <div class="col-md-3">
             <label class="form-label">Address*</label>
             <input formControlName="address" type="text" class="form-control">
+            <small style="color: red;" *ngIf="form.get('address')?.invalid">Address is required!!</small>
         </div>
     </div>
     <br>
     <div class="row">
         <div class="col-md-3">
             <label class="form-label">Location X</label>
-            <input formControlName="locationX" type="text" class="form-control">
+            <input formControlName="locationX" type="text" class="form-control" readonly>
+            <small style="color: red;" *ngIf="form.get('locationX')?.invalid">Choose location!</small>
         </div>
         <div class="col-md-3">
             <label class="form-label">Location Y</label>
             <input formControlName="locationY" type="text" class="form-control" readonly>
+            <small style="color: red;" *ngIf="form.get('locationY')?.invalid">Choose location!</small>
         </div>
     </div>
     <br>
     <label class="form-label">Choose location</label>
     <div #mapContainer id="map"></div>
+    <br>
     <button [disabled]="!form.valid" (click)="addRentalPoint()" type="submit" class="btn btn-success">Add rental point</button>
 </form>

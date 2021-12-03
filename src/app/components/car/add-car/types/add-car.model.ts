@@ -12,4 +12,5 @@ export class AddCarModel {
     rentalPointId: string = '';
     pictureShortName: string = '';
     pictureBase64Content: string = '';
+    description?: string ='';
 }

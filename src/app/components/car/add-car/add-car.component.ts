@@ -1,13 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { CARLIST_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { CARLIST_PAGE_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { IMAGE_NOT_FOUND_URL } from "src/app/core/constants/shared";
-import { RentalPoint } from "src/app/shared/models/rental-point.model";
+import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 import { AddCarModel } from "./types/add-car.model";
-import { RentalPointAddCarModel } from "./types/rentalPoint-add-car.model";
 
 @Component({
     selector: 'app-add-car',
@@ -31,7 +30,7 @@ export class AddCarComponent implements OnInit{
     ) {}
 
     ngOnInit(): void {
-        this.rentalPointService.getRentalPoints().subscribe(data => {this.rentalPoints = data;});
+        this.rentalPointService.getPageRentalPointsList().subscribe(data => {this.rentalPoints = data.rentalPoints;});
     }
 
     addCarForm = this.fb.group({
@@ -44,7 +43,8 @@ export class AddCarComponent implements OnInit{
         color: [''],
         rentalPointId:['', [Validators.required]],
         image: ['', [Validators.required]],
-        pictureShortName: ['', [Validators.required]]
+        pictureShortName: ['', [Validators.required]],
+            description: ['', [Validators.minLength(50)]]
     });
 
     addCar(): void {
@@ -60,9 +60,10 @@ export class AddCarComponent implements OnInit{
             pictureExtension: this.pictureExtension,
             rentalPointId: this.addCarForm.value.rentalPointId,
             pictureShortName: this.addCarForm.value.pictureShortName,
-            pictureBase64Content: this.pictureBase64Content
+            pictureBase64Content: this.pictureBase64Content,
+            description: this.addCarForm.value.description
         };
-        this.carService.createCar(addCarModel).subscribe(() => this.router.navigate([CARLIST_PAGE_PATH]));        
+        this.carService.createCar(addCarModel).subscribe(() => this.router.navigate([RENTAL_POINTS_PAGE + `/${this.addCarForm.value.rentalPointId}/` + CARLIST_PAGE_PATH]));        
     }
 
     onImageSelected(event: any) {

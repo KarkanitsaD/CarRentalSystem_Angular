@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { AuthRequestModel } from "../models/auth.model";
+import { AuthRequestModel } from "../models/auth/auth.model";
 import { environment } from "src/environments/environment";
 import { ApiService } from "./api.service";
 import { Observable } from "rxjs";
+import { RegisterModel } from "../models/auth/register.model";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,7 @@ export class AuthService {
         return this.apiService.post(url, loginModel);
     }
     
-    register(registerModel: AuthRequestModel): Observable<any> {
+    register(registerModel: RegisterModel): Observable<any> {
         let url: string = this.base_url + 'auth/register';
         return this.apiService.post(url, registerModel);
     }

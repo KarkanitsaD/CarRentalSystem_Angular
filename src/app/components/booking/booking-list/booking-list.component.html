@@ -1,0 +1,25 @@
+<br>
+
+<div class="d-flex justify-content-start">
+  <div>
+    <app-car-filtration (onFiltered)="onFiltered($event)"></app-car-filtration>
+  </div>
+  <div *ngIf="bookings" style="width: 950px;">
+    <div *ngFor="let booking of bookings | paginate: { itemsPerPage: 2, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
+        <div class="card">
+            <div class="card-header">
+              Booking time: {{booking.bookingTime}}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{booking.keyReceivingTime}} - {{booking.keyHandOverTime}}</h5>
+              <p class="card-text">{{booking.brand}} {{booking.model}}</p>
+              <a class="btn btn-danger">Cancel</a>
+            </div>
+          </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <pagination-controls [autoHide]="true" 
+          (pageChange)="getPage(currentPageNumber = $event)"></pagination-controls>
+      </div>
+  </div>
+</div>
