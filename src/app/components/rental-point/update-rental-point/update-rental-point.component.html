@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form *ngIf="form" [formGroup]="form">
     <div class="row">
         <div class="col-md-3">
             <label class="form-label">Title*</label>
@@ -39,5 +39,6 @@
     <br>
     <label class="form-label">Choose location</label>
     <div #mapContainer id="map"></div>
+    <br>
     <button (click)="updateRentalPoint()" type="submit" class="btn btn-success">Save</button>
 </form>
