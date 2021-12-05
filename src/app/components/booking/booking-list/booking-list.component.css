@@ -1,0 +1,8 @@
+.car_image {
+    max-width: 100%;
+    max-height: 100%;
+}
+.car_image_div {
+    width: 350px;
+    height: 200px;
+}

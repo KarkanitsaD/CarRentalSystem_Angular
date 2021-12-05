@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { LoginModalComponent } from "src/app/components/auth/login-modal/login-modal.component";
+import { RegisterModalComponent } from "src/app/components/auth/register-modal/register-modal.component";
 import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
 import { LoginService } from "../../services/login.service";
 
@@ -10,7 +13,8 @@ import { LoginService } from "../../services/login.service";
 export class HeaderComponent {
     constructor
     (
-        private loginService: LoginService
+        private loginService: LoginService,
+        private modalService: NgbModal,
     ) {}
 
 
@@ -28,5 +32,13 @@ export class HeaderComponent {
 
     public isAdmin(): boolean {
         return this.loginService.getRole() === ADMIN_ROLE;
+    }
+
+    public showLoginModal(): void {
+        const modalRef = this.modalService.open(LoginModalComponent);
+    }
+
+    public showRegisterModal(): void {
+        const modalRef = this.modalService.open(RegisterModalComponent);
     }
 }

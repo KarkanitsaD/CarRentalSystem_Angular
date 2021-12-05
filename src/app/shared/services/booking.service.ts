@@ -20,4 +20,8 @@ export class BookingService {
     public getPageBookingList(httpParams?: HttpParams): Observable<PageBookingList> {
         return this.apiService.get<PageBookingList>(`${environment.api_url}bookings`, httpParams);
     }
+
+    public deleteBooking(bookingId: string): Observable<any> {
+        return this.apiService.delete<any>(`${environment.api_url}bookings/${bookingId}`);
+    }
 }

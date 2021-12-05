@@ -8,14 +8,33 @@
     <div *ngFor="let booking of bookings | paginate: { itemsPerPage: 2, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
         <div class="card">
             <div class="card-header">
-              Booking time: {{booking.bookingTime}}
+              <h3>{{booking.brand}} {{booking.model}}</h3>
+              Booking time: {{getTimeString(booking.bookingTime)}}
             </div>
             <div class="card-body">
-              <h5 class="card-title">{{booking.keyReceivingTime}} - {{booking.keyHandOverTime}}</h5>
-              <p class="card-text">{{booking.brand}} {{booking.model}}</p>
-              <a class="btn btn-danger">Cancel</a>
+              <div class="d-flex flex-row">
+                <div class="car_image_div">
+                  <app-car-image [carId]="booking.carId"></app-car-image>
+              </div>
+              <div>
+                <h2>
+                  Key receiving time: {{getTimeString(booking.keyReceivingTime)}}
+                </h2>
+                <h2>
+                  Key hand-over time: {{getTimeString(booking.keyHandOverTime)}}
+                </h2>
+                <h3>
+                  Days: {{getTotalDays(booking.keyHandOverTime, booking.keyReceivingTime)}}
+                </h3>
+                <h4>
+                  Price: {{booking.price}}
+                </h4>
+              </div>
+              </div>
+              <a class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancel/Delete</a>
             </div>
           </div>
+          <br>
     </div>
     <div class="d-flex justify-content-center">
       <pagination-controls [autoHide]="true" 

@@ -8,6 +8,7 @@ import { PAGE_NOT_FOUND_PATH, UPDATE_CAR_PAGE_PATH } from "src/app/core/constant
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
 import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
+import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 import { LoginService } from "src/app/shared/services/login.service";
 import { BookCarComponent } from "../book-car/book-car.component";
 import { CarDetailsComponent } from "../car-details/car-details.component";
@@ -19,13 +20,14 @@ import { CarDetailsComponent } from "../car-details/car-details.component";
 })
 export class CarListComponent implements OnInit {
 
+    public spinner: boolean = true;
     public cars: Car[] = [];
     private rpId!: string;
     public filterForm = this.fb.group({
         brand: [],
         color: [],
-        minPricePerDay: [, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')],
-        maxPricePerDay: [, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')],
+        minPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
+        maxPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
         range: []
     });
     public itemsTotalCount: number = 0;
@@ -46,6 +48,7 @@ export class CarListComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: NgbModal,
+        public costCalculator: CostCalculator
     ) {
         this.routeSubscription = route.params.subscribe(params => {
             this.rpId = params['rentalPointId'];
@@ -83,6 +86,7 @@ export class CarListComponent implements OnInit {
     }
 
     public getPage(pageNumber: number): void {
+        this.spinner = true;
         this.currentPageNumber = pageNumber;
         let params: HttpParams = new HttpParams();
         params = this.setPaginationParams(params, this.currentPageNumber);
@@ -90,6 +94,7 @@ export class CarListComponent implements OnInit {
         this.carService.getPageCarList(params).subscribe(data => {
             this.itemsTotalCount =  data.itemsTotalCount;
             this.cars = data.cars;
+            this.spinner = false;
         });
     }
 
@@ -153,12 +158,19 @@ export class CarListComponent implements OnInit {
 
     private isValidRange(): boolean {
         let range = this.filterForm.controls['range'].value as Array<Date>;
-        return range !== null &&
-        range !== undefined &&
+        return range &&
         range.length === 2 &&
         range[0] !== null &&
         range[1] !== null &&
-        range[0] !== undefined &&
+        range[0] &&
         range[1] !== undefined;  
+    }
+
+    public countDays(): number {
+        return this.costCalculator.countDays(this.keyHandOverTime, this.keyReceivingTime);
+    }
+
+    public getCost(pricePerDay: number): number {
+        return this.costCalculator.getCost(this.keyHandOverTime, this.keyReceivingTime, pricePerDay);
     }
 }

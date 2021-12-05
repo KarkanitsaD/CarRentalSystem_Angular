@@ -1,69 +1,74 @@
-<div>
-    <button [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn btn-success">Add car</button>
-    <form [formGroup]="filterForm">
-        <br>
-        <div class="form-row">
-            <div class="col-md-4 mb3">
-                <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
-                [selectMode]="'range'" placeholder="Choode date time range">
-                <owl-date-time #dt10></owl-date-time>
-                <small style="color: red;" *ngIf="!isValidRangeInput() && filterForm.get('range')?.touched">Enter correct time range</small>
-            </div>
-        </div>
-        <br>
-        <div class="form-row">
-            <div class="col-md-4 mb3">
-                <input type="text" formControlName="brand" class="form-control" placeholder="Brand">
+<div class="d-flex justify-content-between" style="margin-top: 10px;">
+    <div style="width: 250px;">
+        <form [formGroup]="filterForm">
+            <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
+                [selectMode]="'range'" placeholder="Choose date time range">
+            <owl-date-time #dt10></owl-date-time>
+            <small *ngIf="!isValidRangeInput() && filterForm.get('range')?.touched">Enter correct time range</small>
+            <input type="text" formControlName="brand" class="form-control bottom-input" placeholder="Brand">
+            <input type="text" formControlName="color" class="form-control bottom-input" placeholder="Color">
+            <div class="d-flex justify-content-between bottom-input">
+                <input type="text" formControlName="minPricePerDay" class="form-control car-price" placeholder="Min price">
+                <input type="text" formControlName="maxPricePerDay" class="form-control car-price" placeholder="Max price">
             </div>
             <br>
-            <div class="col-md-4 mb3">
-                <input type="text" formControlName="color" class="form-control" placeholder="Color">
-            </div>
-            <br>
-        </div>
-        <br>
-        <div class="form-row">
-            <div class="col-md-4 mb3">
-                <input type="text" formControlName="minPricePerDay" class="form-control" placeholder="Min price of day">
-            </div>
-            <div class="col-md-4 mb3">
-                <input type="text" formControlName="maxPricePerDay" class="form-control" placeholder="Max price of day">
-            </div>
-            <div class="col-md-4 mb3">
-                <button (click)="getPage(currentPageNumber)" [disabled]="!filterForm.valid || !isValidRangeInput()" class="btn btn-primary">Filter</button>
-            </div>
-        </div>
-    </form>
-
-    <br>
-
-    <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
-        <hr>
-        <div class="car_item_div d-flex flex-row">
-            <div class="car_image_div p-2">
-                <app-car-image [carId]="car.id"></app-car-image>
-            </div>
-            <div class="car_info p-2">
-                <h4>{{car.brand + ' ' + car.model}}</h4>
-                <p>{{car.numberOfSeats}} seats</p>
-                <button type="button" (click)="showDetails(car)" class="btn btn-primary" >See deatils</button>
-                <div style="width: 100px;">
-                    <hr>
-                </div>
-                <div style="max-width: 600px;">
-                    <p>{{car.description}}</p>
-                </div>
-            </div>
-            <div class="car_price">
-                <h4>br {{car.pricePerDay.toFixed(2)}} | day</h4>
-                <p>excl. coverage, delivery, tax</p>
-                <button *ngIf="isLogin() && !isAdmin()" type="button" class="btn btn-primary"  (click)="showRentCarWindow(car)" style="width: 150px;">Rent car</button>
-                <button *ngIf="isAdmin()" type="button" class="btn btn-warning" (click)="updateCar(car.id)" style="width: 150px;">Update car</button>
-                <button *ngIf="isAdmin()" type="button" class="btn btn-danger" (click)="deleteCar(car.id)" style="width: 150px; margin-top: 30px;">Delete car</button>
-            </div>
+            <button class="btn bottom-input search-button btn-light" (click)="getPage(currentPageNumber)" [disabled]="!filterForm.valid || !isValidRangeInput()">Search</button>
+            <button style="margin-left: 2px;"  [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn bottom-input search-button btn-light">Add car</button>
+        </form>
+    </div>
+    <div *ngIf="spinner" style="width: 930px; margin-left: 20px;" class="d-flex justify-content-center">
+        <div class="spinner-border">
         </div>
     </div>
-
+    <div *ngIf="cars.length === 0 && !spinner" style="width: 930px; margin-left: 20px;">
+        <h3>No rental points were found for the specified parameters. Try changing the time range or location.</h3>
+    </div>
+    <div style="width: 930px; margin-left: 20px;">
+        <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
+            <div class="card">
+                <div class="card-header" style="height: 50px;">
+                    <h3>{{car.brand + ' ' + car.model}}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="car_item_div d-flex flex-row">
+                        <div class="car_image_div">
+                            <app-car-image [carId]="car.id"></app-car-image>
+                        </div>
+                        <div class="car_info" style="margin-left: 10px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet-fill" viewBox="0 0 16 16">
+                                <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6ZM6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13Z"/>
+                            </svg>
+                            {{car.fuelConsumptionPerHundredKilometers}} / 100 km    
+                            <p style="margin-top: 20px; font-size: 19px;">
+                                Transmission: {{car.transmissionType}}
+                            </p>
+                            <p style="font-size: 25px; color: grey;">
+                                Color: {{car.color}}
+                            </p>                  
+                            <p style="font-size: 15px;">{{car.numberOfSeats}} seats</p>
+                            <div style="width: 100px;">
+                                <hr>
+                            </div>
+                            <div style="width: 400px;">
+                                <p>{{car.description}}</p>
+                            </div>
+                        </div>
+                        <div class="car_price">
+                            <h1>br {{car.pricePerDay.toFixed(2)}} | day</h1>
+                            <p *ngIf="!isAdmin()" style="font-size: 12px; color: grey;">{{countDays()}} (days) * {{car.pricePerDay}} = {{getCost(car.pricePerDay)}}br</p>
+                            <button *ngIf="isLogin() && !isAdmin()" type="button" class="btn info-button btn-light"  (click)="showRentCarWindow(car)" style="width: 150px;">Rent car</button>
+                            <button *ngIf="isAdmin()" type="button" class="btn update-button btn-light" (click)="updateCar(car.id)" style="width: 150px;">Update car</button>
+                            <button *ngIf="isAdmin()" type="button" class="btn btn-light delete-button" (click)="deleteCar(car.id)" style="width: 150px; margin-top: 30px;">Delete car</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+<div>
     <div class="d-flex justify-content-center">
     <pagination-controls [autoHide]="true" 
         (pageChange)="getPage(currentPageNumber = $event)"></pagination-controls>

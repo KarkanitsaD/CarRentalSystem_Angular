@@ -15,6 +15,8 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class RentalPointsComponent implements AfterViewInit {
 
+    public spinner: boolean = true;
+
     //filtration
     private querySubscription!: Subscription;
     public rpFiltrationModel!: RentalPointFiltrationModel;
@@ -60,9 +62,11 @@ export class RentalPointsComponent implements AfterViewInit {
     }
 
     private filterRentalPoints(httpParams?: HttpParams): void {
+        this.spinner = true;
         this.rpService.getPageRentalPointsList(httpParams).subscribe(data => {
             this.rentalPoints = data.rentalPoints;
             this.updateMarkers();
+            this.spinner = false;
         });
     }
 

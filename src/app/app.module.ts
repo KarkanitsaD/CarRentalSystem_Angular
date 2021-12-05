@@ -38,6 +38,9 @@ import { CarFiltrationComponent } from './shared/components/filtration/booking-f
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { TestService } from './shared/services/test.service';
 import { GoogleMapService } from './shared/services/google-map.service';
+import { CostCalculator } from './shared/services/cost-calculator.service';
+import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
+import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
 
 
 @NgModule({
@@ -51,7 +54,9 @@ import { GoogleMapService } from './shared/services/google-map.service';
     RentalPointFiltrationComponent,
     BookCarComponent,
     CarImageComponent,
-    CarFiltrationComponent
+    LoginModalComponent,
+    CarFiltrationComponent,
+    RegisterModalComponent
   ],
   imports: [
     BrowserModule,
@@ -66,6 +71,7 @@ import { GoogleMapService } from './shared/services/google-map.service';
     AutocompleteLibModule
   ],
   providers: [
+    CostCalculator,
     ApiService, 
     GoogleMapService,
     TestService,

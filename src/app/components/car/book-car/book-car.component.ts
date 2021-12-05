@@ -34,16 +34,17 @@ export class BookCarComponent implements OnInit {
     }
 
     rent(): void {
-        debugger
         let offset = new Date().getTimezoneOffset();
         this.keyReceivingTime = new Date(this.keyReceivingTime.getTime() - offset*60000);
         this.keyHandOverTime = new Date(this.keyHandOverTime.getTime() - offset*60000);
+        let bookingTime = new Date(new Date().getTime() - offset*60000);
         let booking: AddBookigModel = {
             carId: this.car.id,
             rentalPointId: this.car.rentalPointId,
             keyHandOverTime: this.keyHandOverTime.toJSON(),
             keyReceivingTime: this.keyReceivingTime.toJSON(),
-            price: this.getCost()
+            price: this.getCost(),
+            bookingTime: bookingTime.toJSON()
         };
 
         this.bookingService.createBook(booking).subscribe(() => {

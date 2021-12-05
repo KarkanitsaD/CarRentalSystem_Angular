@@ -10,7 +10,7 @@ const headersConfig = {
 @Injectable()
 export class HttpHeadersInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const request = req.clone({ setHeaders: headersConfig});
+        const request = req.clone({ setHeaders: headersConfig });
         return next.handle(request);
     }
 }

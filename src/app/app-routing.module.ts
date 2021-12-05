@@ -15,11 +15,12 @@ import { AddRentalPointComponent } from './components/rental-point/add-rental-po
 import { UpdateRentalPointComponent } from './components/rental-point/update-rental-point/update-rental-point.component';
 import { RentalPointsComponent } from './components/rental-point/rental-points/rental-points.component';
 import { BookingList } from './components/booking/booking-list/booking-list.component';
+import { AuthorizedGuard } from './core/guards/authorized.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/rider', pathMatch: 'full'},
-  { path: BOOKINGS_PAGE, component: BookingList },
+  { path: BOOKINGS_PAGE, component: BookingList, canActivate: [AuthorizedGuard] },
   { path: ADD_RENTAL_POINT_PATH, component: AddRentalPointComponent },
   { path: RENTAL_POINTS_PAGE + '/:rentalPointId/' + UPDATE_RENTAL_POINT_PAGE_PATH, component: UpdateRentalPointComponent},
   { path: MAIN_PAGE_PATH, component: MainPageComponent},

@@ -4,6 +4,7 @@ import { retry } from "rxjs/operators";
 import { BookingFiltrationModel } from "src/app/shared/models/booking/booking-filtration.model";
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingService } from "src/app/shared/services/booking.service";
+import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 
 @Component({
     selector: 'app-booking-list',
@@ -21,7 +22,8 @@ export class BookingList implements OnInit{
 
     constructor
     (
-        private bookingService: BookingService
+        private bookingService: BookingService,
+        private costCalculator: CostCalculator
     ) {}
 
     ngOnInit(): void {
@@ -65,5 +67,32 @@ export class BookingList implements OnInit{
         httpParams = httpParams.append('pageSize', 2);
 
         return httpParams;
+    }
+
+    getTimeString(inputDate: Date){
+        let date = new Date(inputDate);
+        return this.getDateElement(date.getDay())
+        + ':'
+        + this.getDateElement(date.getMonth())
+        +':'
+        + this.getDateElement(date.getFullYear())
+        + ', '
+        + this.getDateElement(date.getHours())
+        + ':'
+        + this.getDateElement(date.getMinutes());
+    }
+
+    getDateElement(element: number){
+        return element.toString().length > 1 ? element : '0'+element;
+    }
+
+    getTotalDays(lastDate: Date, firstDate: Date){
+        return this.costCalculator.countDays(new Date(lastDate), new Date(firstDate));
+    }
+
+    deleteBooking(bookingId: string) {
+        this.bookingService.deleteBooking(bookingId).subscribe(() => {
+            this.getPage(1);
+        });
     }
 }

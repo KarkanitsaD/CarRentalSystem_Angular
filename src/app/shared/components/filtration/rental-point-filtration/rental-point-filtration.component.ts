@@ -75,10 +75,13 @@ export class RentalPointFiltrationComponent implements OnInit{
     }
 
     public isValidRangeInput(): boolean {
-        let isAdmin: boolean = this.loginService.getRole() === 'Admin';
         let range = this.filtrationForm.controls['range'].value as Array<Date>;
-        let isValidRange = range !== null && range !== undefined && range.length === 2 && range[0] !== null && range[1] !== null;   
-        return isValidRange || isAdmin;
+        let isValidRange = range && range.length === 2 && range[0] !== null && range[1] !== null;   
+        return isValidRange;
+    }
+
+    public isAdmin() {
+        return  this.loginService.getRole() === 'Admin';
     }
 
     private fillForm(): void {
