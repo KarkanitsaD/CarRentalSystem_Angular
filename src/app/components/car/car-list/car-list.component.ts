@@ -86,6 +86,8 @@ export class CarListComponent implements OnInit {
     }
 
     public getPage(pageNumber: number): void {
+        this.cars = [];
+        this.itemsTotalCount = 0;
         this.spinner = true;
         this.currentPageNumber = pageNumber;
         let params: HttpParams = new HttpParams();
@@ -94,6 +96,9 @@ export class CarListComponent implements OnInit {
         this.carService.getPageCarList(params).subscribe(data => {
             this.itemsTotalCount =  data.itemsTotalCount;
             this.cars = data.cars;
+            this.spinner = false;
+        },
+        () => {
             this.spinner = false;
         });
     }
@@ -170,7 +175,11 @@ export class CarListComponent implements OnInit {
         return this.costCalculator.countDays(this.keyHandOverTime, this.keyReceivingTime);
     }
 
-    public getCost(pricePerDay: number): number {
-        return this.costCalculator.getCost(this.keyHandOverTime, this.keyReceivingTime, pricePerDay);
+    public getCost(pricePerDay: number): string {
+        return this.costCalculator.getCost(this.keyHandOverTime, this.keyReceivingTime, pricePerDay).toFixed(2);
+    }
+
+    public addCar() {
+        this.router.navigate([`rentalPoints/${this.rpId}/cars/addCar`]);
     }
 }

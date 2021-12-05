@@ -51,7 +51,6 @@ export class CarFiltrationComponent implements OnInit {
             cityId: this.filtrationForm.controls['cityId'].value,
             getCurrent: current === 'current' ? true : (current === 'past' ? false : undefined)
         };
-        debugger
         this.onFiltered.emit(bookingFiltration);
     }
 

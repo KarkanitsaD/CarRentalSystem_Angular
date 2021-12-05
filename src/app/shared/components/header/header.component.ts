@@ -34,11 +34,18 @@ export class HeaderComponent {
         return this.loginService.getRole() === ADMIN_ROLE;
     }
 
+
+
     public showLoginModal(): void {
         const modalRef = this.modalService.open(LoginModalComponent);
     }
 
     public showRegisterModal(): void {
         const modalRef = this.modalService.open(RegisterModalComponent);
+    }
+
+    public getUser() {
+        let user = this.loginService.getUser();
+        return user.email;
     }
 }

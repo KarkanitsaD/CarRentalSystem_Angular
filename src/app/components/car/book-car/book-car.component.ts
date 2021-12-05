@@ -1,10 +1,15 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { MAIN_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { AddBookigModel } from "src/app/shared/models/booking/add-booking.model";
 import { Car } from "src/app/shared/models/car/car.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { CarService } from "src/app/shared/services/car.service";
+import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
+import { DateFormatter } from "src/app/shared/services/date-formatter.service";
+import { LoginService } from "src/app/shared/services/login.service";
 
 @Component({
     selector: 'app-book-car',
@@ -16,21 +21,30 @@ export class BookCarComponent implements OnInit {
     @Input() keyReceivingTime!: Date;
     @Input() keyHandOverTime!: Date;
 
+    public bookForm!: FormGroup;
+    public success: boolean = false;
+    public error: string = '';
     constructor
     (
         public activeModal: NgbActiveModal,
         private bookingService: BookingService,
         private router: Router,
-        private carService: CarService
+        private carService: CarService,
+        private fb: FormBuilder,
+        private loginService: LoginService,
+        private dateFormatter: DateFormatter,
+        private costCalculator: CostCalculator
     ) {}
 
     ngOnInit() {
         this.carService.lockCar(this.car.id).subscribe();
-    }
-
-    getCost() {
-        let days = Math.ceil((this.keyHandOverTime.getTime() - this.keyReceivingTime.getTime())/(1000*60*60*24));
-        return days * this.car.pricePerDay;
+        let user = this.loginService.getUser();
+        this.bookForm = this.fb.group({
+            name: [user.name, [Validators.required]],
+            surname: [user.surname, [Validators.required]],
+            email: [user.email, [Validators.required, Validators.email]],
+            phoneNumber: [, [Validators.required, Validators.pattern('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')]]
+        });
     }
 
     rent(): void {
@@ -43,14 +57,32 @@ export class BookCarComponent implements OnInit {
             rentalPointId: this.car.rentalPointId,
             keyHandOverTime: this.keyHandOverTime.toJSON(),
             keyReceivingTime: this.keyReceivingTime.toJSON(),
-            price: this.getCost(),
-            bookingTime: bookingTime.toJSON()
+            price: this.getCost(this.car.pricePerDay),
+            bookingTime: bookingTime.toJSON(),
+            customerEmail: this.bookForm.controls['email'].value,
+            customerName: this.bookForm.controls['name'].value,
+            customerSurname: this.bookForm.controls['surname'].value,
+            phoneNumber: this.bookForm.controls['phoneNumber'].value
         };
 
         this.bookingService.createBook(booking).subscribe(() => {
-            this.router.navigate(['rider']);
-        }, () => {
-            alert('Error!');
+            this.success = true;
+            this.router.navigate(['bookings']);
+        }, (error:any) => {
+            this.error = error.error;
+            this.router.navigate([MAIN_PAGE_PATH]);
         });
+    }
+
+    public countDays(): number {
+        return this.costCalculator.countDays(this.keyHandOverTime, this.keyReceivingTime);
+    }
+
+    public getCost(pricePerDay: number): number {
+        return this.costCalculator.getCost(this.keyHandOverTime, this.keyReceivingTime, pricePerDay);
+    }
+
+    public getFormatDate(date: Date) {
+        return this.dateFormatter.getTimeString(new Date(date));
     }
 }

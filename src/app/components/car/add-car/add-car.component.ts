@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import { CARLIST_PAGE_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { IMAGE_NOT_FOUND_URL } from "src/app/core/constants/shared";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
@@ -15,37 +16,48 @@ import { AddCarModel } from "./types/add-car.model";
 })
 export class AddCarComponent implements OnInit{
 
+    private routeSubscription!: Subscription;
+
     private pictureBase64Content: string = '';
     private pictureExtension: string = '';
 
     public rentalPoints: RentalPoint[] = new Array<RentalPoint>();
     public imageUrl: string = IMAGE_NOT_FOUND_URL;
+    public rpId!: string;
+
+    addCarForm = this.fb.group({
+        brand: ['', [Validators.required]],
+        model: ['', [Validators.required]],
+        pricePerDay: ['', [Validators.required, Validators.pattern('[0-9]{1,4}[.][0-9]{1,2}')]],   
+        fuelConsumptionPerHundredKilometers: ['', [Validators.required, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')]],
+        numberOfSeats: ['', [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
+        transmissionType: ['Mechanic'],
+        color: [''],
+        rentalPointId:[, [Validators.required]],
+        image: ['', [Validators.required]],
+        pictureShortName: ['', [Validators.required]],
+        description: ['', [Validators.minLength(50)]],
+    });
 
     constructor
     (
         private carService: CarService,
         private rentalPointService: RentalPointService,
         private router: Router,
+        private route: ActivatedRoute,
         private fb: FormBuilder
-    ) {}
-
-    ngOnInit(): void {
-        this.rentalPointService.getPageRentalPointsList().subscribe(data => {this.rentalPoints = data.rentalPoints;});
+    ) {
+        this.routeSubscription = this.route.params.subscribe(params => {
+            this.rpId = params['rentalPointId'];
+        })
     }
 
-    addCarForm = this.fb.group({
-        brand: ['', [Validators.required]],
-        model: ['', [Validators.required]],
-        pricePerDay: ['', [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]],   
-        fuelConsumptionPerHundredKilometers: ['', [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]],
-        numberOfSeats: ['', [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
-        transmissionType: [''],
-        color: [''],
-        rentalPointId:['', [Validators.required]],
-        image: ['', [Validators.required]],
-        pictureShortName: ['', [Validators.required]],
-            description: ['', [Validators.minLength(50)]]
-    });
+    ngOnInit(): void {
+        this.rentalPointService.getPageRentalPointsList().subscribe(data => {
+            this.rentalPoints = data.rentalPoints;
+            this.addCarForm.controls['rentalPointId'].setValue(this.rpId);
+        });
+    }
 
     addCar(): void {
 
@@ -61,7 +73,7 @@ export class AddCarComponent implements OnInit{
             rentalPointId: this.addCarForm.value.rentalPointId,
             pictureShortName: this.addCarForm.value.pictureShortName,
             pictureBase64Content: this.pictureBase64Content,
-            description: this.addCarForm.value.description
+            description: this.addCarForm.value.description,
         };
         this.carService.createCar(addCarModel).subscribe(() => this.router.navigate([RENTAL_POINTS_PAGE + `/${this.addCarForm.value.rentalPointId}/` + CARLIST_PAGE_PATH]));        
     }

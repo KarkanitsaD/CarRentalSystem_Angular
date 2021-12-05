@@ -12,8 +12,8 @@
                 <input type="text" formControlName="maxPricePerDay" class="form-control car-price" placeholder="Max price">
             </div>
             <br>
-            <button class="btn bottom-input search-button btn-light" (click)="getPage(currentPageNumber)" [disabled]="!filterForm.valid || !isValidRangeInput()">Search</button>
-            <button style="margin-left: 2px;"  [routerLink]="['/addCar']" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn bottom-input search-button btn-light">Add car</button>
+            <button class="btn bottom-input search-button btn-light" (click)="getPage(1)" [disabled]="!filterForm.valid || !isValidRangeInput()">Search</button>
+            <button style="margin-left: 2px;"  (click)="addCar()" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn bottom-input search-button btn-light">Add car</button>
         </form>
     </div>
     <div *ngIf="spinner" style="width: 930px; margin-left: 20px;" class="d-flex justify-content-center">
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div *ngIf="cars.length === 0 && !spinner" style="width: 930px; margin-left: 20px;">
-        <h3>No rental points were found for the specified parameters. Try changing the time range or location.</h3>
+        <h1>No cars were found for the specified parameters. Try to change parameters.</h1>
     </div>
     <div style="width: 930px; margin-left: 20px;">
         <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">

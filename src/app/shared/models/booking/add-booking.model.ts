@@ -5,4 +5,8 @@ export interface AddBookigModel {
     keyHandOverTime: string;
     bookingTime: string;
     price: number;
+    customerName: string;
+    customerSurname: string;
+    customerEmail: string;
+    phoneNumber: string;
 }

@@ -15,6 +15,8 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class RentalPointsComponent implements AfterViewInit {
 
+    markerImage = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+
     public spinner: boolean = true;
 
     //filtration
@@ -81,7 +83,7 @@ export class RentalPointsComponent implements AfterViewInit {
         this.markers = [];
         this.markers = this.rentalPoints.map<google.maps.Marker>(rp => {
             let coordinates = new google.maps.LatLng(rp.locationX, rp.locationY);
-            return new google.maps.Marker({ position: coordinates, label: rp.title });
+            return new google.maps.Marker({ position: coordinates, title: rp.title, icon: this.markerImage });
         });
         this.setMapOnAll(this.map);
     }
@@ -145,4 +147,8 @@ export class RentalPointsComponent implements AfterViewInit {
     public isAdmin(): boolean {
         return this.loginService.getRole() === "Admin";
     }
+
+    // getInfoWindow(rentalPoint: RentalPoint){
+    //     return '<h1>' + rentalPoint.title + '</h1>';
+    // }
 }

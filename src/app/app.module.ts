@@ -41,6 +41,7 @@ import { GoogleMapService } from './shared/services/google-map.service';
 import { CostCalculator } from './shared/services/cost-calculator.service';
 import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
 import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
+import { DateFormatter } from './shared/services/date-formatter.service';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { RegisterModalComponent } from './components/auth/register-modal/registe
   ],
   providers: [
     CostCalculator,
+    DateFormatter,
     ApiService, 
     GoogleMapService,
     TestService,

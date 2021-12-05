@@ -10,6 +10,9 @@
         <li *ngIf="showManagementButton()" class="nav-item">
           <a [routerLink]="['/management']" routerLinkActive="router-link-active" class="nav-link active">Management</a>
         </li>
+        <li *ngIf="!isAdmin() && isLogin()" class="nav-item">
+          <a [routerLink]="['/bookings']" routerLinkActive="router-link-active" class="nav-link active">Bookings</a>
+        </li>
       </ul>
     </div>
       <div class="d-flex">
@@ -21,7 +24,7 @@
                 <a (click)="showRegisterModal()" style="cursor: pointer;" class="nav-link active">Sign up</a>                                
             </li>
             <li *ngIf="isLogin()" class="nav-item">
-                <a (click)="logOut()" class="nav-link active" style="cursor: pointer;">Log out</a>                                
+                <a (click)="logOut()" class="nav-link active" style="cursor: pointer;">{{getUser()}} | Log out</a>                                
             </li>
         </ul>
       </div>

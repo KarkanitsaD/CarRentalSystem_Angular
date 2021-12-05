@@ -9,4 +9,8 @@ export interface BookingItem {
     keyReceivingTime: Date;
     keyHandOverTime: Date;
     bookingTime: Date;
+    customerName: string;
+    customerSurname: string;
+    customerEmail: string;
+    phoneNumber: string;
 }

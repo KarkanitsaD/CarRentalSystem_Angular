@@ -1,17 +1,62 @@
-<div class="modal-header">
-    <h4 class="modal-title">
-        {{car.brand + ' ' + car.model}}
-    </h4>
-</div>
-<div class="modal-body">
-    <p>Fuel consumption: {{car.fuelConsumptionPerHundredKilometers}} | 100km</p>
-    <p>Transmission: {{car.transmissionType}}</p>
-    <p>Color: {{car.color}}</p>
-    <p>Key-receiving time: {{keyReceivingTime}}</p>
-    <p>Key-handover time: {{keyHandOverTime}}</p>
-    <p>Cost: {{getCost()}} BY</p>
-    <button (click)="rent()" class="btn btn-primary">Rent</button>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-</div>
+<div class="main-body">
+    <div class="modal-header" style="height: 45px;">
+        <h2>
+            Booking details
+        </h2>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="error">
+            <div class="alert alert-danger" role="alert">
+                {{error}}
+              </div>
+        </div>
+        <div *ngIf="success">
+            <div class="alert alert-success" role="alert">
+                You bookedcar!
+              </div>
+        </div>
+        <div *ngIf="!success && !error">
+            <small style="color: cadetblue;">Please, enter customer data:</small>
+            <form [formGroup]="bookForm">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input formControlName="name" type="text" class="form-control" placeholder="Enter Name">
+                    <small *ngIf="bookForm.get('name')?.invalid && bookForm.get('name')?.touched">Invalid name</small>
+                </div>
+                <div class="form-group">
+                    <label>Surname</label>
+                    <input formControlName="surname" type="text" class="form-control" placeholder="Enter Surname">
+                    <small *ngIf="bookForm.get('surname')?.invalid && bookForm.get('surname')?.touched">Invalid surname</small>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input formControlName="phoneNumber" type="text" class="form-control" placeholder="Enter Phone">
+                    <small *ngIf="bookForm.get('phoneNumber')?.invalid && bookForm.get('phoneNumber')?.touched">Invalid phone number</small>
+                </div>
+                <div class="form-group">
+                    <label for="loginInputEmail">Email address</label>
+                    <input formControlName="email" type="email" class="form-control" id="loginInputEmail" aria-describedby="emailHelp" placeholder="Enter Email">
+                    <small id="loginInputEmailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <small *ngIf="bookForm.get('email')?.invalid && bookForm.get('email')?.touched">Invalid email</small>
+                </div>
+            </form>
+            <button *ngIf="bookForm" (click)="rent()" [disabled]="bookForm.invalid" class="btn btn-primary">Rent</button>
+            <br>
+            <br>
+            <h2>
+                Details:
+            </h2>
+            <h3>
+                Total price: {{getCost(car.pricePerDay)}} br
+            </h3>
+            <h2>
+                Time range:
+            </h2>
+            <h1 style="color: gray;">{{getFormatDate(keyReceivingTime)}} - {{getFormatDate(keyHandOverTime)}}</h1>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+</div> 

@@ -1,10 +1,10 @@
 import { HttpParams } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { retry } from "rxjs/operators";
 import { BookingFiltrationModel } from "src/app/shared/models/booking/booking-filtration.model";
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
+import { DateFormatter } from "src/app/shared/services/date-formatter.service";
 
 @Component({
     selector: 'app-booking-list',
@@ -13,6 +13,7 @@ import { CostCalculator } from "src/app/shared/services/cost-calculator.service"
 })
 export class BookingList implements OnInit{
 
+    public canPaginate: boolean = false;
     bookingFiltrationModel: BookingFiltrationModel = {
         getCurrent: true
     }
@@ -23,7 +24,8 @@ export class BookingList implements OnInit{
     constructor
     (
         private bookingService: BookingService,
-        private costCalculator: CostCalculator
+        private costCalculator: CostCalculator,
+        private dateFormatter: DateFormatter
     ) {}
 
     ngOnInit(): void {
@@ -32,7 +34,7 @@ export class BookingList implements OnInit{
 
     onFiltered(event : any) {
         this.bookingFiltrationModel = event as BookingFiltrationModel;
-        this.getPage(this.currentPageNumber);
+        this.getPage(1);
     }
 
     public getPage(pageNumber: number): void {
@@ -41,8 +43,10 @@ export class BookingList implements OnInit{
         params = this.getPaginationParams(params, this.currentPageNumber);
         params = this.getFiltrationParams(params);
         this.bookingService.getPageBookingList(params).subscribe(data => {
-            this.itemsTotalCount =  data.itemsTotalCount;
+            this.canPaginate = false;
             this.bookings = data.bookings;
+            this.itemsTotalCount =  data.itemsTotalCount;
+            this.canPaginate = true; 
         });
     }
 
@@ -69,23 +73,6 @@ export class BookingList implements OnInit{
         return httpParams;
     }
 
-    getTimeString(inputDate: Date){
-        let date = new Date(inputDate);
-        return this.getDateElement(date.getDay())
-        + ':'
-        + this.getDateElement(date.getMonth())
-        +':'
-        + this.getDateElement(date.getFullYear())
-        + ', '
-        + this.getDateElement(date.getHours())
-        + ':'
-        + this.getDateElement(date.getMinutes());
-    }
-
-    getDateElement(element: number){
-        return element.toString().length > 1 ? element : '0'+element;
-    }
-
     getTotalDays(lastDate: Date, firstDate: Date){
         return this.costCalculator.countDays(new Date(lastDate), new Date(firstDate));
     }
@@ -94,5 +81,9 @@ export class BookingList implements OnInit{
         this.bookingService.deleteBooking(bookingId).subscribe(() => {
             this.getPage(1);
         });
+    }
+
+    public getFormatDate(date: Date){
+        return this.dateFormatter.getTimeString(new Date(date));
     }
 }
