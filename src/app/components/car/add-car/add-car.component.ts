@@ -30,7 +30,7 @@ export class AddCarComponent implements OnInit{
         model: ['', [Validators.required]],
         pricePerDay: ['', [Validators.required, Validators.pattern('[0-9]{1,4}[.][0-9]{1,2}')]],   
         fuelConsumptionPerHundredKilometers: ['', [Validators.required, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')]],
-        numberOfSeats: ['', [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
+        numberOfSeats: ['5', [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
         transmissionType: ['Mechanic'],
         color: [''],
         rentalPointId:[, [Validators.required]],

@@ -52,7 +52,7 @@
             <h2>
                 Time range:
             </h2>
-            <h1 style="color: gray;">{{getFormatDate(keyReceivingTime)}} - {{getFormatDate(keyHandOverTime)}}</h1>
+            <h1 style="color: gray;">{{keyReceivingTime | date:'medium' }} - {{keyHandOverTime | date:'medium' }}</h1>
         </div>
     </div>
 

@@ -6,3 +6,9 @@
     width: 100%;
     height: auto;
 }
+
+button {
+    font-size: 25px;
+    background-color: #e6ffff;
+    color: gray;
+}

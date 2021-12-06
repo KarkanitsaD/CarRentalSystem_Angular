@@ -8,7 +8,7 @@
         <div class="card">
             <div class="card-header">
               <h3>{{booking.brand}} {{booking.model}}</h3>
-              Booking time: {{ booking.bookingTime}}
+              Booking time: {{booking.bookingTime | date:'medium' }}
             </div>
             <div class="card-body">
               <div class="d-flex flex-row">
@@ -17,10 +17,10 @@
               </div>
               <div style="margin-left: 10px;">
                 <h2>
-                  Key receiving time: {{booking.keyReceivingTime}}
+                  Key receiving time: {{booking.keyReceivingTime | date:'medium' }}
                 </h2>
                 <h2>
-                  Key hand-over time: {{booking.keyHandOverTime}}
+                  Key hand-over time: {{booking.keyHandOverTime | date:'medium'}}
                 </h2>
                 <h3>
                   Days: {{getTotalDays(booking.keyHandOverTime, booking.keyReceivingTime)}}
