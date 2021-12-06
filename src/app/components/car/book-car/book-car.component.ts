@@ -37,7 +37,7 @@ export class BookCarComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        // this.carService.lockCar(this.car.id).subscribe();
+        this.carService.lockCar(this.car.id).subscribe();
         let user = this.loginService.getUser();
         this.bookForm = this.fb.group({
             name: [user.name, [Validators.required]],
