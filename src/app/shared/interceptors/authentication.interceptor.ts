@@ -1,9 +1,9 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { BehaviorSubject, iif, Observable, throwError } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { TokenService } from "../services/token.service";
-import { filter, take, catchError, switchMap} from "rxjs/operators";
+import { catchError, switchMap,} from "rxjs/operators";
 import { LoginService } from "../services/login.service";
 
 @Injectable()
@@ -29,7 +29,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         return next.handle(authRequest).pipe(
             catchError(error => {
                 if(error instanceof HttpErrorResponse && error.status === 401) {
-                    return this.handle401Error(authRequest, next);
+                    return this.handle401Error(authRequest, next, error);
                 }
 
                 return throwError(error);
@@ -37,7 +37,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         );
     }
 
-    private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    private handle401Error(request: HttpRequest<any>, next: HttpHandler, error: any) {
         if(!this.isRefreshing) {
             this.isRefreshing = true;
             this.refreshTokenSubject.next(null);
@@ -68,9 +68,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         }
 
         return this.refreshTokenSubject.pipe(
-            filter(token => token !== null),
-            take(1),
-            switchMap(token => next.handle(this.addAuthorizationHeader(request, token))),
+            switchMap(token => iif(
+                () => token !== null,
+                next.handle(this.addAuthorizationHeader(request, token)),
+                throwError(error))),
         );
     }
 

@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { catchError } from "rxjs/operators";
 import { AuthRequestModel } from "src/app/shared/models/auth/auth.model";
 import { User } from "src/app/shared/models/user/user.model";
 import { AuthService } from "src/app/shared/services/auth.service";
@@ -15,7 +14,7 @@ import { LoginService } from "src/app/shared/services/login.service";
 })
 export class LoginModalComponent {
     
-    show: boolean = false;
+    error: string = '';
 
     constructor(
         private authService: AuthService,
@@ -40,8 +39,10 @@ export class LoginModalComponent {
             this.loginService.loginUser(data);
             this.activeModal.close();
         },
-        (error: any) => {
-            console.log('ssss');
+        error => {
+            this.loginForm.controls['email'].setValue('');
+            this.loginForm.controls['password'].setValue('');
+            this.error = error.error;
         });
     }
 }
