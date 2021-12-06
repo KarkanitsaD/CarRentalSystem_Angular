@@ -37,13 +37,13 @@ export class BookCarComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.carService.lockCar(this.car.id).subscribe();
+        // this.carService.lockCar(this.car.id).subscribe();
         let user = this.loginService.getUser();
         this.bookForm = this.fb.group({
             name: [user.name, [Validators.required]],
             surname: [user.surname, [Validators.required]],
             email: [user.email, [Validators.required, Validators.email]],
-            phoneNumber: [, [Validators.required, Validators.pattern('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')]]
+            phoneNumber: [, [Validators.required, Validators.pattern('^(\\+)[1-9][0-9]{11,12}$')]]
         });
     }
 

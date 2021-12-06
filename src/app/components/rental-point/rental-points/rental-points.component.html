@@ -1,4 +1,5 @@
-<div class="filter-div" style="height: 270px; margin-bottom: 10px;">
+<div style="border-top: 1px solid gray;">
+<div class="filter-div" style="height: 300px; padding-top: 20px;">
 <div style="margin-left: 227px;">
     <app-rental-point-filtration *ngIf="rpFiltrationModel" (onFiltered)="onFiltered($event)" [rpFiltrationModel]="rpFiltrationModel"></app-rental-point-filtration>
     <app-rental-point-filtration *ngIf="!rpFiltrationModel" (onFiltered)="onFiltered($event)"></app-rental-point-filtration>
@@ -39,19 +40,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- <div class="d-flex flex-row">
-                            <div style="width: 150px;">
-                                <p>Country: {{rp.country}}</p>
-                                <p>City: {{rp.city}}</p>
-                                <p>Address: {{rp.address}}</p>
-                                <p>Title: {{rp.title}}</p>
-                            </div>
-                            <div style="margin-left: 20px; width: 150px;">
-                                <button (click)="showCars(rp.id)" type="button" class="btn btn-primary" style="width: 80px; margin-bottom: 30px; margin-top: 4px;">Cars</button>
-                                <button *ngIf="isAdmin()" (click)="updateRentalPoint(rp.id)" type="button" class="btn btn-warning" style="width: 80px;">Update</button>
-                                <button *ngIf="isAdmin()" (click)="deleteRentalPoint(rp.id)" type="button" class="btn btn-danger" style="width: 80px; margin-top: 30px;">Delete</button>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div *ngIf="rentalPoints.length === 0 && !spinner" style="width: 300px;">
