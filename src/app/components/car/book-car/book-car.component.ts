@@ -8,7 +8,6 @@ import { Car } from "src/app/shared/models/car/car.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
-import { DateFormatter } from "src/app/shared/services/date-formatter.service";
 import { LoginService } from "src/app/shared/services/login.service";
 
 @Component({
@@ -32,7 +31,6 @@ export class BookCarComponent implements OnInit {
         private carService: CarService,
         private fb: FormBuilder,
         private loginService: LoginService,
-        private dateFormatter: DateFormatter,
         private costCalculator: CostCalculator
     ) {}
 
@@ -80,9 +78,5 @@ export class BookCarComponent implements OnInit {
 
     public getCost(pricePerDay: number): number {
         return this.costCalculator.getCost(this.keyHandOverTime, this.keyReceivingTime, pricePerDay);
-    }
-
-    public getFormatDate(date: Date) {
-        return this.dateFormatter.getTimeString(new Date(date));
     }
 }

@@ -13,11 +13,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpHeadersInterceptor } from './shared/interceptors/http-headers.interceptor';
 import { AuthenticationInterceptor } from './shared/interceptors/authentication.interceptor';
 import { HeaderComponent } from './shared/components/header/header.component';
-import { ErrorHandlerInterceptor } from './shared/interceptors/error.interceptor';
 import { LoginService } from './shared/services/login.service';
 import { OnlyAdminGuard } from './core/guards/only-admin-guard';
 import { CarService } from './shared/services/car.service';
-import { CarListItemComponent } from './components/car/car-list-item/car-list-item.component';
 import { AuthorizedGuard } from './core/guards/authorized.guard';
 import { CityService } from './shared/services/city.service';
 import { CountryService } from './shared/services/country.service';
@@ -25,7 +23,6 @@ import { RentalPointService } from './shared/services/rental-point.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarImageService } from './shared/services/car-image.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RentalPointListComponent } from './components/rental-point/rental-point-list/rental-point-list.component';
 import { UserService } from './shared/services/user.service';
 import { RoleService } from './shared/services/role.service';
 import { AddUpdateUserComponent } from './components/manager/add-update-user/add-update-user.component';
@@ -36,12 +33,10 @@ import { BookingService } from './shared/services/booking.service';
 import { CarImageComponent } from './components/car/car-image/car-image.component';
 import { CarFiltrationComponent } from './shared/components/filtration/booking-filtration/booking-filtration.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { TestService } from './shared/services/test.service';
 import { GoogleMapService } from './shared/services/google-map.service';
 import { CostCalculator } from './shared/services/cost-calculator.service';
 import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
 import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
-import { DateFormatter } from './shared/services/date-formatter.service';
 
 
 @NgModule({
@@ -49,8 +44,6 @@ import { DateFormatter } from './shared/services/date-formatter.service';
     AppComponent,
     routingComponents,
     HeaderComponent,
-    CarListItemComponent,
-    RentalPointListComponent,
     AddUpdateUserComponent,
     RentalPointFiltrationComponent,
     BookCarComponent,
@@ -73,10 +66,8 @@ import { DateFormatter } from './shared/services/date-formatter.service';
   ],
   providers: [
     CostCalculator,
-    DateFormatter,
     ApiService, 
     GoogleMapService,
-    TestService,
     TokenService,
     CityService,
     CountryService,
@@ -92,7 +83,6 @@ import { DateFormatter } from './shared/services/date-formatter.service';
     BookingService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

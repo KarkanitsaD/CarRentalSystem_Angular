@@ -11,7 +11,6 @@ import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 import { LoginService } from "src/app/shared/services/login.service";
 import { BookCarComponent } from "../book-car/book-car.component";
-import { CarDetailsComponent } from "../car-details/car-details.component";
 
 @Component({
     selector: 'app-car-list',
@@ -134,11 +133,6 @@ export class CarListComponent implements OnInit {
         params = params.append('pageSize', CARS_PAGINATION_SIZE);
 
         return params;
-    }
-
-    public showDetails(car: Car): void{
-        const modalRef = this.modalService.open(CarDetailsComponent);
-        modalRef.componentInstance.car = car;
     }
 
     public deleteCar(carId: string) {

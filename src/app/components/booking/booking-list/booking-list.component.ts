@@ -4,7 +4,6 @@ import { BookingFiltrationModel } from "src/app/shared/models/booking/booking-fi
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingService } from "src/app/shared/services/booking.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
-import { DateFormatter } from "src/app/shared/services/date-formatter.service";
 
 @Component({
     selector: 'app-booking-list',
@@ -25,7 +24,6 @@ export class BookingList implements OnInit{
     (
         private bookingService: BookingService,
         private costCalculator: CostCalculator,
-        private dateFormatter: DateFormatter
     ) {}
 
     ngOnInit(): void {
@@ -81,9 +79,5 @@ export class BookingList implements OnInit{
         this.bookingService.deleteBooking(bookingId).subscribe(() => {
             this.getPage(1);
         });
-    }
-
-    public getFormatDate(date: Date){
-        return this.dateFormatter.getTimeString(new Date(date));
     }
 }
