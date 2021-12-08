@@ -27,7 +27,7 @@ export class RentalPointsComponent implements AfterViewInit {
     //maps options
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
     map!: google.maps.Map;
-    coordinates = new google.maps.LatLng(0, 0);
+    coordinates = new google.maps.LatLng(53.669933, 23.815113);
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
      zoom: 4,
@@ -75,6 +75,9 @@ export class RentalPointsComponent implements AfterViewInit {
     private setMapOnAll(map: google.maps.Map | null) {
         for (let i = 0; i < this.markers.length; i++) {
           this.markers[i].setMap(map);
+          this.markers[i].addListener('click', event => {
+            this.setCenterMapLocation(event.latLng);
+          });
         }
     }
 
@@ -148,7 +151,16 @@ export class RentalPointsComponent implements AfterViewInit {
         return this.loginService.getRole() === "Admin";
     }
 
-    // getInfoWindow(rentalPoint: RentalPoint){
-    //     return '<h1>' + rentalPoint.title + '</h1>';
-    // }
+    public onRentalPointChoosed(rentalPoint: RentalPoint): void {
+        let mapCenter = new google.maps.LatLng(rentalPoint.locationX, rentalPoint.locationY);
+        this.setCenterMapLocation(mapCenter);
+    }
+
+    private setCenterMapLocation(mapCenter: google.maps.LatLng): void {
+        let mapOptions: google.maps.MapOptions = {
+            center: mapCenter,
+            zoom: this.map.getZoom() > 14 ? this.map.getZoom() : 14
+        };
+        this.map.setOptions(mapOptions);
+    }
 }

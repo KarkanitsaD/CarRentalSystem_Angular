@@ -10,6 +10,7 @@ import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 import { LoginService } from "src/app/shared/services/login.service";
+import { LoginModalComponent } from "../../auth/login-modal/login-modal.component";
 import { BookCarComponent } from "../book-car/book-car.component";
 
 @Component({
@@ -144,6 +145,20 @@ export class CarListComponent implements OnInit {
     }
 
     public showRentCarWindow(car: Car): void {
+        if(!this.isLogin()){
+            this.modalService.open(LoginModalComponent)
+            .result.then(() => {
+                if(this.isLogin()) {
+                    this.openBookModel(car);
+                }
+            });
+        }
+        else {
+            this.openBookModel(car);
+        }
+    }
+
+    private openBookModel(car: Car): void {
         const modalRef = this.modalService.open(BookCarComponent);
         modalRef.componentInstance.car = car;
         modalRef.componentInstance.keyHandOverTime = this.keyHandOverTime;
