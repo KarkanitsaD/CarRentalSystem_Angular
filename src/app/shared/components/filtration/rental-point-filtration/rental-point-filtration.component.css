@@ -15,3 +15,7 @@ button {
     background-color: #e6ffff;
     color: gray;
 }
+
+.time-range-input {
+    background-color: white;
+}
