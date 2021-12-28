@@ -54,8 +54,8 @@ export class UpdateCarComponent implements OnInit{
             this.updateCarForm = this.fb.group({
                 brand: [data.brand, Validators.required],
                 model: [data.model, Validators.required],
-                pricePerDay: [data.pricePerDay, [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]],   
-                fuelConsumptionPerHundredKilometers: [data.fuelConsumptionPerHundredKilometers, [Validators.required, Validators.pattern('([0-9]*[/.])?[0-9]{1,2}')]],
+                pricePerDay: [data.pricePerDay, [Validators.required]],   
+                fuelConsumptionPerHundredKilometers: [data.fuelConsumptionPerHundredKilometers, [Validators.required, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')]],
                 numberOfSeats: [data.numberOfSeats, [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
                 transmissionType: [data.transmissionType],
                 color: [data.color],
@@ -128,7 +128,7 @@ export class UpdateCarComponent implements OnInit{
             pictureShortName: this.updateCarForm.value.pictureShortName,
             pictureBase64Content: this.pictureBase64Content,
             imageId: this.imageId,
-            description: this.updateCarForm.value.description
+            description: this.updateCarForm.value.description,
         };
         this.carService.updateCar(addCarModel).subscribe(() => this.router.navigate([RENTAL_POINTS_PAGE + `/${this.updateCarForm.value.rentalPointId}/` + CARLIST_PAGE_PATH]));    
     }

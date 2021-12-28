@@ -1,25 +1,28 @@
 import { Component } from "@angular/core";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { catchError } from "rxjs/operators";
-import { CARLIST_PAGE_PATH, MAIN_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { AuthRequestModel } from "src/app/shared/models/auth/auth.model";
 import { User } from "src/app/shared/models/user/user.model";
 import { AuthService } from "src/app/shared/services/auth.service";
 import { LoginService } from "src/app/shared/services/login.service";
 
 @Component({
-    selector:'app-login-form',
-    templateUrl:'./login.component.html',
-    styleUrls:['./login.component.css']
+    selector: 'app-login-modal',
+    templateUrl: './login-modal.component.html',
+    styleUrls: ['./login-modal.component.css']
 })
-export class LoginComponent {
+export class LoginModalComponent {
+    
+    error: string = '';
 
     constructor(
         private authService: AuthService,
         private loginService: LoginService,
         private router: Router,
+        public activeModal: NgbActiveModal
     ) {}
+
 
     loginForm = new FormGroup({
         email: new FormControl('', [Validators.required, Validators.email]),
@@ -32,14 +35,14 @@ export class LoginComponent {
             password: this.loginForm.value.password
         }
         this.authService.login(requetModel)
-        .pipe(catchError(error => {
-            throw 'user not found.'
-        }))
         .subscribe((data: User) => {
-            debugger
             this.loginService.loginUser(data);
-            this.router.navigate([MAIN_PAGE_PATH]);
+            this.activeModal.close();
         },
-        error => alert(error));
+        error => {
+            this.loginForm.controls['email'].setValue('');
+            this.loginForm.controls['password'].setValue('');
+            this.error = error.error;
+        });
     }
 }

@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { MANAGEMENT_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
-import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
+import {  PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { UpdateRentalPointModel } from "src/app/shared/models/rental-point/update-rental-point.model";
 import { GoogleMapService } from "src/app/shared/services/google-map.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";

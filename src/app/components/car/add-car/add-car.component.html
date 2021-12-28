@@ -34,17 +34,23 @@
     </div>
     <div class="col-md-2">
       <label class="form-label">Number of seats*</label>
-      <input formControlName="numberOfSeats" type="text" class="form-control">
-      <small style="color: red;" *ngIf="addCarForm.get('numberOfSeats')?.invalid && addCarForm.get('numberOfSeats')?.touched">This field is required</small>
+      <select formControlName="numberOfSeats" class="form-control" value="2">
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
     </div>
     <div class="col-md-2">
       <label class="form-label">Transmission</label>
       <select formControlName="transmissionType" class="form-control">
         <option value="Mechanic">Mechanic</option>
         <option value="Automate">Automate</option>
-        <option value="Automate">Robotic</option>
-        <option value="Automate">Variative</option>
-        <option>{{''}}</option>
+        <option value="Robotic">Robotic</option>
+        <option value="Variative">Variative</option>
       </select>
     </div>
     <div class="col-md-2">
@@ -97,7 +103,7 @@
   <br>
   <div class="row">
     <div class="col-12">
-      <button [disabled]="!addCarForm.valid" (click)="addCar()" type="submit" class="btn btn-success">Add car</button>
+      <button [disabled]="!addCarForm.valid" (click)="addCar()" type="submit" class="btn">Add car</button>
     </div>
   </div>
 </form>

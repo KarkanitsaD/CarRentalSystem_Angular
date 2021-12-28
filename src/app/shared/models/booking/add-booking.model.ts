@@ -3,5 +3,10 @@ export interface AddBookigModel {
     carId: string;
     keyReceivingTime: string;
     keyHandOverTime: string;
+    bookingTime: string;
     price: number;
+    customerName: string;
+    customerSurname: string;
+    customerEmail: string;
+    phoneNumber: string;
 }

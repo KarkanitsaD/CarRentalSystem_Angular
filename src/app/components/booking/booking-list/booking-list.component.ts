@@ -1,9 +1,9 @@
 import { HttpParams } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { retry } from "rxjs/operators";
 import { BookingFiltrationModel } from "src/app/shared/models/booking/booking-filtration.model";
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingService } from "src/app/shared/services/booking.service";
+import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 
 @Component({
     selector: 'app-booking-list',
@@ -12,6 +12,7 @@ import { BookingService } from "src/app/shared/services/booking.service";
 })
 export class BookingList implements OnInit{
 
+    public canPaginate: boolean = false;
     bookingFiltrationModel: BookingFiltrationModel = {
         getCurrent: true
     }
@@ -21,7 +22,8 @@ export class BookingList implements OnInit{
 
     constructor
     (
-        private bookingService: BookingService
+        private bookingService: BookingService,
+        private costCalculator: CostCalculator,
     ) {}
 
     ngOnInit(): void {
@@ -30,7 +32,7 @@ export class BookingList implements OnInit{
 
     onFiltered(event : any) {
         this.bookingFiltrationModel = event as BookingFiltrationModel;
-        this.getPage(this.currentPageNumber);
+        this.getPage(1);
     }
 
     public getPage(pageNumber: number): void {
@@ -39,8 +41,10 @@ export class BookingList implements OnInit{
         params = this.getPaginationParams(params, this.currentPageNumber);
         params = this.getFiltrationParams(params);
         this.bookingService.getPageBookingList(params).subscribe(data => {
-            this.itemsTotalCount =  data.itemsTotalCount;
+            this.canPaginate = false;
             this.bookings = data.bookings;
+            this.itemsTotalCount =  data.itemsTotalCount;
+            this.canPaginate = true; 
         });
     }
 
@@ -65,5 +69,15 @@ export class BookingList implements OnInit{
         httpParams = httpParams.append('pageSize', 2);
 
         return httpParams;
+    }
+
+    getTotalDays(lastDate: Date, firstDate: Date){
+        return this.costCalculator.countDays(new Date(lastDate), new Date(firstDate));
+    }
+
+    deleteBooking(bookingId: string) {
+        this.bookingService.deleteBooking(bookingId).subscribe(() => {
+            this.getPage(1);
+        });
     }
 }

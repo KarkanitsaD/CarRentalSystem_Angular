@@ -11,6 +11,6 @@ export const MAIN_PAGE_PATH = 'rider';
 export const PROFILE_PAGE = 'profile';
 export const RENTAL_POINTS_PAGE = 'rentalPoints';
 export const BOOKINGS_PAGE = 'bookings';
-export const PAGE_NOT_FOUND_PATH = '**';
+export const PAGE_NOT_FOUND_PATH = 'notFound';
 
     

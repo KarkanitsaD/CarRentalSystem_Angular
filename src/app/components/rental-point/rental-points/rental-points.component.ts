@@ -15,6 +15,10 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class RentalPointsComponent implements AfterViewInit {
 
+    markerImage = "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+
+    public spinner: boolean = true;
+
     //filtration
     private querySubscription!: Subscription;
     public rpFiltrationModel!: RentalPointFiltrationModel;
@@ -23,7 +27,7 @@ export class RentalPointsComponent implements AfterViewInit {
     //maps options
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
     map!: google.maps.Map;
-    coordinates = new google.maps.LatLng(0, 0);
+    coordinates = new google.maps.LatLng(53.669933, 23.815113);
     mapOptions: google.maps.MapOptions = {
      center: this.coordinates,
      zoom: 4,
@@ -60,15 +64,20 @@ export class RentalPointsComponent implements AfterViewInit {
     }
 
     private filterRentalPoints(httpParams?: HttpParams): void {
+        this.spinner = true;
         this.rpService.getPageRentalPointsList(httpParams).subscribe(data => {
             this.rentalPoints = data.rentalPoints;
             this.updateMarkers();
+            this.spinner = false;
         });
     }
 
     private setMapOnAll(map: google.maps.Map | null) {
         for (let i = 0; i < this.markers.length; i++) {
           this.markers[i].setMap(map);
+          this.markers[i].addListener('click', event => {
+            this.setCenterMapLocation(event.latLng);
+          });
         }
     }
 
@@ -77,7 +86,7 @@ export class RentalPointsComponent implements AfterViewInit {
         this.markers = [];
         this.markers = this.rentalPoints.map<google.maps.Marker>(rp => {
             let coordinates = new google.maps.LatLng(rp.locationX, rp.locationY);
-            return new google.maps.Marker({ position: coordinates, label: rp.title });
+            return new google.maps.Marker({ position: coordinates, title: rp.title, icon: this.markerImage });
         });
         this.setMapOnAll(this.map);
     }
@@ -140,5 +149,18 @@ export class RentalPointsComponent implements AfterViewInit {
 
     public isAdmin(): boolean {
         return this.loginService.getRole() === "Admin";
+    }
+
+    public onRentalPointChoosed(rentalPoint: RentalPoint): void {
+        let mapCenter = new google.maps.LatLng(rentalPoint.locationX, rentalPoint.locationY);
+        this.setCenterMapLocation(mapCenter);
+    }
+
+    private setCenterMapLocation(mapCenter: google.maps.LatLng): void {
+        let mapOptions: google.maps.MapOptions = {
+            center: mapCenter,
+            zoom: this.map.getZoom() > 14 ? this.map.getZoom() : 14
+        };
+        this.map.setOptions(mapOptions);
     }
 }

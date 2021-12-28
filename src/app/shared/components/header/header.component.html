@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarTogglerDemo01">
     <div class="d-flex">
@@ -10,18 +10,21 @@
         <li *ngIf="showManagementButton()" class="nav-item">
           <a [routerLink]="['/management']" routerLinkActive="router-link-active" class="nav-link active">Management</a>
         </li>
+        <li *ngIf="!isAdmin() && isLogin()" class="nav-item">
+          <a [routerLink]="['/bookings']" routerLinkActive="router-link-active" class="nav-link active">Bookings</a>
+        </li>
       </ul>
     </div>
       <div class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li *ngIf="!isLogin()" class="nav-item">
-                <a [routerLink]="['/login']" routerLinkActive="router-link-active" class="nav-link active">Login</a>                                
+              <a (click)="showLoginModal()" class="nav-link active" style="cursor: pointer;">Login</a>                                
             </li>
             <li *ngIf="!isLogin()" class="nav-item">
-                <a [routerLink]="['/register']" routerLinkActive="router-link-active" class="nav-link active">Sign up</a>                                
+                <a (click)="showRegisterModal()" style="cursor: pointer;" class="nav-link active">Sign up</a>                                
             </li>
             <li *ngIf="isLogin()" class="nav-item">
-                <a (click)="logOut()" class="nav-link active" style="cursor: pointer;">Log out</a>                                
+                <a (click)="logOut()" class="nav-link active" style="cursor: pointer;">{{getUser()}} | Log out</a>                                
             </li>
         </ul>
       </div>

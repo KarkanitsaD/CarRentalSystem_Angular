@@ -34,8 +34,15 @@
     </div>
     <div class="col-md-2">
       <label class="form-label">Number of seats*</label>
-      <input formControlName="numberOfSeats" type="text" class="form-control">
-      <small style="color: red;" *ngIf="updateCarForm.get('numberOfSeats')?.invalid && updateCarForm.get('numberOfSeats')?.touched">This field is required</small>
+      <select formControlName="numberOfSeats" class="form-control" value="2">
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
     </div>
     <div class="col-md-2">
       <label class="form-label">Transmission</label>
@@ -89,7 +96,8 @@
   <br>
   <div class="row">
     <div class="col-12">
-      <button (click)="updateCar()" [disabled]="!updateCarForm.valid" type="submit" class="btn btn-warning">Update car</button>
+      <button (click)="updateCar()" [disabled]="!updateCarForm.valid" type="submit" class="btn update-button">Update car</button>
     </div>
   </div>
 </form>
+<br>

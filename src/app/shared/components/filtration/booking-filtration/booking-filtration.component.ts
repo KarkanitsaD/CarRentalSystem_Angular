@@ -1,12 +1,11 @@
 import { Component, OnInit, Output } from "@angular/core";
-import { Observable } from "rxjs";
 import { CityService } from "src/app/shared/services/city.service";
 import { CountryService } from "src/app/shared/services/country.service";
 import { EventEmitter } from "@angular/core";
 import { Country } from "src/app/shared/models/country.model";
 import { City } from "src/app/shared/models/city.model";
 import { BookingFiltrationModel } from "src/app/shared/models/booking/booking-filtration.model";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
     selector: 'app-car-filtration',
@@ -51,7 +50,6 @@ export class CarFiltrationComponent implements OnInit {
             cityId: this.filtrationForm.controls['cityId'].value,
             getCurrent: current === 'current' ? true : (current === 'past' ? false : undefined)
         };
-        debugger
         this.onFiltered.emit(bookingFiltration);
     }
 

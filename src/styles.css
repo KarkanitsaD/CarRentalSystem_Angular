@@ -6,8 +6,36 @@
     margin-right: auto;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { height: 100%;}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+label{
+    font-family: 'Poppins', sans-serif; font-weight: light;
+}
+
+div {
+    font-family: 'Poppins', sans-serif; font-weight: light;
+}
+
+.map {
+    border-radius: 5px;
+}
+
+.info-button {
+    background-color: rgba(37, 91, 190, 0.63);
+}
+
+.update-button {
+    background-color: rgba(217, 238, 96, 0.63);
+}
+
+.delete-button {
+    background-color: #eb433b;
+}
+
+.error {
+    background-color: #eb433b;
+}
+
+small {
+    color: #bf1515;
+}

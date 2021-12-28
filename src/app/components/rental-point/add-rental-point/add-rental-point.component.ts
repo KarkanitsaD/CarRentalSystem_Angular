@@ -1,9 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { MANAGEMENT_PAGE_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
+import { RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
 import { AddRentalPointModel } from "src/app/shared/models/rental-point/add-rental-point.model";
-import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { GoogleMapService } from "src/app/shared/services/google-map.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
@@ -12,7 +11,7 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
     templateUrl: './add-rental-point.component.html',
     styleUrls: ['./add-rental-point.component.css']
 })
-export class AddRentalPointComponent implements OnInit {
+export class AddRentalPointComponent implements AfterViewInit {
 
     marker!: google.maps.Marker;
 
@@ -35,15 +34,7 @@ export class AddRentalPointComponent implements OnInit {
         private googleMapService: GoogleMapService
     ) {}
 
-    ngOnInit(): void {
-        this.ngAfterViewInit();
-    }
-
     ngAfterViewInit(): void {
-        this.mapInitializer();
-      }
-
-    mapInitializer(): void {
         let defaultLocation = new google.maps.LatLng(0, 0);
         let mapOptions: google.maps.MapOptions = {
             center: defaultLocation,
@@ -65,10 +56,9 @@ export class AddRentalPointComponent implements OnInit {
                 this.parseRentalPoint(response[0].formatted_address);
             });
         });
-      }
+    }
 
     public addRentalPoint() {
-
         let locationX = Number(this.form.value.locationX);
         let locationY = Number(this.form.value.locationY);
         this.googleMapService.GetTimeOffset(locationX, locationY).then(res => {

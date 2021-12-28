@@ -13,4 +13,5 @@ export class AddCarModel {
     pictureShortName: string = '';
     pictureBase64Content: string = '';
     description?: string ='';
+    quantity?: number;
 }
