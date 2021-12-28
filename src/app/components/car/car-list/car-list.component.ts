@@ -149,12 +149,22 @@ export class CarListComponent implements OnInit {
             this.modalService.open(LoginModalComponent)
             .result.then(() => {
                 if(this.isLogin()) {
-                    this.openBookModel(car);
+                    this.carService.lockCar(car.id).subscribe(data => {
+                        this.openBookModel(car);
+                    },
+                    error => {
+                        this.getPage(this.currentPageNumber);
+                    });
                 }
             });
         }
         else {
-            this.openBookModel(car);
+            this.carService.lockCar(car.id).subscribe(data => {
+                this.openBookModel(car);
+            },
+            error => {
+                this.getPage(this.currentPageNumber);
+            });
         }
     }
 
