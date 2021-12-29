@@ -6,6 +6,7 @@ import { ADD_RENTAL_POINT_PATH, CARLIST_PAGE_PATH, PAGE_NOT_FOUND_PATH, RENTAL_P
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { LoginService } from "src/app/shared/services/login.service";
+import { MapService } from "src/app/shared/services/map.service";
 import { RentalPointService } from "src/app/shared/services/rental-point.service";
 
 @Component({
@@ -28,10 +29,7 @@ export class RentalPointsComponent implements AfterViewInit {
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
     map!: google.maps.Map;
     coordinates = new google.maps.LatLng(53.669933, 23.815113);
-    mapOptions: google.maps.MapOptions = {
-     center: this.coordinates,
-     zoom: 4,
-    };
+    mapOptions: google.maps.MapOptions = {}
     markers: google.maps.Marker[] = new Array<google.maps.Marker>();
     public rentalPoints: RentalPoint[] = new Array<RentalPoint>();
     //maps options
@@ -41,7 +39,8 @@ export class RentalPointsComponent implements AfterViewInit {
         private router: Router,
         private route: ActivatedRoute,
         private rpService: RentalPointService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private mapService: MapService
     ) {
         this.querySubscription = this.route.queryParams.subscribe(
             (queryParams: any) => {
@@ -57,7 +56,7 @@ export class RentalPointsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.map = new google.maps.Map(this.gmap.nativeElement, 
+        this.map = new google.maps.Map(this.gmap.nativeElement,
             this.mapOptions);
         let params = this.getHttpParams(this.rpFiltrationModel);
         this.filterRentalPoints(params);
@@ -68,6 +67,7 @@ export class RentalPointsComponent implements AfterViewInit {
         this.rpService.getPageRentalPointsList(httpParams).subscribe(data => {
             this.rentalPoints = data.rentalPoints;
             this.updateMarkers();
+            this.mapService.centerAndZoomMap(this.map, this.markers);
             this.spinner = false;
         });
     }
@@ -122,7 +122,7 @@ export class RentalPointsComponent implements AfterViewInit {
                 let httpParams = new HttpParams();
                 httpParams = httpParams.append('keyReceivingTime', this.rpFiltrationModel.keyReceivingTime.toString());
                 httpParams = httpParams.append('keyHandOverTime', this.rpFiltrationModel.keyHandOverTime.toString());
-                this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: { 
+                this.router.navigate([RENTAL_POINTS_PAGE, rpId, CARLIST_PAGE_PATH], { queryParams: {
                 'keyReceivingTime' : new Date(this.rpFiltrationModel.keyReceivingTime).toJSON(),
                 'keyHandOverTime' : new Date(this.rpFiltrationModel.keyHandOverTime).toJSON()
                 }});
