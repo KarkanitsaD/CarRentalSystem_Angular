@@ -37,6 +37,7 @@ import { GoogleMapService } from './shared/services/google-map.service';
 import { CostCalculator } from './shared/services/cost-calculator.service';
 import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
 import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
+import { MapService } from './shared/services/map.service';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { RegisterModalComponent } from './components/auth/register-modal/registe
     UserService,
     RoleService,
     BookingService,
+    MapService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
   ],
