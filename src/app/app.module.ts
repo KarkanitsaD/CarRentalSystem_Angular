@@ -38,6 +38,12 @@ import { CostCalculator } from './shared/services/cost-calculator.service';
 import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
 import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
 import { MapService } from './shared/services/map.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
 
 
 @NgModule({
@@ -63,7 +69,12 @@ import { MapService } from './shared/services/map.service';
     NgxPaginationModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [
     CostCalculator,
