@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from "@angular/core";
+import { Component, DoCheck, Input, OnInit, Output } from "@angular/core";
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { EventEmitter } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -7,13 +7,15 @@ import { City } from "src/app/shared/models/city.model";
 import { CountryService } from "src/app/shared/services/country.service";
 import { CityService } from "src/app/shared/services/city.service";
 import { LoginService } from "src/app/shared/services/login.service";
+import { fromEvent } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: 'app-rental-point-filtration',
     templateUrl: './rental-point-filtration.component.html',
     styleUrls: ['./rental-point-filtration.component.css']
 })
-export class RentalPointFiltrationComponent implements OnInit{
+export class RentalPointFiltrationComponent implements OnInit {
 
     public minTime = new Date();
 
@@ -23,7 +25,7 @@ export class RentalPointFiltrationComponent implements OnInit{
 
     public filtrationForm: FormGroup = this.fb.group({
         range: [],
-        numberOfAvaliableCars: [, Validators.pattern('[0-9]{0,3}')],
+        numberOfAvaliableCars: [],
         cityId: [''],
         countryId: ['']
     });
@@ -40,6 +42,7 @@ export class RentalPointFiltrationComponent implements OnInit{
         private loginService: LoginService
     ) {}
 
+
     ngOnInit(): void {
         this.countryService.getCountries().subscribe(countries => {
             this.countries = countries;
@@ -50,7 +53,7 @@ export class RentalPointFiltrationComponent implements OnInit{
         });
     }
 
-    filter(): void {
+    public filter(): void {
         let range = this.filtrationForm.controls['range'].value;
         let rentalPointFiltrationModel: RentalPointFiltrationModel = {
             keyReceivingTime: range !== null ?  this.filtrationForm.controls['range'].value[0] : undefined,
@@ -59,8 +62,6 @@ export class RentalPointFiltrationComponent implements OnInit{
             cityId: this.filtrationForm.controls['cityId'].value,
             countryId: this.filtrationForm.controls['countryId'].value
         }
-
-        console.log(rentalPointFiltrationModel);
         this.onFiltered.emit(rentalPointFiltrationModel);
     }
 
@@ -104,5 +105,42 @@ export class RentalPointFiltrationComponent implements OnInit{
                 this.filtrationForm.controls['numberOfAvaliableCars'].setValue(this.rpFiltrationModel.numberOfAvaliableCars);
             }
         }
+    }
+
+    public handleNumberOfAvailebleCarsKeyPress(event: KeyboardEvent): void {
+        if(!(event.key >= "0" && event.key <= "9"))
+            event.preventDefault();
+    }
+
+    public handleHoursKeyPress(event: KeyboardEvent): void {
+        let target = event.target as HTMLInputElement;
+        let newValue = target.value + event.key;
+        let numberValue = Number(newValue);
+        if(!(numberValue >= 0 && numberValue <= 23))
+            event.preventDefault();
+    }
+
+    public handleMinutesKeyPress(event: KeyboardEvent): void {
+        let target = event.target as HTMLInputElement;
+        let newValue = target.value + event.key;
+        let numberValue = Number(newValue);
+        if(!(numberValue >= 0 && numberValue <= 59))
+            event.preventDefault();
+    }
+
+    public addInputValidators(): void {
+        setTimeout(() => {
+            let elements = document.getElementsByClassName("owl-dt-timer-input");
+            let hoursInput = elements[0] as HTMLInputElement;
+            let minutesInput = elements[1] as HTMLInputElement;
+            
+            fromEvent(hoursInput, 'keypress').pipe(map(event => event as KeyboardEvent)).subscribe(event => {
+                this.handleHoursKeyPress(event);
+            }); // hoursInput.addEventListener('keypress', this.handleHoursKeyPress);
+
+            fromEvent(minutesInput, 'keypress').pipe(map(event => event as KeyboardEvent)).subscribe(event => {
+                this.handleMinutesKeyPress(event);
+            }); // minutesInput.addEventListener('keypress', this.handleMinutesKeyPress);
+        } , 0)
     }
 }

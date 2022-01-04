@@ -2,13 +2,13 @@
     <form *ngIf="filtrationForm" [formGroup]="filtrationForm">
         <div class="form-row">
             <div style="width: 350px;">
-                <input formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control time-range-input" [owlDateTime]="dt10"
-                [selectMode]="'range'" placeholder="Choose date time range" [min]="minTime" readonly>
+                <input (click)="addInputValidators()" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control time-range-input" [owlDateTime]="dt10"
+                [selectMode]="'range'" placeholder="Choose date time range" [min]="minTime"  readonly>
                 <owl-date-time #dt10></owl-date-time>
                 <small *ngIf="!isValidRangeInput() && filtrationForm.get('range')?.touched">Enter correct time range</small>
             </div>
             <div class="right-input" style="width: 350px;">
-                <input formControlName="numberOfAvaliableCars" class="form-control" type="text" placeholder="Number of avaliable cars" maxlength="3" >
+                <input (keypress)="handleNumberOfAvailebleCarsKeyPress($event)" formControlName="numberOfAvaliableCars" class="form-control" placeholder="Number of avaliable cars">
                 <small *ngIf="filtrationForm.get('numberOfAvaliableCars')?.invalid && filtrationForm.get('numberOfAvaliableCars')?.touched">This field can contains only digits</small>
             </div>
         </div>
