@@ -15,8 +15,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class NumbersOnlyInputComponent implements ControlValueAccessor {
 
-    value!: number;
-    onChange!: (value: number) => void;
+    value: number | null = null;
+    onChange!: (value: number | null) => void;
     onTouched!: () => void;
 
     @Input()
@@ -26,7 +26,7 @@ export class NumbersOnlyInputComponent implements ControlValueAccessor {
 
     constructor() {}
 
-    writeValue(obj: number): void {
+    writeValue(obj: number | null): void {
         this.value = obj;
     }
 
@@ -42,14 +42,27 @@ export class NumbersOnlyInputComponent implements ControlValueAccessor {
         this.disabled = isDisabled;
     }
 
-    onKeyUp(event: KeyboardEvent) {
+    onKeyPress(event: KeyboardEvent): void {
         if(!(event.key >= "0" && event.key <= "9"))
             event.preventDefault();
         else {
-            debugger
             let value = (event.target as HTMLInputElement).value + event.key;
             this.value = Number(value);
             this.onChange(this.value);
+            this.onTouched();
+        }
+    }
+
+    onKeyUp(event: KeyboardEvent): void {
+        if(event.key === 'Backspace' || event.key === 'Delete') {
+            let value = (event.target as HTMLInputElement).value;
+            if(value) {
+                this.value = Number(value);
+                this.onChange(this.value);
+            }
+            else {
+                this.onChange(null);
+            }
             this.onTouched();
         }
     }

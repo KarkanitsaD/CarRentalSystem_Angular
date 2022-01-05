@@ -8,7 +8,8 @@
                 <small *ngIf="!isValidRangeInput() && filtrationForm.get('range')?.touched">Enter correct time range</small>
             </div>
             <div class="right-input" style="width: 350px;">
-                <input (keypress)="handleNumberOfAvailebleCarsKeyPress($event)" formControlName="numberOfAvaliableCars" class="form-control" placeholder="Number of avaliable cars">
+                <app-numbers-only-input formControlName="numberOfAvaliableCars" placeholder="Number of avaliable cars">
+                </app-numbers-only-input>
                 <small *ngIf="filtrationForm.get('numberOfAvaliableCars')?.invalid && filtrationForm.get('numberOfAvaliableCars')?.touched">This field can contains only digits</small>
             </div>
         </div>
