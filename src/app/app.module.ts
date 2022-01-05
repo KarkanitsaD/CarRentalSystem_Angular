@@ -44,6 +44,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppEffects } from './app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/numbers-only-input/numbers-only-input.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { environment } from 'src/environments/environment';
     CarImageComponent,
     LoginModalComponent,
     CarFiltrationComponent,
-    RegisterModalComponent
+    RegisterModalComponent,
+    NumbersOnlyInputComponent
   ],
   imports: [
     BrowserModule,
