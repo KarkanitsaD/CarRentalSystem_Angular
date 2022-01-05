@@ -6,6 +6,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { PAGE_NOT_FOUND_PATH, UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
+import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
 import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
@@ -48,7 +49,8 @@ export class CarListComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: NgbModal,
-        public costCalculator: CostCalculator
+        public costCalculator: CostCalculator,
+        private dateTimeRangePickerValidationHelper: DateTimeRangePickerValidationHelper
     ) {
         this.routeSubscription = route.params.subscribe(params => {
             this.rpId = params['rentalPointId'];
@@ -200,5 +202,9 @@ export class CarListComponent implements OnInit {
 
     public addCar() {
         this.router.navigate([`rentalPoints/${this.rpId}/cars/addCar`]);
+    }
+
+    public addMinutesAndHoursInputValidators(): void {
+        this.dateTimeRangePickerValidationHelper.addMinutesAndHoursInputValidators();
     }
 }

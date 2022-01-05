@@ -2,7 +2,7 @@
     <form *ngIf="filtrationForm" [formGroup]="filtrationForm">
         <div class="form-row">
             <div style="width: 350px;">
-                <input (click)="addInputValidators()" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control time-range-input" [owlDateTime]="dt10"
+                <input (click)="addMinutesAndHoursInputValidators()" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control time-range-input" [owlDateTime]="dt10"
                 [selectMode]="'range'" placeholder="Choose date time range" [min]="minTime"  readonly>
                 <owl-date-time #dt10></owl-date-time>
                 <small *ngIf="!isValidRangeInput() && filtrationForm.get('range')?.touched">Enter correct time range</small>

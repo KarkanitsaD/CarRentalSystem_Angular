@@ -1,14 +1,13 @@
-import { Component, DoCheck, Input, OnInit, Output } from "@angular/core";
+import { Component, Input, OnInit, Output } from "@angular/core";
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { EventEmitter } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup} from "@angular/forms";
 import { Country } from "src/app/shared/models/country.model";
 import { City } from "src/app/shared/models/city.model";
 import { CountryService } from "src/app/shared/services/country.service";
 import { CityService } from "src/app/shared/services/city.service";
 import { LoginService } from "src/app/shared/services/login.service";
-import { fromEvent } from "rxjs";
-import { map } from "rxjs/operators";
+import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
 
 @Component({
     selector: 'app-rental-point-filtration',
@@ -39,7 +38,8 @@ export class RentalPointFiltrationComponent implements OnInit {
         private fb: FormBuilder,
         private countryService: CountryService,
         private cityService: CityService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private dateTimeRangePickerValidationHelper: DateTimeRangePickerValidationHelper
     ) {}
 
 
@@ -112,35 +112,7 @@ export class RentalPointFiltrationComponent implements OnInit {
             event.preventDefault();
     }
 
-    public handleHoursKeyPress(event: KeyboardEvent): void {
-        let target = event.target as HTMLInputElement;
-        let newValue = target.value + event.key;
-        let numberValue = Number(newValue);
-        if(!(numberValue >= 0 && numberValue <= 23))
-            event.preventDefault();
-    }
-
-    public handleMinutesKeyPress(event: KeyboardEvent): void {
-        let target = event.target as HTMLInputElement;
-        let newValue = target.value + event.key;
-        let numberValue = Number(newValue);
-        if(!(numberValue >= 0 && numberValue <= 59))
-            event.preventDefault();
-    }
-
-    public addInputValidators(): void {
-        setTimeout(() => {
-            let elements = document.getElementsByClassName("owl-dt-timer-input");
-            let hoursInput = elements[0] as HTMLInputElement;
-            let minutesInput = elements[1] as HTMLInputElement;
-            
-            fromEvent(hoursInput, 'keypress').pipe(map(event => event as KeyboardEvent)).subscribe(event => {
-                this.handleHoursKeyPress(event);
-            }); // hoursInput.addEventListener('keypress', this.handleHoursKeyPress);
-
-            fromEvent(minutesInput, 'keypress').pipe(map(event => event as KeyboardEvent)).subscribe(event => {
-                this.handleMinutesKeyPress(event);
-            }); // minutesInput.addEventListener('keypress', this.handleMinutesKeyPress);
-        } , 0)
+    public addMinutesAndHoursInputValidators(): void {
+        this.dateTimeRangePickerValidationHelper.addMinutesAndHoursInputValidators();
     }
 }

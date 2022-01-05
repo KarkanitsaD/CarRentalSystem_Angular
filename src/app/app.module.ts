@@ -45,6 +45,7 @@ import { AppEffects } from './app.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/numbers-only-input/numbers-only-input.component';
+import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-range-picker-validation.helper';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/num
     EffectsModule.forRoot([AppEffects])
   ],
   providers: [
+    DateTimeRangePickerValidationHelper,
     CostCalculator,
     ApiService, 
     GoogleMapService,
