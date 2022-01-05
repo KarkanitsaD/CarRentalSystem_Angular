@@ -26,8 +26,8 @@ export class CarListComponent implements OnInit {
     public filterForm = this.fb.group({
         brand: [],
         color: [],
-        minPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
-        maxPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
+        minPricePerDay: [],
+        maxPricePerDay: [],
         range: []
     });
     public itemsTotalCount: number = 0;
@@ -110,11 +110,11 @@ export class CarListComponent implements OnInit {
         if(this.filterForm.value.color != null && (this.filterForm.value.color as string).trim() != '') {
             params = params.append('color', this.filterForm.value.color);
         }
-        if(this.filterForm.value.minPricePerDay != null && (this.filterForm.value.minPricePerDay as string).trim() != '') {
-            params = params.append('minPricePerDay', Number(this.filterForm.value.minPricePerDay));
+        if(this.filterForm.value.minPricePerDay != null) {
+            params = params.append('minPricePerDay', this.filterForm.value.minPricePerDay);
         }
-        if(this.filterForm.value.maxPricePerDay != null && (this.filterForm.value.maxPricePerDay as string).trim() != '') {
-            params = params.append('maxPricePerDay', Number(this.filterForm.value.maxPricePerDay));
+        if(this.filterForm.value.maxPricePerDay != null) {
+            params = params.append('maxPricePerDay', this.filterForm.value.maxPricePerDay);
         }
         if(this.rpId != null) {
             params = params.append('rentalPointId', this.rpId);
