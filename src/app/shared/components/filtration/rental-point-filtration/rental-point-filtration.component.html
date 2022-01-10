@@ -23,7 +23,7 @@
                     <option value="">
                         All
                     </option>
-                    <option *ngFor="let country of countries" [value]="country.id">
+                    <option *ngFor="let country of allCountries$ | async" [value]="country.id">
                         {{country.title}}
                     </option>
                 </select>
@@ -36,7 +36,7 @@
                     <option value="">
                         All
                     </option>
-                    <option *ngFor="let city of cities" [value]="city.id">
+                    <option *ngFor="let city of citiesToShow$ | async" [value]="city.id">
                         {{city.title}}
                     </option>
                 </select>

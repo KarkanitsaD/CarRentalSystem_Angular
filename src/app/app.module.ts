@@ -46,6 +46,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/numbers-only-input/numbers-only-input.component';
 import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-range-picker-validation.helper';
+import { LocationsEffects } from './store/locations';
 
 
 @NgModule({
@@ -73,6 +74,7 @@ import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     AutocompleteLibModule,
+    EffectsModule.forFeature([LocationsEffects]),
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
