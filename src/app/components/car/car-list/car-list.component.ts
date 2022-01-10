@@ -6,6 +6,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
 import { PAGE_NOT_FOUND_PATH, UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
+import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
 import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
@@ -26,8 +27,8 @@ export class CarListComponent implements OnInit {
     public filterForm = this.fb.group({
         brand: [],
         color: [],
-        minPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
-        maxPricePerDay: [, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')],
+        minPricePerDay: [],
+        maxPricePerDay: [],
         range: []
     });
     public itemsTotalCount: number = 0;
@@ -48,7 +49,8 @@ export class CarListComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private modalService: NgbModal,
-        public costCalculator: CostCalculator
+        public costCalculator: CostCalculator,
+        private dateTimeRangePickerValidationHelper: DateTimeRangePickerValidationHelper
     ) {
         this.routeSubscription = route.params.subscribe(params => {
             this.rpId = params['rentalPointId'];
@@ -110,11 +112,11 @@ export class CarListComponent implements OnInit {
         if(this.filterForm.value.color != null && (this.filterForm.value.color as string).trim() != '') {
             params = params.append('color', this.filterForm.value.color);
         }
-        if(this.filterForm.value.minPricePerDay != null && (this.filterForm.value.minPricePerDay as string).trim() != '') {
-            params = params.append('minPricePerDay', Number(this.filterForm.value.minPricePerDay));
+        if(this.filterForm.value.minPricePerDay != null) {
+            params = params.append('minPricePerDay', this.filterForm.value.minPricePerDay);
         }
-        if(this.filterForm.value.maxPricePerDay != null && (this.filterForm.value.maxPricePerDay as string).trim() != '') {
-            params = params.append('maxPricePerDay', Number(this.filterForm.value.maxPricePerDay));
+        if(this.filterForm.value.maxPricePerDay != null) {
+            params = params.append('maxPricePerDay', this.filterForm.value.maxPricePerDay);
         }
         if(this.rpId != null) {
             params = params.append('rentalPointId', this.rpId);
@@ -200,5 +202,9 @@ export class CarListComponent implements OnInit {
 
     public addCar() {
         this.router.navigate([`rentalPoints/${this.rpId}/cars/addCar`]);
+    }
+
+    public addMinutesAndHoursInputValidators(): void {
+        this.dateTimeRangePickerValidationHelper.addMinutesAndHoursInputValidators();
     }
 }

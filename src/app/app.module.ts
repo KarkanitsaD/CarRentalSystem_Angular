@@ -38,6 +38,15 @@ import { CostCalculator } from './shared/services/cost-calculator.service';
 import { LoginModalComponent } from './components/auth/login-modal/login-modal.component';
 import { RegisterModalComponent } from './components/auth/register-modal/register-modal.component';
 import { MapService } from './shared/services/map.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
+import { AppEffects } from './app.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/numbers-only-input/numbers-only-input.component';
+import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-range-picker-validation.helper';
+import { LocationsEffects } from './store/locations';
 
 
 @NgModule({
@@ -51,7 +60,8 @@ import { MapService } from './shared/services/map.service';
     CarImageComponent,
     LoginModalComponent,
     CarFiltrationComponent,
-    RegisterModalComponent
+    RegisterModalComponent,
+    NumbersOnlyInputComponent
   ],
   imports: [
     BrowserModule,
@@ -63,9 +73,16 @@ import { MapService } from './shared/services/map.service';
     NgxPaginationModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    EffectsModule.forFeature([LocationsEffects]),
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([AppEffects])
   ],
   providers: [
+    DateTimeRangePickerValidationHelper,
     CostCalculator,
     ApiService, 
     GoogleMapService,

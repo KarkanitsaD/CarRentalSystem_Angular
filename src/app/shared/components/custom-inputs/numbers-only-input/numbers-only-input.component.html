@@ -1,0 +1,10 @@
+<input
+    type="number"
+    (input)="onChange(value)"
+    (keypress)="onKeyPress($event)"
+    (keyup)="onKeyUp($event)"
+    class="form-control"
+    [disabled]="disabled"
+    placeholder="{{ placeholder }}"
+
+    >

@@ -1,29 +1,32 @@
 import { Component, Input, OnInit, Output } from "@angular/core";
 import { RentalPointFiltrationModel } from "src/app/shared/models/rental-point/rental-point-filtration.model";
 import { EventEmitter } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Country } from "src/app/shared/models/country.model";
+import { FormBuilder, FormGroup} from "@angular/forms";
 import { City } from "src/app/shared/models/city.model";
-import { CountryService } from "src/app/shared/services/country.service";
-import { CityService } from "src/app/shared/services/city.service";
 import { LoginService } from "src/app/shared/services/login.service";
+import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
+import { Store } from "@ngrx/store";
+import { State } from "src/app/store";
+import { citiesSelector, countriesSelector, loadAllCities, loadAllCountries } from "src/app/store/locations";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: 'app-rental-point-filtration',
     templateUrl: './rental-point-filtration.component.html',
     styleUrls: ['./rental-point-filtration.component.css']
 })
-export class RentalPointFiltrationComponent implements OnInit{
+export class RentalPointFiltrationComponent implements OnInit {
+
+    allCountries$ = this.store.select(countriesSelector);
+    allCities$ = this.store.select(citiesSelector);
+    citiesToShow$ = new Observable<City[]>();
 
     public minTime = new Date();
 
-    public countries!: Country[];
-    public cities!: City[];
-    public allCities!: City[];
-
     public filtrationForm: FormGroup = this.fb.group({
         range: [],
-        numberOfAvaliableCars: [, Validators.pattern('[0-9]{0,3}')],
+        numberOfAvaliableCars: [],
         cityId: [''],
         countryId: ['']
     });
@@ -35,22 +38,19 @@ export class RentalPointFiltrationComponent implements OnInit{
     constructor
     (
         private fb: FormBuilder,
-        private countryService: CountryService,
-        private cityService: CityService,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private dateTimeRangePickerValidationHelper: DateTimeRangePickerValidationHelper,
+        private store: Store<State>,
     ) {}
 
+
     ngOnInit(): void {
-        this.countryService.getCountries().subscribe(countries => {
-            this.countries = countries;
-            this.cityService.getCities().subscribe(cities => {
-                this.allCities = cities;
-                this.fillForm();
-            });
-        });
+        this.store.dispatch(loadAllCities());
+        this.store.dispatch(loadAllCountries());
+        this.fillForm();
     }
 
-    filter(): void {
+    public filter(): void {
         let range = this.filtrationForm.controls['range'].value;
         let rentalPointFiltrationModel: RentalPointFiltrationModel = {
             keyReceivingTime: range !== null ?  this.filtrationForm.controls['range'].value[0] : undefined,
@@ -59,8 +59,6 @@ export class RentalPointFiltrationComponent implements OnInit{
             cityId: this.filtrationForm.controls['cityId'].value,
             countryId: this.filtrationForm.controls['countryId'].value
         }
-
-        console.log(rentalPointFiltrationModel);
         this.onFiltered.emit(rentalPointFiltrationModel);
     }
 
@@ -70,7 +68,9 @@ export class RentalPointFiltrationComponent implements OnInit{
     }
 
     private filterCities(countryId: string): void {
-        this.cities = this.allCities.filter(city => city.countryId === countryId); 
+        this.citiesToShow$ = this.allCities$.pipe(
+            map(cities => cities.filter(city => city.countryId === countryId))
+        );
         this.filtrationForm.controls['cityId'].setValue(''); 
     }
 
@@ -104,5 +104,9 @@ export class RentalPointFiltrationComponent implements OnInit{
                 this.filtrationForm.controls['numberOfAvaliableCars'].setValue(this.rpFiltrationModel.numberOfAvaliableCars);
             }
         }
+    }
+
+    public addMinutesAndHoursInputValidators(): void {
+        this.dateTimeRangePickerValidationHelper.addMinutesAndHoursInputValidators();
     }
 }
