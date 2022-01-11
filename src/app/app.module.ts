@@ -48,6 +48,8 @@ import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/num
 import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-range-picker-validation.helper';
 import { LocationsEffects } from './store/locations';
 import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only-input/price-only-input.component';
+import { CarTestService } from './shared/services/car-test.service';
+import { CarFormComponent } from './components/car/car-form/car-form.component';
 
 
 @NgModule({
@@ -59,11 +61,12 @@ import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only
     RentalPointFiltrationComponent,
     BookCarComponent,
     CarImageComponent,
+    CarFormComponent,
     LoginModalComponent,
     CarFiltrationComponent,
     RegisterModalComponent,
     NumbersOnlyInputComponent,
-    PriceOnlyComponent
+    PriceOnlyComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only
     LoginService,
     OnlyAdminGuard,
     AuthorizedGuard,
+    CarTestService,
     CarService,
     RentalPointService,
     CarImageService,

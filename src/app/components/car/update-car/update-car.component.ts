@@ -55,7 +55,7 @@ export class UpdateCarComponent implements OnInit{
                 brand: [data.brand, Validators.required],
                 model: [data.model, Validators.required],
                 pricePerDay: [data.pricePerDay, [Validators.required]],   
-                fuelConsumptionPerHundredKilometers: [data.fuelConsumptionPerHundredKilometers, [Validators.required, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')]],
+                fuelConsumptionPerHundredKilometers: [data.fuelConsumption, [Validators.required, Validators.pattern('([0-9]+[/.])?[0-9]{1,2}')]],
                 numberOfSeats: [data.numberOfSeats, [Validators.required, Validators.pattern('\[0-9]{1,2}')]],
                 transmissionType: [data.transmissionType],
                 color: [data.color],
