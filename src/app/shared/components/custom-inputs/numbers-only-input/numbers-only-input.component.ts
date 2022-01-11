@@ -43,14 +43,13 @@ export class NumbersOnlyInputComponent implements ControlValueAccessor {
     }
 
     onKeyPress(event: KeyboardEvent): void {
-        if(!(event.key >= "0" && event.key <= "9"))
-            event.preventDefault();
-        else {
+        if(event.key >= "0" && event.key <= "9") {
             let value = (event.target as HTMLInputElement).value + event.key;
             this.value = Number(value);
             this.onChange(this.value);
             this.onTouched();
         }
+        event.preventDefault();
     }
 
     onKeyUp(event: KeyboardEvent): void {

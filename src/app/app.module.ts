@@ -47,6 +47,7 @@ import { environment } from 'src/environments/environment';
 import { NumbersOnlyInputComponent } from './shared/components/custom-inputs/numbers-only-input/numbers-only-input.component';
 import { DateTimeRangePickerValidationHelper } from './shared/helpers/date-time-range-picker-validation.helper';
 import { LocationsEffects } from './store/locations';
+import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only-input/price-only-input.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { LocationsEffects } from './store/locations';
     LoginModalComponent,
     CarFiltrationComponent,
     RegisterModalComponent,
-    NumbersOnlyInputComponent
+    NumbersOnlyInputComponent,
+    PriceOnlyComponent
   ],
   imports: [
     BrowserModule,
