@@ -8,8 +8,8 @@
             <input type="text" formControlName="brand" class="form-control bottom-input" placeholder="Brand">
             <input type="text" formControlName="color" class="form-control bottom-input" placeholder="Color">
             <div class="d-flex justify-content-between bottom-input">
-                <app-numbers-only-input formControlName="minPricePerDay" placeholder="Min price" class="car-price"></app-numbers-only-input>
-                <app-numbers-only-input formControlName="maxPricePerDay" placeholder="Max price" class="car-price"></app-numbers-only-input>                
+                <app-price-only-input formControlName="minPricePerDay" placeholder="Min price" class="car-price"></app-price-only-input>          
+                <app-price-only-input formControlName="minPricePerDay" placeholder="Max price" class="car-price"></app-price-only-input>          
             </div>
             <br>
             <button class="btn bottom-input search-button btn-light" (click)="getPage(1)" [disabled]="!filterForm.valid || !isValidRangeInput()">Search</button>
