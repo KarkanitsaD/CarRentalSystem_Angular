@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Store } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { map, mergeMap } from "rxjs/operators";
+import { map} from "rxjs/operators";
 import { LoginModalComponent } from "src/app/components/auth/login-modal/login-modal.component";
 import { RegisterModalComponent } from "src/app/components/auth/register-modal/register-modal.component";
 import { ADMIN_ROLE, USER_ROLE } from "src/app/core/constants/role-constans";
