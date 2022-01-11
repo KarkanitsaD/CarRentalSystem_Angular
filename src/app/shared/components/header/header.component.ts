@@ -1,8 +1,12 @@
 import { Component } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Store } from "@ngrx/store";
+import { map} from "rxjs/operators";
 import { LoginModalComponent } from "src/app/components/auth/login-modal/login-modal.component";
 import { RegisterModalComponent } from "src/app/components/auth/register-modal/register-modal.component";
-import { ADMIN_ROLE } from "src/app/core/constants/role-constans";
+import { ADMIN_ROLE, USER_ROLE } from "src/app/core/constants/role-constans";
+import { State } from "src/app/store";
+import { loggedInUserSelector, resetCurrentUser } from "src/app/store/auth";
 import { LoginService } from "../../services/login.service";
 
 @Component({
@@ -11,41 +15,30 @@ import { LoginService } from "../../services/login.service";
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+
     constructor
     (
         private loginService: LoginService,
         private modalService: NgbModal,
+        private store: Store<State>
     ) {}
 
-
-    showManagementButton(): boolean {
-        return this.isLogin() && this.loginService.getRole() === "Admin";
-    }
-
-    isLogin(): boolean {
-        return this.loginService.isLogin();
-    }
+    user$ = this.store.select(loggedInUserSelector);
+    isLogin$ = this.user$.pipe(map(user => user !== undefined));
+    isAdmin$ = this.user$.pipe(map(user => user !== undefined && user.role.title === ADMIN_ROLE));
+    isUser$ = this.user$.pipe(map(user => user !== undefined && user.role.title === USER_ROLE));
+    userEmail$ = this.user$.pipe(map(user => user?.email));
 
     logOut(): void {
+        this.store.dispatch(resetCurrentUser());
         this.loginService.logoutUser();
     }
 
-    public isAdmin(): boolean {
-        return this.loginService.getRole() === ADMIN_ROLE;
-    }
-
-
-
     public showLoginModal(): void {
-        const modalRef = this.modalService.open(LoginModalComponent);
+        this.modalService.open(LoginModalComponent);
     }
 
     public showRegisterModal(): void {
-        const modalRef = this.modalService.open(RegisterModalComponent);
-    }
-
-    public getUser() {
-        let user = this.loginService.getUser();
-        return user.email;
+        this.modalService.open(RegisterModalComponent);
     }
 }
