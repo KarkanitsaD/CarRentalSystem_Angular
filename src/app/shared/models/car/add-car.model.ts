@@ -1,12 +1,14 @@
-export interface Car {
-    id: string;
+export interface AddCarModel {
     brand: string;
     model: string;
+    pricePerDay: number;  
     fuelConsumptionPerHundredKilometers: number;
-    transmissionType: string;
     numberOfSeats: number;
+    transmissionType: string;
     color: string;
     rentalPointId: string;
-    pricePerDay: number;  
     description: string;
+    pictureShortName: string;
+    pictureBase64Content: string;
+    pictureExtension: string;
 }

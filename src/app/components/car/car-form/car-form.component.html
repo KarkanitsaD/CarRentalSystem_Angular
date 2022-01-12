@@ -1,0 +1,150 @@
+<form [formGroup]="carForm">
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Brand*</label>
+      <input
+        formControlName="brand"
+        type="text"
+        class="form-control"
+        placeholder="Brand"
+        [class.error-input]="carForm.get('brand')?.invalid && carForm.get('brand')?.touched"
+        >
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Model*</label>
+      <input 
+        formControlName="model" 
+        type="text"
+        class="form-control"
+        placeholder="Model"
+        [class.error-input]="carForm.get('model')?.invalid && carForm.get('model')?.touched"
+        >
+    </div>
+    <div class="col-md-3">
+      <label>Price for one day*</label>
+      <div class="input-group">
+        <div class="d-flex flex-row">
+          <span class="input-group-text">br</span>
+          <app-price-only-input
+            formControlName="pricePerDay"
+            placeholder="Price for one day"
+            ></app-price-only-input>
+        </div>
+        <small *ngIf="carForm.get('pricePerDay')?.invalid && carForm.get('pricePerDay')?.touched">This field is required</small>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Fuel consumption*</label>
+      <div class="input-group">
+        <div class="d-flex flex-row">
+          <span class="input-group-text">100 km</span>
+          <app-price-only-input formControlName="fuelConsumption" placeholder="Fuel consumption"></app-price-only-input>
+        </div>
+        <small *ngIf="carForm.get('fuelConsumption')?.invalid && carForm.get('fuelConsumption')?.touched">This field is required</small>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Number of seats*</label>
+      <select formControlName="numberOfSeats" class="form-control" value="2">
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Transmission</label>
+      <select formControlName="transmissionType" class="form-control">
+        <option value="Mechanic">Mechanic</option>
+        <option value="Automate">Automate</option>
+        <option value="Robotic">Robotic</option>
+        <option value="Variative">Variative</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Color</label>
+      <input 
+        formControlName="color"
+        type="text" 
+        class="form-control" 
+        placeholder="Color"
+        [class.error-input]="carForm.get('color')?.invalid && carForm.get('color')?.touched">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-lable">Rental point*</label>
+      <select 
+      *ngIf="rentalPoints"
+        id="rentalPointSelect"
+        formControlName="rentalPointId"
+        class="form-control"
+        [class.error-input]="carForm.get('rentalPointId')?.invalid && carForm.get('rentalPointId')?.touched">
+        <option *ngFor="let rp of rentalPoints as Array;" [value]="rp.id">
+          {{rp.title}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="form-label">Description</label>
+      <textarea formControlName="description" class="form-control" style="height: 100px;"
+      [class.error-input]="carForm.get('description')?.invalid && carForm.get('description')?.touched"></textarea>
+    </div>
+  </div>
+  <br>
+  <div class="car_image_div">
+    <label class="form-label">Image*</label>
+    <div class="image-div" [class.image-div-error]="carForm.get('image')?.invalid && imageTouched">
+      <img 
+        id="carImg"
+        class="car_image"
+        [src]="imageUrl">
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2px;">
+    <div class="col-md-4">
+        <label 
+          for="file-upload" 
+          class="custom-file-upload" 
+          class="btn btn-success"
+          (click)="touchImage()">
+          Upload image
+        </label>
+        <input
+        id="file-upload"
+        (change)="onImageSelected($event)"
+        formControlName="image"
+        type="file"
+        accept="image/png, image/jpeg">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <label class="form-label">Picture short name*</label>
+      <input
+        formControlName="imageShortName"
+        type="text"
+        class="form-control"
+        placeholder="Image short name"
+        [class.image-div-error]="carForm.get('imageShortName')?.invalid && carForm.get('imageShortName')?.touched">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <button *ngIf="addCarMode" [disabled]="!(carForm.valid && imageContent)" (click)="addCar()" type="submit" class="btn">Add car</button>
+      <button *ngIf="!addCarMode" [disabled]="!(carForm.valid && imageContent)" (click)="updateCar()" type="submit" class="btn">Update car</button>
+    </div>
+  </div>
+</form>
