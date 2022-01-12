@@ -1,0 +1,29 @@
+.car_image_div {
+    width: 550px;
+}
+
+.car_image {
+    width: 100%;
+    height: auto;
+}
+
+button {
+    font-size: 25px;
+    background-color: #e6ffff;
+    color: gray;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.image-div-error {
+    border: 1px solid red;
+}

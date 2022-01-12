@@ -50,6 +50,7 @@ import { LocationsEffects } from './store/locations';
 import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only-input/price-only-input.component';
 import { CarTestService } from './shared/services/car-test.service';
 import { CarFormComponent } from './components/car/car-form/car-form.component';
+import { UpdateCarPageComponent } from './components/car/update-car-page/update-car-page.component';
 
 
 @NgModule({

@@ -1,7 +1,8 @@
 import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { AddCarModel } from "src/app/components/car/add-car/types/add-car.model";
+import { AddCarModel } from "../models/car/add-car.model";
+import { UpdateCarModel } from "../models/car/update-car.model";
 import { CARS_URL } from "src/app/core/constants/api-url-constans";
 import { environment } from "src/environments/environment";
 import { Car } from "../models/car/car.model";
@@ -37,8 +38,8 @@ export class CarService {
         return this.apiService.delete(`${this.base_url}${CARS_URL}/${id}`);
     }
 
-    updateCar(addCarModel: AddCarModel): Observable<any> {
-        return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${addCarModel.id}`, addCarModel);
+    updateCar(updateCarModel: UpdateCarModel): Observable<any> {
+        return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${updateCarModel.id}`, updateCarModel);
     }
 
     lockCar(carId: string): Observable<any> {

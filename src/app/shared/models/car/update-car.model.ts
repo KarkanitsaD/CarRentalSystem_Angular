@@ -3,7 +3,7 @@ export interface UpdateCarModel {
     brand: string;
     model: string;
     pricePerDay: number;  
-    fuelConsumption: number;
+    fuelConsumptionPerHundredKilometers: number;
     numberOfSeats: number;
     transmissionType: string;
     color: string;

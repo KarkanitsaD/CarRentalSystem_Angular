@@ -54,7 +54,6 @@ export class PriceOnlyComponent implements ControlValueAccessor, OnInit {
     }
 
     onKeyPress(event: KeyboardEvent): void {
-        debugger
         let value = (event.target as HTMLInputElement).value + event.key;
         let matches = value.match(priceRegulaExpression); 
         if(matches) {

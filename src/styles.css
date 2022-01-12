@@ -33,9 +33,14 @@ div {
 }
 
 .error {
-    background-color: #eb433b;
+    background-color: rgba(191, 21, 21);
+    opacity: 0.4;
+}
+
+.error-input {
+    border-color: #e44040;
 }
 
 small {
-    color: #bf1515;
+    color: #e44040;
 }
