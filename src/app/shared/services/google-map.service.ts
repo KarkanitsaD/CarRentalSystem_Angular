@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import axios, { Axios } from "axios"
+import axios from "axios"
 @Injectable()
 export class GoogleMapService {
 
