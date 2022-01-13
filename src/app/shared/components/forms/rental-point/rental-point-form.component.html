@@ -1,0 +1,63 @@
+<div [formGroup]="form">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label">Title*</label>
+            <input 
+                formControlName="title"
+                type="text"
+                class="form-control"
+                [class.error-input]="titleControl.touched && titleControl.hasError('required')"
+                [readonly]="titleDisabled"
+                >
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Country*</label>
+            <input 
+                formControlName="country"
+                type="text"
+                class="form-control"
+                [class.error-input]="countryControl.touched && countryControl.hasError('required')"
+                [readonly]="countryDisabled">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">City*</label>
+            <input 
+                formControlName="city"
+                type="text"
+                class="form-control"
+                [class.error-input]="cityControl.touched && cityControl.hasError('required')"
+                [readonly]="cityDisabled">
+
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Address*</label>
+            <input 
+                formControlName="address"
+                type="text"
+                class="form-control"
+                [class.error-input]="addressControl.touched && addressControl.hasError('required')"
+                [readonly]="addressDisabled">
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label">Location X</label>
+            <input 
+                formControlName="locationX"
+                type="text"
+                class="form-control"
+                [class.error-input]="locationXControl.touched && locationXControl.hasError('required')"
+                readonly>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Location Y</label>
+            <input 
+                formControlName="locationY"
+                type="text"
+                class="form-control"
+                [class.error-input]="locationYControl.touched && locationYControl.hasError('required')"
+                readonly>
+        </div>
+    </div>
+</div>
