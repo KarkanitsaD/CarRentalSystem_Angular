@@ -6,7 +6,9 @@
                 formControlName="title"
                 type="text"
                 class="form-control"
-                [class.error-input]="titleControl.touched && titleControl.hasError('required')">
+                [class.error-input]="titleControl.touched && titleControl.hasError('required')"
+                [readonly]="titleDisabled"
+                >
         </div>
         <div class="col-md-3">
             <label class="form-label">Country*</label>
@@ -14,7 +16,8 @@
                 formControlName="country"
                 type="text"
                 class="form-control"
-                [class.error-input]="countryControl.touched && countryControl.hasError('required')">
+                [class.error-input]="countryControl.touched && countryControl.hasError('required')"
+                [readonly]="countryDisabled">
         </div>
         <div class="col-md-3">
             <label class="form-label">City*</label>
@@ -22,7 +25,8 @@
                 formControlName="city"
                 type="text"
                 class="form-control"
-                [class.error-input]="cityControl.touched && cityControl.hasError('required')">
+                [class.error-input]="cityControl.touched && cityControl.hasError('required')"
+                [readonly]="cityDisabled">
 
         </div>
         <div class="col-md-3">
@@ -31,7 +35,8 @@
                 formControlName="address"
                 type="text"
                 class="form-control"
-                [class.error-input]="addressControl.touched && addressControl.hasError('required')">
+                [class.error-input]="addressControl.touched && addressControl.hasError('required')"
+                [readonly]="addressDisabled">
         </div>
     </div>
     <br>
@@ -56,6 +61,3 @@
         </div>
     </div>
 </div>
-
-<p>{{form.value | json}}</p>
-<p>{{form.valid | json}}</p>

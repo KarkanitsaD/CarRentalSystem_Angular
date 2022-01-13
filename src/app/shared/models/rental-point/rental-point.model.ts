@@ -4,8 +4,8 @@ export interface RentalPoint {
     address: string;
     locationX: number;
     locationY: number;
-    cityId?: number;
-    city?: string;
+    cityId: number;
+    city: string;
     countryId?: number;
-    country?: string;
+    country: string;
 }

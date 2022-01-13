@@ -1,4 +1,4 @@
-import { Component, forwardRef, OnDestroy } from "@angular/core";
+import { Component, forwardRef, Input, OnDestroy } from "@angular/core";
 import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validators } from "@angular/forms";
 import { Subscription } from "rxjs";
 
@@ -30,6 +30,11 @@ export interface RentalPointFormValues {
     ]
 })
 export class RentalPointFormComponent implements ControlValueAccessor, OnDestroy {
+
+    @Input() titleDisabled!: boolean;
+    @Input() countryDisabled!: boolean;
+    @Input() cityDisabled!: boolean;
+    @Input() addressDisabled!: boolean;
 
     get titleControl(): AbstractControl {
         return this.form.controls.title;
