@@ -51,6 +51,7 @@ import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only
 import { CarTestService } from './shared/services/car-test.service';
 import { CarFormComponent } from './components/car/car-form/car-form.component';
 import { RentalPointFormComponent } from './shared/components/forms/rental-point/rental-point-form.component';
+import { GradeInputComponent } from './shared/components/custom-inputs/grade-input/grade-input.component';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import { RentalPointFormComponent } from './shared/components/forms/rental-point
     RegisterModalComponent,
     NumbersOnlyInputComponent,
     PriceOnlyComponent,
-    RentalPointFormComponent
+    RentalPointFormComponent,
+    GradeInputComponent
   ],
   imports: [
     BrowserModule,
