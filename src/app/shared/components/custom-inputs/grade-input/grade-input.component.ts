@@ -11,11 +11,11 @@ import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from "@angular
             useExisting: forwardRef(() => GradeInputComponent),
             multi: true
         },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => GradeInputComponent),
-            multi: true
-        }
+        // {
+        //     provide: NG_VALIDATORS,
+        //     useExisting: forwardRef(() => GradeInputComponent),
+        //     multi: true
+        // }
     ]
 })
 export class GradeInputComponent implements ControlValueAccessor {
@@ -23,29 +23,31 @@ export class GradeInputComponent implements ControlValueAccessor {
     @Input() countStarts: number = 5;
     grade: number = 0;
 
-    onChange = (grade: number) => {};
+    disabled = false;
+
+    onChange!: (value: number | null) => void;
     onTouched = () => {};
 
-    disabled = false;
     touched = false;
 
     onGradeCancel(): void {
-        this.grade = 0;
-        this.onChange(this.grade);
+        if(!this.disabled) {
+            this.grade = 0;
+            this.onChange(null);
+            this.onTouched();
+        }
     }
 
     onGradeSelected(grade: number): void {
-        this.grade = grade;
-        this.onChange(grade);
+        if(!this.disabled) {
+            this.grade = grade;
+            this.onChange(grade);
+            this.onTouched();
+        }
     }
 
     writeValue(obj: number): void {
-        if(obj >= 0 && obj <= this.countStarts) {
-            this.grade = obj;
-            this.onChange(obj);
-        } else {
-            this.grade = 0;
-        }
+        this.grade = obj;
     }
 
     registerOnChange(fn: any): void {

@@ -12,6 +12,7 @@ import { CostCalculator } from "src/app/shared/services/cost-calculator.service"
 })
 export class BookingList implements OnInit{
 
+
     public canPaginate: boolean = false;
     bookingFiltrationModel: BookingFiltrationModel = {
         getCurrent: true
@@ -80,4 +81,10 @@ export class BookingList implements OnInit{
             this.getPage(1);
         });
     }
+
+    getTime(date: Date): number {
+        return new Date(date).getTime();
+    }
+
+    dateNow: number = new Date().getTime(); 
 }
