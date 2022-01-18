@@ -5,8 +5,7 @@
   </div>
   <div *ngIf="canPaginate && bookings.length > 0" style="width: 950px;">
     <div *ngFor="let booking of bookings | paginate: { itemsPerPage: 2, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
-          <app-booking-card [booking]="booking"></app-booking-card>
-          <a class="btn btn-danger" (click)="deleteBooking(booking.id)">Cancel/Delete</a>
+          <app-booking-card (onDelete)="deleteBooking($event)" [booking]="booking"></app-booking-card>
           <br>
     </div>
     <div class="d-flex justify-content-center">

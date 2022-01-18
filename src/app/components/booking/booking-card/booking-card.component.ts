@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AddBookingFeedbackModel } from "src/app/shared/models/booking-feedback/add-booking-feedback.model";
 import { BookingFeedbackModel } from "src/app/shared/models/booking-feedback/booking-feedback.model";
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingFeedbackService } from "src/app/shared/services/bookingFeedback.service";
 import { LoginService } from "src/app/shared/services/login.service";
+
 
 @Component({
     selector: 'app-booking-card',
@@ -13,8 +14,7 @@ import { LoginService } from "src/app/shared/services/login.service";
 })
 export class BookingCardComponent implements OnInit {
 
-
-
+    @Output() onDelete = new EventEmitter<string>();
     @Input() booking!: BookingItem;
     feedBack!: BookingFeedbackModel;
 
@@ -25,7 +25,7 @@ export class BookingCardComponent implements OnInit {
     (
         private formBuilder: FormBuilder,
         private bookingFeedbackService: BookingFeedbackService,
-        private loginService: LoginService
+        private loginService: LoginService,
     ) {}
     
     getTime(date: Date): number {
@@ -41,7 +41,6 @@ export class BookingCardComponent implements OnInit {
     }
 
     addFeedback(): void {
-        debugger
         let feedback: AddBookingFeedbackModel = {
             carId: this.booking.carId,
             bookingId: this.booking.id,
@@ -50,5 +49,9 @@ export class BookingCardComponent implements OnInit {
             rating: this.form.controls.feedback.value.rating
         };
         this.bookingFeedbackService.createBookingFeedback(feedback).subscribe(() => console.log(1));
+    }
+
+    public deleteBooking(): void {
+        this.onDelete.emit(this.booking.id);
     }
 }

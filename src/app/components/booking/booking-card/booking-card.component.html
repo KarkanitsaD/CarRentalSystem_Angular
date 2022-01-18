@@ -28,16 +28,6 @@
           {{booking.country}}, {{booking.city}}
         </h3>
         <br>
-        <form [formGroup]="form" *ngIf="form">
-          <app-feedback-form
-            formControlName="feedback">
-          </app-feedback-form>
-          <button
-            [disabled]="!form.valid" 
-            class="btn btn-success"
-            (click)="addFeedback()"
-            >Add feedback</button>
-        </form>
       </div>
       <div style="margin-left: 30px;">
         <ul class="list-group">
@@ -49,5 +39,6 @@
       </div>
       </div>
       <br>
+      <a class="btn btn-danger" (click)="deleteBooking()">Cancel/Delete</a>
     </div>
   </div>

@@ -10,8 +10,12 @@ export class BookingFeedbackService {
 
     constructor(private apiService: ApiService) {}
 
-    public getBookingFeedback(bookingId: string): Observable<BookingFeedbackModel> {
+    public getBookingFeedbackByBookingId(bookingId: string): Observable<BookingFeedbackModel> {
         return this.apiService.get<BookingFeedbackModel>(`${environment.api_url}bookingFeedbacks/booking/${bookingId}`);
+    }
+
+    public getBookingFeedback(bookingId: string): Observable<BookingFeedbackModel> {
+        return this.apiService.get<BookingFeedbackModel>(`${environment.api_url}bookingFeedbacks/${bookingId}`);
     }
 
     public getBookingFeedbacksByCarId(carId: string): Observable<BookingFeedbackModel[]> {
