@@ -1,18 +1,16 @@
 import { HttpParams } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import { PAGE_NOT_FOUND_PATH, UPDATE_CAR_PAGE_PATH } from "src/app/core/constants/page-constans";
+import { PAGE_NOT_FOUND_PATH } from "src/app/core/constants/page-constans";
 import { CARS_PAGINATION_SIZE } from "src/app/core/constants/pagination-constans";
 import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
 import { Car } from "src/app/shared/models/car/car.model";
 import { CarService } from "src/app/shared/services/car.service";
 import { CostCalculator } from "src/app/shared/services/cost-calculator.service";
 import { LoginService } from "src/app/shared/services/login.service";
-import { LoginModalComponent } from "../../auth/login-modal/login-modal.component";
-import { BookCarComponent } from "../book-car/book-car.component";
 
 @Component({
     selector: 'app-car-list',
@@ -34,8 +32,6 @@ export class CarListComponent implements OnInit {
     public itemsTotalCount: number = 0;
     public currentPageNumber: number = 1;
 
-    public canRent: boolean = false;
-
     private routeSubscription!: Subscription;
     private querySubscription!: Subscription;
     public keyReceivingTime!: Date;
@@ -48,7 +44,6 @@ export class CarListComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private modalService: NgbModal,
         public costCalculator: CostCalculator,
         private dateTimeRangePickerValidationHelper: DateTimeRangePickerValidationHelper
     ) {
@@ -136,45 +131,6 @@ export class CarListComponent implements OnInit {
         params = params.append('pageSize', CARS_PAGINATION_SIZE);
 
         return params;
-    }
-
-    public deleteCar(carId: string) {
-        this.carService.deleteCar(carId).subscribe(() => window.location.reload());
-    }
-
-    public updateCar(carId: string) {
-        this.router.navigate([UPDATE_CAR_PAGE_PATH, carId]);
-    }
-
-    public showRentCarWindow(car: Car): void {
-        if(!this.isLogin()){
-            this.modalService.open(LoginModalComponent)
-            .result.then(() => {
-                if(this.isLogin()) {
-                    this.carService.lockCar(car.id).subscribe(data => {
-                        this.openBookModel(car);
-                    },
-                    error => {
-                        this.getPage(this.currentPageNumber);
-                    });
-                }
-            });
-        }
-        else {
-            this.carService.lockCar(car.id).subscribe(data => {
-                this.openBookModel(car);
-            },
-            error => {
-                this.getPage(this.currentPageNumber);
-            });
-        }
-    }
-
-    private openBookModel(car: Car): void {
-        const modalRef = this.modalService.open(BookCarComponent);
-        modalRef.componentInstance.car = car;
-        modalRef.componentInstance.keyHandOverTime = this.keyHandOverTime;
-        modalRef.componentInstance.keyReceivingTime = this.keyReceivingTime;
     }
 
     public isValidRangeInput(): boolean {

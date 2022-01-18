@@ -25,44 +25,7 @@
     </div>
     <div style="width: 930px; margin-left: 20px;">
         <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
-            <div class="card">
-                <div class="card-header" style="height: 50px;">
-                    <h3>{{car.brand + ' ' + car.model}}</h3>
-                </div>
-                <div class="card-body">
-                    <div class="car_item_div d-flex flex-row">
-                        <div class="car_image_div">
-                            <app-car-image [carId]="car.id"></app-car-image>
-                        </div>
-                        <div class="car_info" style="margin-left: 10px;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-droplet-fill" viewBox="0 0 16 16">
-                                <path d="M8 16a6 6 0 0 0 6-6c0-1.655-1.122-2.904-2.432-4.362C10.254 4.176 8.75 2.503 8 0c0 0-6 5.686-6 10a6 6 0 0 0 6 6ZM6.646 4.646l.708.708c-.29.29-1.128 1.311-1.907 2.87l-.894-.448c.82-1.641 1.717-2.753 2.093-3.13Z"/>
-                            </svg>
-                            {{car.fuelConsumptionPerHundredKilometers}} / 100 km    
-                            <p style="margin-top: 20px; font-size: 19px;">
-                                Transmission: {{car.transmissionType}}
-                            </p>
-                            <p style="font-size: 25px; color: grey;">
-                                Color: {{car.color}}
-                            </p>                  
-                            <p style="font-size: 15px;">{{car.numberOfSeats}} seats</p>
-                            <div style="width: 100px;">
-                                <hr>
-                            </div>
-                            <div style="width: 400px;">
-                                <p>{{car.description}}</p>
-                            </div>
-                        </div>
-                        <div class="car_price">
-                            <h1>br {{car.pricePerDay.toFixed(2)}} | day</h1>
-                            <p *ngIf="!isAdmin()" style="font-size: 12px; color: grey;">{{countDays()}} (days) * {{car.pricePerDay}} = {{getCost(car.pricePerDay)}}br</p>
-                            <button *ngIf="!isAdmin()" type="button" class="btn info-button btn-light"  (click)="showRentCarWindow(car)" style="width: 150px;">Rent car</button>
-                            <button *ngIf="isAdmin()" type="button" class="btn update-button btn-light" (click)="updateCar(car.id)" style="width: 150px;">Update car</button>
-                            <button *ngIf="isAdmin()" type="button" class="btn btn-light delete-button" (click)="deleteCar(car.id)" style="width: 150px; margin-top: 30px;">Delete car</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <app-car-card [car]="car" [keyReceivingTime]="keyReceivingTime" [keyHandOverTime]="keyHandOverTime" (onError)="getPage(currentPageNumber)"></app-car-card>
             <br>
         </div>
     </div>

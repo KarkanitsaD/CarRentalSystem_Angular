@@ -21,9 +21,9 @@ import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from "@angular
 export class GradeInputComponent implements ControlValueAccessor {
     
     @Input() countStarts: number = 5;
-    grade: number = 0;
+    @Input() grade: number = 0;
 
-    disabled = false;
+    @Input() disabled = false;
 
     onChange!: (value: number | null) => void;
     onTouched = () => {};

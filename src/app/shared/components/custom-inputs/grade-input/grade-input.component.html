@@ -8,7 +8,7 @@
             <img *ngIf="!(grade >= index + 1)" src="https://img.icons8.com/ios/48/000000/star--v1.png"/>
         </div>
     </div>
-    <div class="align-self-center" (click)="onGradeCancel()">
+    <div *ngIf="!disabled" class="align-self-center" (click)="onGradeCancel()">
         <img src="https://img.icons8.com/material-two-tone/24/000000/cancel--v1.png"/>
     </div>
 </div>

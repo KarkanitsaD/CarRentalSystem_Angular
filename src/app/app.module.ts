@@ -57,6 +57,7 @@ import { BookingCardComponent } from './components/booking/booking-card/booking-
 import { TotalPricePipe } from './shared/pipes/total-price.pipe';
 import { TotalDaysPipe } from './shared/pipes/total-days.pipe';
 import { BookingFeedbackService } from './shared/services/bookingFeedback.service';
+import { CarCardComponent } from './components/car/car-card/car-card.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { BookingFeedbackService } from './shared/services/bookingFeedback.servic
     BookingCardComponent,
     BookCarComponent,
     CarImageComponent,
+    CarCardComponent,
     CarFormComponent,
     LoginModalComponent,
     CarFiltrationComponent,
