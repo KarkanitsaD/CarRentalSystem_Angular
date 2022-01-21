@@ -37,7 +37,11 @@
 }
 
 .feedback-area {
-    margin-left: 10px;
+    margin-left: 23px;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+.comment-area {
+    width: 500px;
 }

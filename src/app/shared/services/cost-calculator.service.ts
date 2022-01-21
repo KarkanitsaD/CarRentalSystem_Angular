@@ -7,6 +7,6 @@ export class CostCalculator {
     }
 
     public countDays(keyHandOverTime: Date, keyReceivingTime: Date): number {
-        return Math.ceil((keyHandOverTime.getTime() - keyReceivingTime.getTime())/(1000*60*60*24));
+        return Math.ceil((new Date(keyHandOverTime).getTime() - new Date(keyReceivingTime).getTime())/(1000*60*60*24));
     }
 }

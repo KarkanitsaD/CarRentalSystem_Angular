@@ -51,24 +51,37 @@ import { PriceOnlyComponent } from './shared/components/custom-inputs/price-only
 import { CarTestService } from './shared/services/car-test.service';
 import { CarFormComponent } from './components/car/car-form/car-form.component';
 import { RentalPointFormComponent } from './shared/components/forms/rental-point/rental-point-form.component';
+import { GradeInputComponent } from './shared/components/custom-inputs/grade-input/grade-input.component';
+import { FeedBackFormComponent } from './shared/components/forms/feedback-form/feedback-form.component';
+import { BookingCardComponent } from './components/booking/booking-card/booking-card.component';
+import { TotalPricePipe } from './shared/pipes/total-price.pipe';
+import { TotalDaysPipe } from './shared/pipes/total-days.pipe';
+import { BookingFeedbackService } from './shared/services/bookingFeedback.service';
+import { CarCardComponent } from './components/car/car-card/car-card.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    TotalPricePipe,
+    TotalDaysPipe,
     routingComponents,
     HeaderComponent,
     AddUpdateUserComponent,
     RentalPointFiltrationComponent,
+    BookingCardComponent,
     BookCarComponent,
     CarImageComponent,
+    CarCardComponent,
     CarFormComponent,
     LoginModalComponent,
     CarFiltrationComponent,
     RegisterModalComponent,
     NumbersOnlyInputComponent,
     PriceOnlyComponent,
-    RentalPointFormComponent
+    RentalPointFormComponent,
+    GradeInputComponent,
+    FeedBackFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +102,7 @@ import { RentalPointFormComponent } from './shared/components/forms/rental-point
     EffectsModule.forRoot([AppEffects])
   ],
   providers: [
+    BookingFeedbackService,
     DateTimeRangePickerValidationHelper,
     CostCalculator,
     ApiService, 
