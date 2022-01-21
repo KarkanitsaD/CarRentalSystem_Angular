@@ -45,4 +45,8 @@ export class CarService {
     lockCar(carId: string): Observable<any> {
         return this.apiService.put<any>(`${this.base_url}${CARS_URL}/${carId}/lock`);
     }
+
+    getCarAverageFeedback(carId: string): Observable<number> {
+        return this.apiService.get<number>(`${this.base_url}${CARS_URL}/${carId}/averageFeedback`);
+    }
 }
