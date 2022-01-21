@@ -28,7 +28,7 @@ import { BookCarComponent } from "../book-car/book-car.component";
     public isCollapsed = true;
     public bookingFeedbacks$: Observable<BookingFeedbackModel[]> = new Observable();
     public bookingFeedbacks: BookingFeedbackModel[] = [];
-    public averageFeedback$: Observable<number | string> = new Observable();
+    public averageFeedback$: Observable<number> = new Observable();
 
     constructor
         (
@@ -42,7 +42,7 @@ import { BookCarComponent } from "../book-car/book-car.component";
     ngOnInit(): void {
         this.averageFeedback$ = this.carService.getCarAverageFeedback(this.car.id).pipe(
             catchError(error => {
-                return of('');
+                return of(0);
             })
         );
     }

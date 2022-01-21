@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 export interface FeedbackFormValues {
     comment: string;
-    rating: string;
+    rating: number;
 }
 
 @Component({

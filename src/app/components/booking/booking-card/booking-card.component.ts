@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AddBookingFeedbackModel } from "src/app/shared/models/booking-feedback/add-booking-feedback.model";
-import { BookingFeedbackModel } from "src/app/shared/models/booking-feedback/booking-feedback.model";
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingFeedbackService } from "src/app/shared/services/bookingFeedback.service";
-import { LoginService } from "src/app/shared/services/login.service";
+
+
 
 
 @Component({
@@ -14,44 +12,31 @@ import { LoginService } from "src/app/shared/services/login.service";
 })
 export class BookingCardComponent implements OnInit {
 
+    public isPastBooking: boolean = false;
     @Output() onDelete = new EventEmitter<string>();
     @Input() booking!: BookingItem;
-    feedBack!: BookingFeedbackModel;
 
-    form!: FormGroup;
-    formReadOnly: boolean = false;
+    comment: string = '';
 
     constructor
-    (
-        private formBuilder: FormBuilder,
-        private bookingFeedbackService: BookingFeedbackService,
-        private loginService: LoginService,
-    ) {}
-    
+        (
+            private bookingFeedbackService: BookingFeedbackService,
+    ) { }
+
     getTime(date: Date): number {
         return new Date(date).getTime();
     }
 
     ngOnInit(): void {
-        if(new Date(this.booking.keyHandOverTime).getTime() < new Date().getTime()) {
-            this.form = this.formBuilder.group({
-                feedback: [, Validators.required]
-            });
+        if (new Date(this.booking.keyHandOverTime).getTime() < new Date().getTime()) {
+            this.isPastBooking = true;
+            this.bookingFeedbackService.getBookingFeedbackByBookingId(this.booking.id)
+                .subscribe(data => this.comment = data.comment);
         }
-    }
-
-    addFeedback(): void {
-        let feedback: AddBookingFeedbackModel = {
-            carId: this.booking.carId,
-            bookingId: this.booking.id,
-            userId: this.loginService.getUser().id,
-            comment: this.form.controls.feedback.value.comment,
-            rating: this.form.controls.feedback.value.rating
-        };
-        this.bookingFeedbackService.createBookingFeedback(feedback).subscribe(() => console.log(1));
     }
 
     public deleteBooking(): void {
         this.onDelete.emit(this.booking.id);
     }
+
 }
