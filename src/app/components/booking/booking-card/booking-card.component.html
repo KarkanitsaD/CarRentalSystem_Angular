@@ -44,6 +44,6 @@
         <app-update-booking-feedback *ngIf="updateBookingFeedbackModel" (onUpdateOrDeleteFeedback)="onUpdateOrDeleteFeedback($event)" [bookingFeedback]="updateBookingFeedbackModel" ></app-update-booking-feedback>
       </div>
       <br>
-      <a class="btn btn-danger" *ngIf="!updateBookingFeedbackModel" (click)="deleteBooking()">Cancel/Delete</a>
     </div>
+    <a class="btn btn-danger" (click)="deleteBooking()">Cancel/Delete Booking</a>
   </div>
