@@ -58,6 +58,8 @@ import { TotalPricePipe } from './shared/pipes/total-price.pipe';
 import { TotalDaysPipe } from './shared/pipes/total-days.pipe';
 import { BookingFeedbackService } from './shared/services/bookingFeedback.service';
 import { CarCardComponent } from './components/car/car-card/car-card.component';
+import { AddBookingFeedbackComponent } from './components/booking/add-booking-feedback/add-booking-feedback.component';
+import { UpdateBookingFeedbackComponent } from './components/booking/update-booking-feedback/update-booking-feedback.component';
 
 
 @NgModule({
@@ -82,6 +84,8 @@ import { CarCardComponent } from './components/car/car-card/car-card.component';
     RentalPointFormComponent,
     GradeInputComponent,
     FeedBackFormComponent,
+    AddBookingFeedbackComponent,
+    UpdateBookingFeedbackComponent
   ],
   imports: [
     BrowserModule,
