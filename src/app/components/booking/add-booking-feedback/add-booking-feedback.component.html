@@ -1,0 +1,20 @@
+<form [formGroup]="form" *ngIf="booking">
+    <app-grade-input formControlName="rating">
+    </app-grade-input>
+    <small *ngIf="ratingControl.touched && ratingControl.errors">
+        Please rate
+    </small>
+    <br>
+    <textarea
+        class="comment"
+        [class.error-input]="commentControl.touched && commentControl.errors"
+        formControlName="comment">
+    </textarea>
+    <br>
+    <small *ngIf="commentControl.touched && commentControl.errors">
+        Minimal length of comment is 20 symbols
+    </small>
+    <button (click)="addBookingFeedback()" [disabled]="form.invalid">
+        Add feedback
+    </button>
+</form>

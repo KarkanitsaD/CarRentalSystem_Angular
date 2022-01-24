@@ -39,6 +39,11 @@
       </div>
       </div>
       <br>
-      <a class="btn btn-danger" (click)="deleteBooking()">Cancel/Delete</a>
+      <div *ngIf="isPastBooking">
+        <app-add-booking-feedback *ngIf="!updateBookingFeedbackModel" (onBookingFeedbackAdd)="onAddFeedback($event)" [booking]="booking"></app-add-booking-feedback>
+        <app-update-booking-feedback *ngIf="updateBookingFeedbackModel" (onUpdateOrDeleteFeedback)="onUpdateOrDeleteFeedback($event)" [bookingFeedback]="updateBookingFeedbackModel" ></app-update-booking-feedback>
+      </div>
+      <br>
+      <a class="btn btn-danger" *ngIf="!updateBookingFeedbackModel" (click)="deleteBooking()">Cancel/Delete</a>
     </div>
   </div>

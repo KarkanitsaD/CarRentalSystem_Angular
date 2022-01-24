@@ -3,6 +3,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AddBookingFeedbackModel } from "../models/booking-feedback/add-booking-feedback.model";
 import { BookingFeedbackModel } from "../models/booking-feedback/booking-feedback.model";
+import { UpdateBookingFeedbackModel } from "../models/booking-feedback/update-booking-feedback.model";
 import { ApiService } from "./api.service";
 
 @Injectable()
@@ -26,7 +27,11 @@ export class BookingFeedbackService {
         return this.apiService.post<any>(`${environment.api_url}bookingFeedbacks`, bookingFeedback);
     }
 
+    public updateBookingFeedback(bookingFeedback: UpdateBookingFeedbackModel): Observable<any> {
+        return this.apiService.put<any>(`${environment.api_url}bookingFeedbacks/${bookingFeedback.bookingFeedbackId}`, bookingFeedback);
+    }
+
     public deleteBookingFeedback(id: string): Observable<any> {
-        return this.apiService.delete<any>(`${environment.api_url}bookingFeedbacks/{id}`);
+        return this.apiService.delete<any>(`${environment.api_url}bookingFeedbacks/${id}`);
     }
 }
