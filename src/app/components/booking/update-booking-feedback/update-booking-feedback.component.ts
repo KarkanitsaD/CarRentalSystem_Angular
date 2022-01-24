@@ -30,7 +30,7 @@ import { BookingFeedbackService } from "src/app/shared/services/bookingFeedback.
     ngOnInit(): void {
         this.form = this.formBuilder.group({
             rating: [this.bookingFeedback.rating, [Validators.required, Validators.min(1)]],
-            comment: [this.bookingFeedback.comment, [Validators.required]]
+            comment: [this.bookingFeedback.comment, [Validators.required, Validators.minLength(20)]]
         });
     }
 

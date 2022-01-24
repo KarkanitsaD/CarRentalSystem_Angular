@@ -15,7 +15,7 @@ import { LoginService } from "src/app/shared/services/login.service";
     @Input() booking!: BookingItem;
     form: FormGroup = this.formBuilder.group({
         rating: [0,[Validators.required, Validators.min(1)]],
-        comment: ['', Validators.required]
+        comment: ['', [Validators.required, Validators.minLength(20)]]
     });
 
     constructor

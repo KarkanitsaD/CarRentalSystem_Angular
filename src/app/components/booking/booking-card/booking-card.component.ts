@@ -4,9 +4,6 @@ import { UpdateBookingFeedbackModel } from "src/app/shared/models/booking-feedba
 import { BookingItem } from "src/app/shared/models/booking/booking-item.model";
 import { BookingFeedbackService } from "src/app/shared/services/bookingFeedback.service";
 
-
-
-
 @Component({
     selector: 'app-booking-card',
     templateUrl: 'booking-card.component.html',
