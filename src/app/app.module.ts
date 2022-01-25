@@ -60,6 +60,8 @@ import { BookingFeedbackService } from './shared/services/bookingFeedback.servic
 import { CarCardComponent } from './components/car/car-card/car-card.component';
 import { AddBookingFeedbackComponent } from './components/booking/add-booking-feedback/add-booking-feedback.component';
 import { UpdateBookingFeedbackComponent } from './components/booking/update-booking-feedback/update-booking-feedback.component';
+import { AdditionalFacilitiesComponent } from './components/rental-point/additional-facilities/additional-facilities.component';
+import { AdditionalFacilityService } from './shared/services/additional-facility.service';
 
 
 @NgModule({
@@ -85,7 +87,8 @@ import { UpdateBookingFeedbackComponent } from './components/booking/update-book
     GradeInputComponent,
     FeedBackFormComponent,
     AddBookingFeedbackComponent,
-    UpdateBookingFeedbackComponent
+    UpdateBookingFeedbackComponent,
+    AdditionalFacilitiesComponent
   ],
   imports: [
     BrowserModule,
@@ -126,6 +129,7 @@ import { UpdateBookingFeedbackComponent } from './components/booking/update-book
     RoleService,
     BookingService,
     MapService,
+    AdditionalFacilityService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
   ],

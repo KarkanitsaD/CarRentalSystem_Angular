@@ -15,7 +15,7 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class UpdateRentalPointComponent implements OnInit {   
 
-    private rentalPointId!: string;
+    public rentalPointId!: string;
     private rentalPointCoordinates = new google.maps.LatLng(0, 0);
 
     mainForm: FormGroup = this.fb.group({
