@@ -34,17 +34,19 @@ import { AdditionalFacilityService } from "src/app/shared/services/additional-fa
     ) {}
 
     ngOnInit(): void {
-        this.additionalFacilityService.getAdditionalFacilityByRentalPointId('')
-        .subscribe(data => {
-            this.facilities = data;
-            data.forEach(af => {
-                const facilityForm = this.formBuilder.group({
-                    title: [af.title, Validators.required],
-                    price: [af.price, Validators.required]
+        if(this.rentalPointId) {
+            this.additionalFacilityService.getAdditionalFacilityByRentalPointId(this.rentalPointId)
+            .subscribe(data => {
+                this.facilities = data;
+                data.forEach(af => {
+                    const facilityForm = this.formBuilder.group({
+                        title: [af.title, Validators.required],
+                        price: [af.price, Validators.required]
+                    });
+                    this.facilitiesFormArray.push(facilityForm);
                 });
-                this.facilitiesFormArray.push(facilityForm);
             });
-        });
+        }
     }
 
     get facilitiesFormArray() {
@@ -57,6 +59,10 @@ import { AdditionalFacilityService } from "src/app/shared/services/additional-fa
 
     isValidFacilityForm(index: number) {
         return this.getFacilitiesFormArrayGroup(index).valid;
+    }
+
+    isFormTouched(index: number): boolean {
+        return (this.getFacilitiesFormArrayGroup(index) as FormGroup).touched;
     }
 
     removeFacility(index: number): void {
@@ -107,6 +113,7 @@ import { AdditionalFacilityService } from "src/app/shared/services/additional-fa
         .subscribe(data => {
             facilityToUpdate.price = price;
             facilityToUpdate.title = title;
+            this.getFacilitiesFormArrayGroup(index).markAsUntouched();
         });
 
     }
