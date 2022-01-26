@@ -14,12 +14,16 @@ export const locations = 'locations';
 //state
 export interface LocationsState {
     countries: Country[],
+    countriesLoades: boolean,
     cities: City[],
+    citiesLoaded: boolean
 }
 
 const initialLocationState: LocationsState = {
     countries: [],
-    cities: []
+    countriesLoades: false,
+    cities: [],
+    citiesLoaded: false
 }
 
 //actions
@@ -54,11 +58,13 @@ export const loactionsReducer = createReducer(
     initialLocationState,
     on(loadAllCountriesSucces, (state, action) => ({
         ...state,
-        countries: action.countries
+        countries: action.countries,
+        countriesLoades: true
     })),
     on(loadAllCitiesSuccess, (state, action) => ({
         ...state,
-        cities: action.cities
+        cities: action.cities,
+        citiesLoaded: true
     }))
 )
 
@@ -73,6 +79,16 @@ export const countriesSelector = createSelector(
 export const citiesSelector = createSelector(
     featureSelector,
     state => state.cities
+)
+
+export const areCountriesLoaded = createSelector(
+    featureSelector,
+    state => state.countriesLoades
+)
+
+export const areCitiesLoaded = createSelector(
+    featureSelector,
+    state => state.citiesLoaded
 )
 
 @Injectable()
