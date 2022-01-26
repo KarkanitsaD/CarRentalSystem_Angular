@@ -7,9 +7,9 @@ import { LoginService } from "src/app/shared/services/login.service";
 import { DateTimeRangePickerValidationHelper } from "src/app/shared/helpers/date-time-range-picker-validation.helper";
 import { Store } from "@ngrx/store";
 import { State } from "src/app/store";
-import { citiesSelector, countriesSelector, loadAllCities, loadAllCountries } from "src/app/store/locations";
+import { areCitiesLoaded, areCountriesLoaded, citiesSelector, countriesSelector, loadAllCities, loadAllCountries } from "src/app/store/locations";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
 @Component({
     selector: 'app-rental-point-filtration',
@@ -45,8 +45,10 @@ export class RentalPointFiltrationComponent implements OnInit {
 
 
     ngOnInit(): void {
-        this.store.dispatch(loadAllCities());
-        this.store.dispatch(loadAllCountries());
+        this.store.select(areCountriesLoaded)
+        .subscribe(loaded => loaded ? {} : this.store.dispatch(loadAllCountries()));
+        this.store.select(areCitiesLoaded)
+        .subscribe(loaded => loaded ? {} : this.store.dispatch(loadAllCities()));
         this.fillForm();
     }
 

@@ -14,12 +14,16 @@ export const locations = 'locations';
 //state
 export interface LocationsState {
     countries: Country[],
+    countriesLoades: boolean,
     cities: City[],
+    citiesLoaded: boolean
 }
 
 const initialLocationState: LocationsState = {
     countries: [],
-    cities: []
+    countriesLoades: false,
+    cities: [],
+    citiesLoaded: false
 }
 
 //actions
@@ -54,11 +58,13 @@ export const loactionsReducer = createReducer(
     initialLocationState,
     on(loadAllCountriesSucces, (state, action) => ({
         ...state,
-        countries: action.countries
+        countries: action.countries,
+        countriesLoades: true
     })),
     on(loadAllCitiesSuccess, (state, action) => ({
         ...state,
-        cities: action.cities
+        cities: action.cities,
+        citiesLoaded: true
     }))
 )
 
@@ -75,6 +81,16 @@ export const citiesSelector = createSelector(
     state => state.cities
 )
 
+export const areCountriesLoaded = createSelector(
+    featureSelector,
+    state => state.countriesLoades
+)
+
+export const areCitiesLoaded = createSelector(
+    featureSelector,
+    state => state.citiesLoaded
+)
+
 @Injectable()
 export class LocationsEffects {
 
@@ -88,9 +104,9 @@ export class LocationsEffects {
     loadAllCities$ = createEffect(
         () => this.actions$.pipe(
             ofType(loadAllCities),
-            concatMap(action => this.cityService.getCities()),
+            concatMap(() => this.cityService.getCities()),
             map(cities => loadAllCitiesSuccess({cities: cities})),
-            catchError(() => of(loadAllCitiesError))
+            catchError(() => of(loadAllCitiesError()))
         )
     );
 
@@ -99,7 +115,7 @@ export class LocationsEffects {
             ofType(loadAllCountries),
             concatMap(() => this.countryService.getCountries()),
             map(countries => loadAllCountriesSucces({countries: countries})),
-            catchError(() => of(loadAllCountriesError))
+            catchError(() => of(loadAllCountriesError()))
         )
     )
 }
