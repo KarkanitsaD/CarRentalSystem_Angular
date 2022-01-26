@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {  PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
+import { CheckBoxItem } from "src/app/shared/components/custom-inputs/check-box-group/check-box-group.component";
 import { RentalPointFormValues } from "src/app/shared/components/forms/rental-point/rental-point-form.component";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { UpdateRentalPointModel } from "src/app/shared/models/rental-point/update-rental-point.model";
