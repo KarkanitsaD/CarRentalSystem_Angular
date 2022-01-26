@@ -104,9 +104,9 @@ export class LocationsEffects {
     loadAllCities$ = createEffect(
         () => this.actions$.pipe(
             ofType(loadAllCities),
-            concatMap(action => this.cityService.getCities()),
+            concatMap(() => this.cityService.getCities()),
             map(cities => loadAllCitiesSuccess({cities: cities})),
-            catchError(() => of(loadAllCitiesError))
+            catchError(() => of(loadAllCitiesError()))
         )
     );
 
@@ -115,7 +115,7 @@ export class LocationsEffects {
             ofType(loadAllCountries),
             concatMap(() => this.countryService.getCountries()),
             map(countries => loadAllCountriesSucces({countries: countries})),
-            catchError(() => of(loadAllCountriesError))
+            catchError(() => of(loadAllCountriesError()))
         )
     )
 }
