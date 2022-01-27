@@ -53,6 +53,16 @@ export const loadAllCountriesError = createAction(
     '[LOCATIONS] Load All Countries Error'
 )
 
+export const addCity = createAction(
+    '[LOCATIONS] Add city',
+    props<{city: City}>()
+)
+
+export const addCountry = createAction(
+    '[LOCATIONS] Add country',
+    props<{country: Country}>()
+)
+
 //reducer
 export const loactionsReducer = createReducer(
     initialLocationState,
@@ -65,6 +75,14 @@ export const loactionsReducer = createReducer(
         ...state,
         cities: action.cities,
         citiesLoaded: true
+    })),
+    on(addCity, (state, action) => ({
+        ...state,
+        cities: state.cities.concat(action.city),
+    })),
+    on(addCountry, (state, action) => ({
+        ...state,
+        countries: state.countries.concat(action.country)
     }))
 )
 
