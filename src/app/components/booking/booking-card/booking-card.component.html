@@ -39,6 +39,12 @@
       </div>
       </div>
       <br>
+      <div *ngIf="booking.additionalFacilities && booking.additionalFacilities.length > 0" class="facilities-div">
+        <p class="facilities-header">Additional facilities:</p>
+        <ul *ngFor="let facility of booking.additionalFacilities" class="list-group">
+          <li class="list-group-item">{{facility.title}}: {{facility.price | number: '1.2-2'}} br</li>
+        </ul>
+      </div>
       <div *ngIf="isPastBooking">
         <app-add-booking-feedback *ngIf="!updateBookingFeedbackModel" (onBookingFeedbackAdd)="onAddFeedback($event)" [booking]="booking"></app-add-booking-feedback>
         <app-update-booking-feedback *ngIf="updateBookingFeedbackModel" (onUpdateOrDeleteFeedback)="onUpdateOrDeleteFeedback($event)" [bookingFeedback]="updateBookingFeedbackModel" ></app-update-booking-feedback>
