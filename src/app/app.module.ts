@@ -63,6 +63,7 @@ import { UpdateBookingFeedbackComponent } from './components/booking/update-book
 import { AdditionalFacilitiesComponent } from './components/rental-point/additional-facilities/additional-facilities.component';
 import { AdditionalFacilityService } from './shared/services/additional-facility.service';
 import { CheckBoxGroupComponent } from './shared/components/custom-inputs/check-box-group/check-box-group.component';
+import { SignalRService } from './shared/services/signal-r.service';
 
 
 @NgModule({
@@ -133,6 +134,7 @@ import { CheckBoxGroupComponent } from './shared/components/custom-inputs/check-
     BookingService,
     MapService,
     AdditionalFacilityService,
+    SignalRService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
   ],
