@@ -41,23 +41,27 @@
                     <small *ngIf="bookForm.get('email')?.invalid && bookForm.get('email')?.touched">Invalid email</small>
                 </div>
             </form>
+            <label class="facilities-label">Additional facilities:</label>
+            <app-check-box-group *ngIf="additionalFacilitiesOptions" [options]="additionalFacilitiesOptions" (toggle)="onFacilitiesToggled($event)">
+            </app-check-box-group>
+            <br>
             <button *ngIf="bookForm" (click)="rent()" [disabled]="bookForm.invalid" class="btn btn-primary">Rent</button>
             <br>
             <br>
             <h2>
                 Details:
             </h2>
+            <h1>
+                Total price: {{price}} br
+            </h1>
             <h3>
-                Total price: {{getCost(car.pricePerDay)}} br
-            </h3>
-            <h2>
                 Time range:
-            </h2>
-            <h1 style="color: gray;">{{keyReceivingTime | date:'dd-MM-yyyy, h:mm' }} - {{keyHandOverTime | date:'dd-MM-yyyy, h:mm' }}</h1>
+            </h3>
+            <h3 style="color: gray;">{{keyReceivingTime | date:'dd-MM-yyyy, h:mm' }} - {{keyHandOverTime | date:'dd-MM-yyyy, h:mm' }}</h3>
         </div>
     </div>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
     </div>
-</div> 
+</div>

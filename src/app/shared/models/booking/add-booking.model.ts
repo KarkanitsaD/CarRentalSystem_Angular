@@ -9,4 +9,5 @@ export interface AddBookigModel {
     customerSurname: string;
     customerEmail: string;
     phoneNumber: string;
+    additionalFacilitiesIds: string[] | null;
 }

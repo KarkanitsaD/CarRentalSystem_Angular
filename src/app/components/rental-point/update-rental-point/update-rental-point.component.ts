@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {  PAGE_NOT_FOUND_PATH, RENTAL_POINTS_PAGE } from "src/app/core/constants/page-constans";
+import { CheckBoxItem } from "src/app/shared/components/custom-inputs/check-box-group/check-box-group.component";
 import { RentalPointFormValues } from "src/app/shared/components/forms/rental-point/rental-point-form.component";
 import { RentalPoint } from "src/app/shared/models/rental-point/rental-point.model";
 import { UpdateRentalPointModel } from "src/app/shared/models/rental-point/update-rental-point.model";
@@ -15,13 +16,13 @@ import { RentalPointService } from "src/app/shared/services/rental-point.service
 })
 export class UpdateRentalPointComponent implements OnInit {   
 
-    private rentalPointId!: string;
+    public rentalPointId!: string;
     private rentalPointCoordinates = new google.maps.LatLng(0, 0);
 
     mainForm: FormGroup = this.fb.group({
         rentalPoint: [, [Validators.required]]
     });
-    public form!: FormGroup;
+
     public map!: google.maps.Map;
 
     @ViewChild('mapContainer', {static: false}) gmap!: ElementRef;
@@ -58,19 +59,19 @@ export class UpdateRentalPointComponent implements OnInit {
     }
 
     updateRentalPoint(){
-
-        let locationX = Number(this.form.value.locationX);
-        let locationY = Number(this.form.value.locationY);
+        let formValues = this.mainForm.controls.rentalPoint.value as RentalPointFormValues;
+        let locationX = formValues.locationX;
+        let locationY = formValues.locationY
 
         this.googleMapService.GetTimeOffset(locationX, locationY).then(res => {
             const offsetData = res.data;
             let offset =  offsetData.rawOffset;
             let updateRentalPointModel: UpdateRentalPointModel = {
                 id: this.rentalPointId,
-                title: this.form.value.title,
-                address: this.form.value.address,
-                country: this.form.value.country,
-                city: this.form.value.city,
+                title: formValues.title,
+                address: formValues.address,
+                country: formValues.country,
+                city: formValues.city,
                 locationX: locationX,
                 locationY: locationY,
                 timeOffset: Number(offset)

@@ -1,3 +1,5 @@
+import { AdditionalFacility } from "../additional-facility/additional-facility.model";
+
 export interface BookingItem {
     price: number;
     id: string;
@@ -13,4 +15,5 @@ export interface BookingItem {
     customerSurname: string;
     customerEmail: string;
     phoneNumber: string;
+    additionalFacilities?: AdditionalFacility[]
 }

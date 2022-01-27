@@ -12,3 +12,10 @@
     <br>
     <button [disabled]="!mainForm.valid" (click)="updateRentalPoint()" type="submit" class="btn update-button">Save</button>
 </form>
+<br>
+<div>
+    <p>Additional facilities:</p>
+    <app-additional-facilities *ngIf="rentalPointId" [rentalPointId]="rentalPointId">
+
+    </app-additional-facilities>
+</div>

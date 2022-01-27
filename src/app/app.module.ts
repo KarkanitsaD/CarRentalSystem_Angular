@@ -5,7 +5,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokenService } from 'src/app/shared/services/token.service';
 import { AuthService } from './shared/services/auth.service';
 import { ApiService } from './shared/services/api.service';
@@ -60,6 +60,9 @@ import { BookingFeedbackService } from './shared/services/bookingFeedback.servic
 import { CarCardComponent } from './components/car/car-card/car-card.component';
 import { AddBookingFeedbackComponent } from './components/booking/add-booking-feedback/add-booking-feedback.component';
 import { UpdateBookingFeedbackComponent } from './components/booking/update-booking-feedback/update-booking-feedback.component';
+import { AdditionalFacilitiesComponent } from './components/rental-point/additional-facilities/additional-facilities.component';
+import { AdditionalFacilityService } from './shared/services/additional-facility.service';
+import { CheckBoxGroupComponent } from './shared/components/custom-inputs/check-box-group/check-box-group.component';
 
 
 @NgModule({
@@ -85,13 +88,16 @@ import { UpdateBookingFeedbackComponent } from './components/booking/update-book
     GradeInputComponent,
     FeedBackFormComponent,
     AddBookingFeedbackComponent,
-    UpdateBookingFeedbackComponent
+    UpdateBookingFeedbackComponent,
+    AdditionalFacilitiesComponent,
+    CheckBoxGroupComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     NgbModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
@@ -126,6 +132,7 @@ import { UpdateBookingFeedbackComponent } from './components/booking/update-book
     RoleService,
     BookingService,
     MapService,
+    AdditionalFacilityService,
     {provide: HTTP_INTERCEPTORS, useClass: HttpHeadersInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true},
   ],
