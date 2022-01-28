@@ -23,7 +23,8 @@
     <div class="row">
         <div class="col-md-5">
             <label class="form-lable">Email:</label>
-            <input formControlName="email" type="text" class="form-control">
+            <input *ngIf="addingUser" formControlName="email" type="text" class="form-control">
+            <input *ngIf="!addingUser" formControlName="email" type="text" class="form-control" readonly>
             <small style="color: red;" *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">Invalid email</small>
         </div>
         <div class="col-md-5" *ngIf="addingUser">
