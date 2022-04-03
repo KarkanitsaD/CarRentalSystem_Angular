@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api_url: 'https://localhost:44331/api/'
+  api_url: 'http://karkanitsa-001-site1.ctempurl.com/api/'
 };
