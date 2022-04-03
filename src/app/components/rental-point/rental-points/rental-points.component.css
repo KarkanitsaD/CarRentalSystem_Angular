@@ -1,0 +1,22 @@
+.rp_list {
+    height: 700px;
+}
+
+#map{
+    width: 100%;
+    height: 700px;
+}
+
+.filter-div {
+    background-color: #b4e6fa;
+}
+
+.add-button {
+    font-size: 25px;
+    background-color: #e6ffff;
+    color: gray;
+}
+
+.info-button {
+    border: none;
+}

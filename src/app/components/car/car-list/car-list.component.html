@@ -1,0 +1,39 @@
+<div class="d-flex justify-content-between" style="margin-top: 10px;">
+    <div style="width: 250px;">
+        <form [formGroup]="filterForm">
+            <input (click)="addMinutesAndHoursInputValidators()" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control" [owlDateTime]="dt10"
+                [selectMode]="'range'" placeholder="Choose date time range">
+            <owl-date-time #dt10></owl-date-time>
+            <small *ngIf="!isValidRangeInput() && filterForm.get('range')?.touched">Enter correct time range</small>
+            <input type="text" formControlName="brand" class="form-control bottom-input" placeholder="Brand">
+            <input type="text" formControlName="color" class="form-control bottom-input" placeholder="Color">
+            <div class="d-flex justify-content-between bottom-input">
+                <app-price-only-input formControlName="minPricePerDay" placeholder="Min price" class="car-price"></app-price-only-input>          
+                <app-price-only-input formControlName="minPricePerDay" placeholder="Max price" class="car-price"></app-price-only-input>          
+            </div>
+            <br>
+            <button class="btn bottom-input search-button btn-light" (click)="getPage(1)" [disabled]="!filterForm.valid || !isValidRangeInput()">Search</button>
+            <button style="margin-left: 2px;"  (click)="addCar()" routerLinkActive="router-link-active" *ngIf="isAdmin()" type="button" class="btn bottom-input search-button btn-light">Add car</button>
+        </form>
+    </div>
+    <div *ngIf="spinner" style="width: 930px; margin-left: 20px;" class="d-flex justify-content-center">
+        <div class="spinner-border">
+        </div>
+    </div>
+    <div *ngIf="cars.length === 0 && !spinner" style="width: 930px; margin-left: 20px;">
+        <h1>No cars were found for the specified parameters. Try to change parameters.</h1>
+    </div>
+    <div style="width: 930px; margin-left: 20px;">
+        <div *ngFor="let car of cars | paginate: { itemsPerPage: 3, currentPage: currentPageNumber, totalItems: itemsTotalCount }">
+            <app-car-card [car]="car" [keyReceivingTime]="keyReceivingTime" [keyHandOverTime]="keyHandOverTime" (onError)="getPage(currentPageNumber)"></app-car-card>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+<div>
+    <div class="d-flex justify-content-center">
+    <pagination-controls [autoHide]="true" 
+        (pageChange)="getPage(currentPageNumber = $event)"></pagination-controls>
+    </div>
+</div>

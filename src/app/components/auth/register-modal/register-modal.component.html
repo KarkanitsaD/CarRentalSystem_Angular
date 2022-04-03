@@ -1,0 +1,42 @@
+<div>
+    <div class="modal-header">
+        <h1 class="modal-title">
+            Register
+        </h1>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="show" class="alert alert-danger d-flex align-items-center" role="alert">
+            <button class="btn" (click)="show=false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z"/>
+                <path fill-rule="evenodd" d="M2.146 2.146a.5.5 0 0 0 0 .708l11 11a.5.5 0 0 0 .708-.708l-11-11a.5.5 0 0 0-.708 0Z"/>
+                </svg>
+            </button>
+            {{error}}
+        </div>
+        <form [formGroup]="registerForm" (submit)="onSubmit()">
+            <label class="form-label">Name*</label>
+            <input formControlName="name" type="text" class="form-control" placeholder="Name">
+            <small style="color: red;" *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">Invalid name</small>
+            <br>
+            <label class="form-label">Surname*</label>
+            <input formControlName="surname" type="text" class="form-control" placeholder="Surname">
+            <small style="color: red;" *ngIf="registerForm.get('surname')?.invalid && registerForm.get('surname')?.touched">Invalid surname</small>
+            <br>
+            <label class="form-label">Email*</label>
+            <input formControlName="email" type="text" class="form-control" placeholder="Email">
+            <small style="color: red;" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">Invalid email</small>
+            <br>
+            <label class="form-label">Password*</label>
+            <input formControlName="password" type="password" class="form-control" placeholder="Password">
+            <small style="color: red;" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">Invalid password</small>
+            <br>
+            <br>
+            <button [disabled]="!registerForm.valid" type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+    </div>
+</div>

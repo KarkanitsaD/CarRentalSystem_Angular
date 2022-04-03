@@ -1,0 +1,21 @@
+<br>
+<form  [formGroup]="mainForm">
+    <app-rental-point-form
+        formControlName="rentalPoint"
+        [countryDisabled]="true"
+        [cityDisabled]="true"
+        [addressDisabled]="true"
+    ></app-rental-point-form>
+    <br>
+    <label class="form-label">Choose location</label>
+    <div #mapContainer id="map"></div>
+    <br>
+    <button [disabled]="!mainForm.valid" (click)="updateRentalPoint()" type="submit" class="btn update-button">Save</button>
+</form>
+<br>
+<div>
+    <p>Additional facilities:</p>
+    <app-additional-facilities *ngIf="rentalPointId" [rentalPointId]="rentalPointId">
+
+    </app-additional-facilities>
+</div>

@@ -1,0 +1,44 @@
+<div style="width: 250px;">
+    <form [formGroup]="filtrationForm">
+        <label class="form-lable">
+            Country
+        </label>
+        <select (change)="onCountrySelected($event)" formControlName="countryId" class="form-control input">
+            <option value="">
+                All
+            </option>
+            <option *ngFor="let country of countries" [value]="country.id">
+                {{country.title}}
+            </option>
+        </select>
+        <br>
+        <label class="form-lable">
+            City
+        </label>
+        <select class="form-control input" formControlName="cityId">
+            <option value="">
+                All
+            </option>
+            <option *ngFor="let city of cities" [value]="city.id">
+                {{city.title}}
+            </option>
+        </select>
+        <br>
+        <br>
+        <div class="form-check form-check-inline">
+            <input value="current" formControlName="get" class="form-check-input" type="radio" checked>
+            <label class="form-check-label" for="inlineRadio1">Current</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input value="past" formControlName="get" class="form-check-input" type="radio">
+            <label class="form-check-label" for="inlineRadio2">Past</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input value="all" formControlName="get" class="form-check-input" type="radio">
+            <label class="form-check-label" for="inlineRadio2">All</label>
+        </div>
+        <br>
+        <br>
+        <button (click)="filter()" class="btn btn-primary">Filter</button>
+    </form>
+</div>

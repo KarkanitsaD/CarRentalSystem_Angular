@@ -1,0 +1,50 @@
+<div class="main-div shadow p-3 mb-5 bg-body rounded">
+    <form *ngIf="filtrationForm" [formGroup]="filtrationForm">
+        <div class="form-row">
+            <div style="width: 350px;">
+                <input (click)="addMinutesAndHoursInputValidators()" formControlName="range" [owlDateTimeTrigger]="dt10" class="form-control time-range-input" [owlDateTime]="dt10"
+                [selectMode]="'range'" placeholder="Choose date time range" [min]="minTime"  readonly>
+                <owl-date-time #dt10></owl-date-time>
+                <small *ngIf="!isValidRangeInput() && filtrationForm.get('range')?.touched">Enter correct time range</small>
+            </div>
+            <div class="right-input" style="width: 350px;">
+                <app-numbers-only-input formControlName="numberOfAvaliableCars" placeholder="Number of avaliable cars">
+                </app-numbers-only-input>
+                <small *ngIf="filtrationForm.get('numberOfAvaliableCars')?.invalid && filtrationForm.get('numberOfAvaliableCars')?.touched">This field can contains only digits</small>
+            </div>
+        </div>
+        <br>
+        <div class="form-row">
+            <div style="width: 350px;">
+                <label class="form-lable">
+                    Country
+                </label>
+                <select (change)="onCountrySelected($event)" formControlName="countryId" class="form-control">
+                    <option value="">
+                        All
+                    </option>
+                    <option *ngFor="let country of allCountries$ | async" [value]="country.id">
+                        {{country.title}}
+                    </option>
+                </select>
+            </div>
+            <div class="right-input" style="width: 350px;">
+                <label class="form-lable">
+                    City
+                </label>
+                <select formControlName="cityId" class="form-control">
+                    <option value="">
+                        All
+                    </option>
+                    <option *ngFor="let city of citiesToShow$ | async" [value]="city.id">
+                        {{city.title}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <button class="btn" (click)="filter()" [disabled]="!filtrationForm.valid || !(isValidRangeInput() || isAdmin())">
+            Search
+        </button>
+    </form>
+</div>

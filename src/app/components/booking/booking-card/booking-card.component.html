@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header">
+      <h3>{{booking.brand}} {{booking.model}}</h3>
+      Booking time: {{booking.bookingTime | date:'dd-MM-yyyy, h:mm' }}
+    </div>
+    <div class="card-body">
+      <div class="d-flex flex-row">
+        <div class="car_image_div">
+          <app-car-image *ngIf="booking.carId !== '00000000-0000-0000-0000-000000000000'" [carId]="booking.carId"></app-car-image>
+      </div>
+      <div style="margin-left: 10px;">
+        <h2>
+          Key receiving time: {{booking.keyReceivingTime | date:'dd-MM-yyyy, h:mm' }}
+        </h2>
+        <h2>
+          Key hand-over time: {{booking.keyHandOverTime | date:'dd-MM-yyyy, hh:mm'}}
+        </h2>
+        <h3>
+          Days: {{ booking.keyHandOverTime | totalDays: booking.keyReceivingTime }}
+        </h3>
+        <h4>
+          Price: {{booking.price}}
+        </h4>
+        <h3>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+          </svg>
+          {{booking.country}}, {{booking.city}}
+        </h3>
+        <br>
+      </div>
+      <div style="margin-left: 30px;">
+        <ul class="list-group">
+          <li class="list-group-item">{{booking.customerName}}</li>
+          <li class="list-group-item">{{booking.customerSurname}}</li>
+          <li class="list-group-item">{{booking.customerEmail}}</li>
+          <li class="list-group-item">{{booking.phoneNumber}}</li>
+        </ul>
+      </div>
+      </div>
+      <br>
+      <div *ngIf="booking.additionalFacilities && booking.additionalFacilities.length > 0" class="facilities-div">
+        <p class="facilities-header">Additional facilities:</p>
+        <ul *ngFor="let facility of booking.additionalFacilities" class="list-group">
+          <li class="list-group-item">{{facility.title}}: {{facility.price | number: '1.2-2'}} br</li>
+        </ul>
+      </div>
+      <div *ngIf="isPastBooking">
+        <app-add-booking-feedback *ngIf="!updateBookingFeedbackModel" (onBookingFeedbackAdd)="onAddFeedback($event)" [booking]="booking"></app-add-booking-feedback>
+        <app-update-booking-feedback *ngIf="updateBookingFeedbackModel" (onUpdateOrDeleteFeedback)="onUpdateOrDeleteFeedback($event)" [bookingFeedback]="updateBookingFeedbackModel" ></app-update-booking-feedback>
+      </div>
+      <br>
+    </div>
+    <a class="btn btn-danger" (click)="deleteBooking()">Cancel/Delete Booking</a>
+  </div>

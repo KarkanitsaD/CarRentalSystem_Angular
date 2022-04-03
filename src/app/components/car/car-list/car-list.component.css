@@ -1,0 +1,43 @@
+.car_image_div {
+    width: 350px;
+    height: 200px;
+}
+
+.car_image {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.car_info {
+    width: 550px;
+}
+
+.car_price {
+    width: 200px;
+    text-align: right;
+}
+
+.book-car-modal-window {
+    width: 400px;
+    height: 900px;
+}
+
+.car-price {
+    width: 120px;
+}
+
+.bottom-input {
+    margin-top: 10px;
+}
+
+.search-button {
+    font-size: 25px;
+    background-color: #e6ffff;
+    color: gray;
+}
+
+.feedback-area {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}

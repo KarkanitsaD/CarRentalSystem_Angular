@@ -1,0 +1,10 @@
+#map {
+    width: auto;
+    height: 600px;
+}
+
+button {
+    font-size: 25px;
+    background-color: #e6ffff;
+    color: gray;
+}
