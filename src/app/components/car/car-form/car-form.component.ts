@@ -102,7 +102,7 @@ export class CarFormComponent implements OnInit {
             model: this.carForm.controls['model'].value,
             pricePerDay: this.carForm.controls['pricePerDay'].value,
             fuelConsumptionPerHundredKilometers: this.carForm.controls['fuelConsumption'].value,
-            numberOfSeats: this.carForm.controls['numberOfSeats'].value,
+            numberOfSeats: Number(this.carForm.controls['numberOfSeats'].value),
             transmissionType: this.carForm.controls['transmissionType'].value,
             color: this.carForm.controls['color'].value,
             rentalPointId: this.carForm.controls['rentalPointId'].value,
@@ -112,6 +112,7 @@ export class CarFormComponent implements OnInit {
             pictureExtension: this.imageExtension
         }
 
+        debugger
         this.carService.createCar(addCarModel)
             .subscribe(() => this.router.navigate([RENTAL_POINTS_PAGE + `/${this.carForm.value.rentalPointId}/` + CARLIST_PAGE_PATH]));
     }
