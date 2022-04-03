@@ -1,1 +1,0 @@
-export const IMAGE_CACHE_TIME = 300;
