@@ -13,7 +13,7 @@ import { AuthService } from "src/app/shared/services/auth.service";
 })
 export class RegisterModalComponent {
 
-    public show: boolean = false; 
+    public show: boolean = false;
     public error: string = '';
 
     registerForm = new FormGroup({
@@ -36,10 +36,10 @@ export class RegisterModalComponent {
             password: this.registerForm.value.password,
             name: this.registerForm.value.name,
             surname: this.registerForm.value.surname
-        } 
+        }
         this.authService.register(requetModel).subscribe(() => {
-            this.router.navigate([MAIN_PAGE_PATH]);
-        }, 
+            this.activeModal.close();
+        },
         (error: any) => {
             this.registerForm.controls['email'].setValue('');
             this.registerForm.controls['password'].setValue('');
